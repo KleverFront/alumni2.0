@@ -1,0 +1,196 @@
+{% extends 'side_menu_admin.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}
+    Actualizar PreGraduado
+{% endblock title %}
+
+
+{% block contenido %}
+
+<body className='snippet-body'>
+    <div class="container-fluid px-1 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-11 col-lg-11 col-md-12 col-11">
+                <div class="text-center">
+                    <h3>Registrar</h3>
+                    <p class="blue-text">Los campos obligatorios están marcados con <strong><span class="text-danger">*</span></strong><br> asegurese de
+                        llenarlos
+                        para guardar los datos.</p>
+                    </div>
+
+                <div class="card">
+                    <h5 class="text-center mb-4">Graduado</h5>
+                    <form method="post" class="form-card">
+                        {% csrf_token %}
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.nombres.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.nombres |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Nombres Completos' }}
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.apellidos.label }}
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                {{ form.apellidos |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Apellidos Completos' }}
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-12 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.cedula.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.cedula |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Cedula' }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info" id="cambiarClaveBtn">Cambiar Clave</button>
+                        </div>
+
+
+                        <div id="cambiarClaveFields" style="display: none;">
+
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.nueva_password.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.nueva_password |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña' }}
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.cambiar_password.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.cambiar_password |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña' }}
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-12 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.correo_personal.label }}
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                {{ form.correo_personal |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Correo Personal' }}
+                            </div>
+                        </div>
+
+
+                        <div id="carreras-container">
+                            <!-- Campos de las carreras asociadas -->
+                            
+                            <div class="carrera-row row">
+                                {% for carrera, periodo in carreras_y_periodos %}
+                                <div class="form-group flex-column d-flex col-sm-5">
+                                    <label class="form-control-label px-3">
+                                        Carrera
+                                        <span class="text-danger"> *</span>
+                                    </label>
+                                    {{ carrera.nombre }}
+                                </div>
+                                <div class="form-group flex-column d-flex col-sm-4">
+                                    <label class="form-control-label px-3">
+                                        Periodo Graduado
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    {{ periodo.periodo_graduado }}
+                                </div>
+                                <div class="form-group flex-column d-flex col-sm-3">
+                                    <button type="button"
+                                        class="remove-carrera-btn mt-3 btn-danger btn">Eliminar</button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                        </div>
+                        <!-- Botón para agregar nueva carrera -->
+                        <div class="form-group col-sm-3 flex-column d-flex mx-auto">
+                            <button class="btn btn-outline-secondary btn-sm" type="button" id="addCarreraBtn">Añadir
+                                Carrera</button>
+                        </div>
+
+
+                        <div class="row justify-content-end">
+                            <div class="form-group col-sm-6">
+                                <button class="btn btn-danger col-12" type="button"
+                                    onclick="window.location.href='{% url 'adminGraduadospre' %}'">Cancelar</button>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <button class="btn btn-success col-12" type="submit">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        { { script | safe } }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#cambiarClaveBtn').click(function () {
+                // Muestra el campo cambiar_password
+                $('#cambiarClaveFields').show();
+                // Establece cambiar_password en True automáticamente
+                $('#id_cambiar_password').prop('checked', true);
+            });
+        });
+
+        $(document).ready(function () {
+            // Maneja el clic en el botón "Añadir Carrera"
+            $('#addCarreraBtn').on('click', function () {
+                // Clona la fila de carrera
+                var newCarreraRow = $('.carrera-row:first').clone();
+
+                // Limpia los valores de la nueva fila
+                newCarreraRow.find('select').val('');
+                newCarreraRow.find('input').val('');
+
+                // Agrega la nueva fila al contenedor
+                $('#carreras-container').append(newCarreraRow);
+
+                // Muestra u oculta el botón de eliminar según la cantidad de filas
+                toggleRemoveButton();
+            });
+
+            // Maneja el clic en el botón "Eliminar"
+            $('#carreras-container').on('click', '.remove-carrera-btn', function () {
+                // Elimina la fila de carrera
+                $(this).closest('.carrera-row').remove();
+
+                // Muestra u oculta el botón de eliminar según la cantidad de filas
+                toggleRemoveButton();
+            });
+
+            // Función para mostrar u ocultar el botón de eliminar según la cantidad de filas
+            function toggleRemoveButton() {
+                var rowCount = $('.carrera-row').length;
+
+                // Si hay más de una fila, muestra el botón de eliminar; de lo contrario, ocúltalo
+                if (rowCount > 1) {
+                    $('.remove-carrera-btn').show();
+                } else {
+                    $('.remove-carrera-btn').hide();
+                }
+            }
+
+            // Llama a la función inicialmente para configurar el estado del botón
+            toggleRemoveButton();
+        });
+    </script>
+    {% endblock contenido %}
+
+</body>
+
+</html>

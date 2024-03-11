@@ -1,0 +1,1166 @@
+{% extends 'side_menu_admin.html' %}
+{% load static %}
+
+
+
+{% block title %}
+Administrador alumni
+{% endblock title %}
+
+
+{% block head %}
+<link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" 
+/>
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.0.0/af-2.7.0/b-3.0.0/b-colvis-3.0.0/b-html5-3.0.0/sp-2.3.0/sl-2.0.0/datatables.min.css" 
+/>
+ 
+{% endblock head %}
+
+
+
+{% block contenido %}
+
+<div class="card">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="head-table">
+                    <h3 class="card-title">Datos Graduados</h3>
+                    <h4> Sección: <strong>Encuesta Graduados</strong></h4>
+                </div>
+                <div>
+
+                    <!-- Botón para abrir el modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#columnSelectorModal">
+                        Abrir Selector de Columnas
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="columnSelectorModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content width-search-checkboxes">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Selector de Columnas</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="columnSelectorForm">
+                                        <div class="container" id="columnSelectorOptions">
+                                            <!-- Aquí se agregarán los checkboxes -->
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="applyColumnSelection()">Aplicar Selección</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="shadow-lg p-3 mb-5 bg-white">
+                    <table id="personales" class="display table table-striped table-bordered" style="width:100%">
+                        <thead style="width:100%;">
+                            <tr>
+                                <th>Cedula</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Edad</th>
+                                <th>Carrera</th>
+                                <th>Período Ingreso</th>
+                                <th>Período Graduado</th>
+                                <th>Correo Personal</th>
+                                <th>Correo Institucional</th>
+                                <th>Etnia</th>
+                                <th>Dirección Domicilio</th>
+                                <th>Teléfono Fijo</th>
+                                <th>Sexo</th>
+                                <th>Discapacidad</th>
+                                <th>¿Cuál es la discapacidad?</th>
+                                <th>Titulado Método</th>
+                                <th>Campus</th>
+                                <th>¿Le gustaría formar parte de la asociación de graduados?</th>
+                                <th>¿Cómo fue la formación académica que recibió?</th>
+                                <th>¿Por qué razones Sí recomendaría al instituto?</th>
+                                <th>¿Por qué razones No recomendaría al instituto?</th>
+                                <th>Materias que reforzarían para su formación profesional</th>
+                                <th>Las asignaturas que menos relevancia tuvieron en la malla curricular de su especialidad</th>
+                                <th>Investigación para la realización del trabajo de grado.</th>
+                                <th>Preparación para rendir el examen complexivo de grado.</th>
+                                <th>Tutorías con el docente para la realización de prácticas pre - profesionales.</th>
+                                <th>Aplicar técnicas de análisis y control de procesos.</th>
+                                <th>Interpretar resultados de análisis de laboratorio o instrumentos tecnológicos.</th>
+                                <th>Manejar maquinaria, equipos e instrumentos.</th>
+                                <th>Manejo de técnicas de seguridad e higiene industrial.</th>
+                                <th>Manejo de normativa legal y medio ambiente vigente.</th>
+                                <th>Apoyo de proyectos de acuerdo a su tecnología.</th>
+                                <th>Gestionar, diseñar y elaborar nuevos productos.</th>
+                                <th>Manejar herramientas tecnológicas administrativas.</th>
+                                <th>Manejo de tecnicas de comunicación e interrelación personal.</th>
+                                <th>¿Una vez que ha culminado su carrera técnica o tecnológica, le gustaría continuar su profesionalización?</th>
+                                <th>Estado y equipamiento de los laboratorios y talleres</th>
+                                <th>Estado de las aulas</th>
+                                <th>Estado de los espacios de esparcimiento (bar, canchas, patio, etc.)</th>
+                                <th>Estado de los servicios higiénicos</th>
+                                <th>Estado de biblioteca (física o virtual) o estado de recursos en línea </th>
+                                <th>¿En qué áreas le gustaría capacitarse para fortalecer su preparación profesional?</th>
+                                <th>¿Qué modalidad considera para cursar capacitaciones que ofrezca el Instituto?</th>
+                                <th>¿Cómo considera que debe realizarse los encuentros de exalumnos</th>
+                                <th>Considera que los encuentro de exalumnos deben ser:</th>
+                                <th>¿Se encuentra laborando actualmente?</th>
+                                <th>Usted fue contratado o seleccionado por empresas donde mantiene convenio el instituto</th>
+                                <th>La zona donde labora es:</th>
+                                <th>¿Cúal es el cargo que desempeña?</th>
+                                <th>Nombre de la Institución o empresa donde labora.</th>
+                                <th>La empresa donde labora es acorde a su profesión</th>
+                                <th>Su jornada laboral es:</th>
+                                <th>La empresa o institución donde labora es:</th>
+                                <th>Dirección de la empresa o institución donde labora</th>
+                                <th>Número telefónico de la empresa o institución donde labora.</th>
+                                <th>Le gustaría que el ISTL vincule a sus exalumnos laboralmente</th>
+                                <th>Grado de importancia de las funciones que desempeñó.</th>
+                                <th>Razones de no encontrar trabajo en su especialidad</th>
+                                <th>¿Cómo encontró su trabajo actual?</th>
+                                <th>Aspectos donde han sentido mayores dificultades en su desempeño de su trabajo</th>
+                                <th>Puede aplicar los conocimientos obtenidos en las prácticas pre profesionales, en su trabajo o negocio propio</th>
+                                <th>Rango de sueldo que gana actualmente</th>
+                                <th>¿Posee emprendimiento/s de impacto?</th>
+                                <th>¿Cúal es su emprendimiento de impacto?</th>
+                                <th>Curriculum</th>
+
+                            </tr>
+                        </thead>
+                        <tbody style=" width:100%;">
+                            {% if objeto %}
+                            {% for objeto in objeto %}
+
+                            <tr>
+                                <td>{{ objeto.graduado.base.cedula }}</td>
+                                <td>{{ objeto.graduado.base.nombres }}</td>
+                                <td>{{ objeto.graduado.base.apellidos }}</td>
+                                <td>{{ objeto.graduado.graduado.edad }}</td>
+                                <td>{{ objeto.carrera.nombre }}</td>
+                                <td>{{ objeto.periodo_ingreso }}</td>
+                                <td>{{ objeto.periodo_graduado }}</td>
+                                <td>{{ objeto.graduado.base.correo_personal }}</td>
+                                <td>{{ objeto.graduado.graduado.correo_institucional }}</td>
+                                <td>{{ objeto.graduado.graduado.etnia }}</td>
+                                <td>{{ objeto.graduado.graduado.direccion }}</td>
+                                <td>{{ objeto.graduado.graduado.telefono_fijo }}</td>
+                                <td>{{ objeto.graduado.graduado.sexo }}</td>
+                                <td>{{ objeto.graduado.graduado.discapacidad }}</td>
+                                <td>{{ objeto.graduado.graduado.cual_discapacidad }}</td>
+                                <td>{{ objeto.graduado.graduado.titulacion }}</td>
+                                <td>{{ objeto.graduado.graduado.campus }}</td>
+                                <td>{{ objeto.graduado.graduado.formar_parte }}</td>
+                                <td>{{ objeto.graduado.graduado.como_fue_la_formacion }}</td>
+                                <td>{{ objeto.graduado.graduado.si_recomendaria_instituto }}</td>
+                                <td>{{ objeto.graduado.graduado.no_recomendaria_instituto }}</td>
+                                <td>{{ objeto.graduado.graduado.materias_reforzar }}</td>
+                                <td>{{ objeto.graduado.graduado.materias_menos_relevancia }}</td>
+                                <td>{{ objeto.graduado.graduado.experiencia_cuantas_horas1 }}</td>
+                                <td>{{ objeto.graduado.graduado.experiencia_cuantas_horas2 }}</td>
+                                <td>{{ objeto.graduado.graduado.experiencia_cuantas_horas3 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias1 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias2 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias3 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias4 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias5 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias6 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias7 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias8 }}</td>
+                                <td>{{ objeto.graduado.graduado.grado_importacia_competencias9 }}</td>
+                                <td>{{ objeto.graduado.graduado.continuar_profesionalizacion }}</td>
+                                <td>{{ objeto.graduado.graduado.calificar_atributos_instituto1 }}</td>
+                                <td>{{ objeto.graduado.graduado.calificar_atributos_instituto2 }}</td>
+                                <td>{{ objeto.graduado.graduado.calificar_atributos_instituto3 }}</td>
+                                <td>{{ objeto.graduado.graduado.calificar_atributos_instituto4 }}</td>
+                                <td>{{ objeto.graduado.graduado.calificar_atributos_instituto5 }}</td>
+                                <td>{{ objeto.graduado.graduado.areas_capacitar_fortalecer }}</td>
+                                <td>{{ objeto.graduado.graduado.modalidad_capacitaciones_instituto }}</td>
+                                <td>{{ objeto.graduado.graduado.cada_encuentros_exalumnos }}</td>
+                                <td>{{ objeto.graduado.graduado.encuentros_exalumnos }}</td>
+                                <td>{{ objeto.graduado.graduado.trabaja }}</td>
+                                <td>{{ objeto.graduado.graduado.trabaja_en_empresa_convenio }}</t>
+                                <td>{{ objeto.graduado.graduado.zona }}</td>
+                                <td>{{ objeto.graduado.graduado.cargo }}</td>
+                                <td>{{ objeto.graduado.graduado.nombre_empresa }}</td>
+                                <td>{{ objeto.graduado.graduado.empresa_es_acorde }}</td>
+                                <td>{{ objeto.graduado.graduado.jornada }}</td>
+                                <td>{{ objeto.graduado.graduado.empresa_laboral_tipo }}</td>
+                                <td>{{ objeto.graduado.graduado.direccion_empresa }}</td>
+                                <td>{{ objeto.graduado.graduado.telefono_empresa }}</td>
+                                <td>{{ objeto.graduado.graduado.vincular_laboralmente }}</td>
+                                <td>{{ objeto.graduado.graduado.etnia }}</td>
+                                <td>{{ objeto.graduado.graduado.razones_no_econtrar_trabajo }}</td>
+                                <td>{{ objeto.graduado.graduado.como_encontro_trabajo }}</td>
+                                <td>{{ objeto.graduado.graduado.aspectos_con_dificultad }}</td>
+                                <td>{{ objeto.graduado.graduado.conocimientos_practicas }}</td>
+                                <td>{{ objeto.graduado.graduado.rango_sueldo }}</td>
+                                <td>{{ objeto.graduado.graduado.emprendimiento_impacto }}</td>
+                                <td>{{ objeto.graduado.graduado.emprendimiento_impacto_cual }}</td>
+                                <td>
+                                    {% if objeto.graduado.graduado.curriculum %}
+                                        <a href="{{ objeto.graduado.graduado.curriculum.url }}" target="_blank" class="btn btn-success"><i class='bx bxs-file-doc'></i></a>
+                                    {% else %}
+                                        Sin archivo adjunto
+                                    {% endif %}
+                                </td>
+                                
+                            </tr>
+
+                            {% endfor %}
+                            {% endif %}
+
+                            </tbody>
+                        <tfoot style="width:100%">
+                            <tr>
+                                <th>Cedula</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Edad</th>
+                                <th>Carrera</th>
+                                <th>Período Ingreso</th>
+                                <th>Período Graduado</th>
+                                <th>Correo Personal</th>
+                                <th>Correo Institucional</th>
+                                <th>Etnia</th>
+                                <th>Dirección Domicilio</th>
+                                <th>Teléfono Fijo</th>
+                                <th>Sexo</th>
+                                <th>Discapacidad</th>
+                                <th>¿Cuál es la discapacidad?</th>
+                                <th>Titulado Método</th>
+                                <th>Campus</th>
+                                <th>¿Le gustaría formar parte de la asociación de graduados?</th>
+                                <th>¿Cómo fue la formación académica que recibió?</th>
+                                <th>¿Por qué razones Sí recomendaría al instituto?</th>
+                                <th>¿Por qué razones No recomendaría al instituto?</th>
+                                <th>Materias que reforzarían para su formación profesional</th>
+                                <th>Las asignaturas que menos relevancia tuvieron en la malla curricular de su especialidad</th>
+                                <th>Investigación para la realización del trabajo de grado.</th>
+                                <th>Preparación para rendir el examen complexivo de grado.</th>
+                                <th>Tutorías con el docente para la realización de prácticas pre - profesionales.</th>
+                                <th>Aplicar técnicas de análisis y control de procesos.</th>
+                                <th>Interpretar resultados de análisis de laboratorio o instrumentos tecnológicos.</th>
+                                <th>Manejar maquinaria, equipos e instrumentos.</th>
+                                <th>Manejo de técnicas de seguridad e higiene industrial.</th>
+                                <th>Manejo de normativa legal y medio ambiente vigente.</th>
+                                <th>Apoyo de proyectos de acuerdo a su tecnología.</th>
+                                <th>Gestionar, diseñar y elaborar nuevos productos.</th>
+                                <th>Manejar herramientas tecnológicas administrativas.</th>
+                                <th>Manejo de tecnicas de comunicación e interrelación personal.</th>
+                                <th>¿Una vez que ha culminado su carrera técnica o tecnológica, le gustaría continuar su profesionalización?</th>
+                                <th>Estado y equipamiento de los laboratorios y talleres</th>
+                                <th>Estado de las aulas</th>
+                                <th>Estado de los espacios de esparcimiento (bar, canchas, patio, etc.)</th>
+                                <th>Estado de los servicios higiénicos</th>
+                                <th>Estado de biblioteca (física o virtual) o estado de recursos en línea </th>
+                                <th>¿En qué áreas le gustaría capacitarse para fortalecer su preparación profesional?</th>
+                                <th>¿Qué modalidad considera para cursar capacitaciones que ofrezca el Instituto?</th>
+                                <th>¿Cómo considera que debe realizarse los encuentros de exalumnos</th>
+                                <th>Considera que los encuentro de exalumnos deben ser:</th>
+                                <th>¿Se encuentra laborando actualmente?</th>
+                                <th>Usted fue contratado o seleccionado por empresas donde mantiene convenio el instituto</th>
+                                <th>La zona donde labora es:</th>
+                                <th>¿Cúal es el cargo que desempeña?</th>
+                                <th>Nombre de la Institución o empresa donde labora.</th>
+                                <th>La empresa donde labora es acorde a su profesión</th>
+                                <th>Su jornada laboral es:</th>
+                                <th>La empresa o institución donde labora es:</th>
+                                <th>Dirección de la empresa o institución donde labora</th>
+                                <th>Número telefónico de la empresa o institución donde labora.</th>
+                                <th>Le gustaría que el ISTL vincule a sus exalumnos laboralmente</th>
+                                <th>Grado de importancia de las funciones que desempeñó.</th>
+                                <th>Razones de no encontrar trabajo en su especialidad</th>
+                                <th>¿Cómo encontró su trabajo actual?</th>
+                                <th>Aspectos donde han sentido mayores dificultades en su desempeño de su trabajo</th>
+                                <th>Puede aplicar los conocimientos obtenidos en las prácticas pre profesionales, en su trabajo o negocio propio</th>
+                                <th>Rango de sueldo que gana actualmente</th>
+                                <th>¿Posee emprendimiento/s de impacto?</th>
+                                <th>¿Cúal es su emprendimiento de impacto?</th>
+                                <th>Curriculum</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="row g-0 text-center">
+                        <h3 class="col-sm-8 col-md-10 card-title radio-1">Grafico 1</h3>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary col-4 col-md-2" data-bs-toggle="modal" data-bs-target="#columnSelectorModalRadio">
+                            X
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="contenedor1"></div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="columnSelectorModalRadio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content width-search-checkboxes">
+                        <div class="modal-header"> 
+                            <h5 class="modal-title" id="exampleModalLabel">Selector</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="columnSelectorFormRadio">
+                                <div class="container" id="columnSelectorOptionsRadio">
+                                    <!-- Aquí se agregarán los checkboxes -->
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="generateGraphic()">Generar Grafico</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------------------------->
+
+            <div class="card card-danger">
+                <div class="card-header">
+                    <div class="row g-0 text-center">
+                        <h3 class="col-sm-8 col-md-10 card-title radio-2">Grafico 3</h3>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary col-4 col-md-2" data-bs-toggle="modal" data-bs-target="#columnSelectorModalRadio2">
+                            X
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="contenedor2"></div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="columnSelectorModalRadio2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content width-search-checkboxes">
+                        <div class="modal-header"> 
+                            <h5 class="modal-title" id="exampleModalLabel">Selector</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="columnSelectorFormRadio2">
+                                <div class="container" id="columnSelectorOptionsRadio2">
+                                    <!-- Aquí se agregarán los checkboxes -->
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="generateGraphic2()">Generar Grafico</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!----------------------------------------->
+        </div>
+        <div class="col-md-6">
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="row g-0 text-center">
+                        <h3 class="col-sm-8 col-md-10 card-title radio-3">Grafico 2</h3>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary col-4 col-md-2" data-bs-toggle="modal" data-bs-target="#columnSelectorModalRadio3">
+                            X
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="contenedor3"></div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="columnSelectorModalRadio3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content width-search-checkboxes">
+                        <div class="modal-header"> 
+                            <h5 class="modal-title" id="exampleModalLabel">Selector</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="columnSelectorFormRadio3">
+                                <div class="container" id="columnSelectorOptionsRadio3">
+                                    <!-- Aquí se agregarán los checkboxes -->
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="generateGraphic3()">Generar Grafico</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------------------------->
+
+            <div class="card card-danger">
+                <div class="card-header">
+                    <div class="row g-0 text-center">
+                        <h3 class="col-sm-8 col-md-10 card-title radio-4">Grafico 4</h3>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary col-4 col-md-2" data-bs-toggle="modal" data-bs-target="#columnSelectorModalRadio4">
+                            X
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="contenedor4"></div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="columnSelectorModalRadio4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content width-search-checkboxes">
+                        <div class="modal-header"> 
+                            <h5 class="modal-title" id="exampleModalLabel">Selector</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="columnSelectorFormRadio4">
+                                <div class="container" id="columnSelectorOptionsRadio4">
+                                    
+                                    <!-- Aquí se agregarán los checkboxes -->
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="generateGraphic4()">Generar Grafico</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!----------------------------------------->
+        </div>
+
+
+    </div>
+
+
+
+</section>
+
+
+
+{% endblock contenido %}
+
+{% block javascripts %}
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.0.0/af-2.7.0/b-3.0.0/b-colvis-3.0.0/b-html5-3.0.0/sp-2.3.0/sl-2.0.0/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+
+
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/variable-pie.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/export-data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
+
+
+<script>
+
+$(document).ready(function() {
+    // Intenta cargar el JSON utilizando AJAX
+    
+});
+
+    var espanol 
+    var table;
+    $.getJSON(rutaJsonEspanol, function(data) {
+        espanol = data;
+        
+
+    }).fail(function(jqxhr, textStatus, error) {
+        console.error("Error al cargar el JSON:", textStatus, error);
+    });
+    $(document).ready(function () {
+        table = $('#personales').DataTable({
+            scrollX: true,
+            scrollY: false,
+            search: false,
+            destroy: true,
+            language: espanol,
+            columnDefs: [
+                {     
+                    searchPanes: {
+                        show: true,
+                        threshold: 1,
+                        cascadePanes: true,
+                    },
+                    targets: [4,5,6],
+                },
+                { visible: false, targets: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 , 46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63]},
+            ],
+            dom: 'Blfrtip',
+            buttons: [
+                'searchPanes', 
+                {
+                    extend:'copyHtml5',
+                    text: 'Copiar',
+                    exportOptions: {
+                        columns: ':visible' // Copia solo las columnas visibles
+                    },
+
+                }, 
+                'excelHtml5',
+                'csvHtml5',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }, 
+            ],
+
+        });
+
+        // Muestra el diálogo modal al hacer clic en el botón
+        $('#columnSelectorModal').on('show.bs.modal', function () {
+            // Construye la lista de checkboxes basada en las columnas
+            var columnSelectorOptions = $('#columnSelectorOptions');
+            columnSelectorOptions.empty();
+
+            var checkboxesPerColumn = 15;  // Ajusta según la cantidad deseada por columna
+            var columnSet = 0;
+
+            table.columns().every(function (index) {
+                var column = this;
+
+                // Comienza un nuevo conjunto de columnas cada checkboxesPerColumn
+                if (index % checkboxesPerColumn === 0) {
+                    columnSet++;
+                    var checkboxSet = $('<div class="row" id="checkboxSet' + columnSet + '"></div>');
+                    columnSelectorOptions.append(checkboxSet);
+                }
+
+                // Agrega un checkbox por cada columna
+                var checkbox = $('<div class="col-md-4 form-check mb-2">' +
+                    '<input type="checkbox" class="form-check-input" id="columnCheckbox' + (index + 1) + '" value="' + (index + 1) + '">' +
+                    '<label class="form-check-label" for="columnCheckbox' + (index + 1) + '">' + column.header().textContent + '</label>' +
+                    '</div>');
+
+                // Marca el checkbox si la columna está visible
+                checkbox.find('input').prop('checked', column.visible());
+
+                $('#checkboxSet' + columnSet).append(checkbox);
+            });
+        });
+
+
+
+        // Muestra el diálogo modal al hacer clic en el botón
+        $('#columnSelectorModalRadio').on('show.bs.modal', function () {
+            // Construye la lista de radios basada en las columnas
+            var columnSelectorOptions = $('#columnSelectorOptionsRadio');
+            columnSelectorOptions.empty();
+
+            var radiosPerColumn = 15;
+            var columnSet = 0; 
+            table.columns().every(function (index) {
+                var column = this;
+
+                // Comienza un nuevo conjunto de columnas
+                if (index % radiosPerColumn === 0) {
+                    columnSet++;
+                    var radioSet = $('<div class="row" id="radioSet' + columnSet + '"></div>');
+                    columnSelectorOptions.append(radioSet);
+                }
+
+                // Agrega un radio por cada columna
+                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                    '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio' + (index + 1) + '" value="' + (index + 1) + '">' +
+                    '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
+                    '</div>');
+
+                    $('#radioSet' + columnSet).append(radio);
+            });
+        });
+
+
+        // Muestra el diálogo modal al hacer clic en el botón
+        $('#columnSelectorModalRadio2').on('show.bs.modal', function () {
+            // Construye la lista de radios basada en las columnas
+            var columnSelectorOptions = $('#columnSelectorOptionsRadio2');
+            columnSelectorOptions.empty();
+
+            var radiosPerColumn = 15;
+            var columnSet = 0; 
+            var indicesPersonalizados = [1, 2, 3];
+            table.columns().every(function (index) {
+                var column = this;
+
+                // Comienza un nuevo conjunto de columnas
+                if (index % radiosPerColumn === 0) {
+                    columnSet++;
+                    var radioSet = $('<div class="row" id="radioSet2' + columnSet + '"></div>');
+                    columnSelectorOptions.append(radioSet);
+                }
+                // Agrega un radio por cada columna
+                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                    '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio2' + (index + 1) + '" value="' + (index + 1) + '">' +
+                    '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
+                    '</div>');
+
+                    $('#radioSet2' + columnSet).append(radio);
+            });
+        });
+
+        $('#columnSelectorModalRadio3').on('show.bs.modal', function () {
+            // Construye la lista de radios basada en las columnas
+            var columnSelectorOptions = $('#columnSelectorOptionsRadio3');
+            columnSelectorOptions.empty();
+
+            var radiosPerColumn = 15;
+            var columnSet = 0; 
+            table.columns().every(function (index) {
+                var column = this;
+
+                // Comienza un nuevo conjunto de columnas
+                if (index % radiosPerColumn === 0) {
+                    columnSet++;
+                    var radioSet = $('<div class="row" id="radioSet3' + columnSet + '"></div>');
+                    columnSelectorOptions.append(radioSet);
+                }
+
+                // Agrega un radio por cada columna
+                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                    '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio3' + (index + 1) + '" value="' + (index + 1) + '">' +
+                    '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
+                    '</div>');
+
+                    $('#radioSet3' + columnSet).append(radio);
+            });
+        });
+        
+        $('#columnSelectorModalRadio4').on('show.bs.modal', function () {
+            // Construye la lista de radios basada en las columnas
+            var columnSelectorOptions = $('#columnSelectorOptionsRadio4');
+            columnSelectorOptions.empty();
+
+            var radiosPerColumn = 15;
+            var columnSet = 0; 
+            table.columns().every(function (index) {
+                var column = this;
+
+                // Comienza un nuevo conjunto de columnas
+                if (index % radiosPerColumn === 0) {
+                    columnSet++;
+                    var radioSet = $('<div class="row" id="radioSet4' + columnSet + '"></div>');
+                    columnSelectorOptions.append(radioSet);
+                }
+
+                // Agrega un radio por cada columna
+                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                    '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio4' + (index + 1) + '" value="' + (index + 1) + '">' +
+                    '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
+                    '</div>'
+                );
+
+                    $('#radioSet4' + columnSet).append(radio);
+            });
+        });
+
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            viewFullscreen: 'Ver en pantalla completa',
+            printChart: 'Imprimir gráfico',
+            downloadPNG: 'Descargar como PNG',
+            downloadJPEG: 'Descargar como JPEG',
+            downloadPDF: 'Descargar como PDF',
+            downloadSVG: 'Descargar como SVG',
+            exportButtonTitle: 'Exportar gráfico',
+            downloadCSV: 'Descargar como CSV',
+            downloadXLS: 'Descargar como XLS',
+            viewData: 'Ver tabla de datos',
+
+        },
+        exporting: {
+            menuItemDefinitions: {
+                viewFullscreen: {
+                    text: 'Ver en pantalla completa'
+                },
+                printChart: {
+                    text: 'Imprimir gráfico'
+                },
+                downloadPNG: {
+                    text: 'Descargar como PNG'
+                },
+                downloadJPEG: {
+                    text: 'Descargar como JPEG'
+                },
+                downloadPDF: {
+                    text: 'Descargar como PDF'
+                },
+                downloadSVG: {
+                    text: 'Descargar como SVG'
+                },
+                downloadCSV: {
+                    text: 'Descargar como CSV'
+                },
+                downloadXLS: {
+                    text: 'Descargar como XLS'
+                },
+                viewData: {
+                    text: 'Ver tabla de datos'
+                }
+            },
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        'viewFullscreen',
+                        'printChart',
+                        'downloadPNG',
+                        'downloadJPEG',
+                        'downloadPDF',
+                        'downloadSVG',
+                        'downloadCSV',
+                        'downloadXLS',
+                        'viewData'
+                    ]
+                }
+            }
+        }
+    });
+    function generateGraphic() {
+        // Obtiene la columna seleccionada
+        var selectedColumn = $('#columnSelectorFormRadio input:checked');
+        
+        // Verifica si se seleccionó alguna columna
+        if (selectedColumn.length > 0) {
+            // Obtiene el número y nombre de la columna
+            var columnIndex = (parseInt(selectedColumn.val()))-1;
+            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+
+            // Utiliza el número y nombre de la columna en otras partes de tu código
+            var contenedor = $('#contenedor1');
+            var chart = Highcharts.chart(contenedor[0], {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Porcentaje',
+                    colorByPoint: true,
+                    data: [
+
+                        {
+                            data: chartData(table)
+                        }
+                    ]
+                }]
+            });
+
+            function chartData(table,columna) {
+                var filasAfectadas = {};
+                table.column(columna, { search: 'applied' }).data().each(function (val) {
+                    if (filasAfectadas[val]) {
+                        filasAfectadas[val] += 1;
+                    } else {
+                        filasAfectadas[val] = 1;
+                    }
+
+                });
+
+                return $.map(filasAfectadas, function (cantidad, clave) {
+                    return {
+                        name: clave,
+                        y: cantidad
+                    };
+                });
+            }
+
+
+            chart.series[0].setData(chartData(table,columnIndex));
+            // Cambia el texto con el nombre de la columna seleccionada
+            $('.radio-1').text(columnName);
+
+            // Cierra el diálogo modal
+            $('#columnSelectorModalRadio').modal('hide');
+        } else {
+            // Si no se selecciona ninguna columna, muestra un mensaje o realiza otra acción
+            alert('Por favor, selecciona una columna antes de aplicar.');
+        }
+    }
+
+    function generateGraphic2() {
+
+        // Obtener la columna seleccionada
+        var selectedColumn = $('#columnSelectorFormRadio2 input:checked');
+
+        // Verifica si se seleccionó alguna columna
+        if (selectedColumn.length > 0) {
+            // Obtiene el número y nombre de la columna
+            var columnIndex = (parseInt(selectedColumn.val()))-1;
+            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+
+            // Utiliza el número y nombre de la columna en otras partes de tu código
+            var contenedor = $('#contenedor2');
+            var categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
+
+
+
+            var chart = Highcharts.chart(contenedor[0], {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'bar'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Valores'
+                    }
+                },
+                xAxis: {
+                    categories: categoriest,
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: '50%',
+                        dataLabels: {
+                            enabled: true
+                        },
+                        groupPadding: 0.1
+                    }
+                },
+                series: [{
+                    name: columnName,
+                    colorByPoint: true,
+                    data: [
+
+                        {
+                            data: chartData(table)
+                        }
+                    ]
+                }]
+            });
+
+            function chartData(table,columna) {
+                var filasAfectadas = {};
+                table.column(columna, { search: 'applied' }).data().each(function (val) {
+                    if (filasAfectadas[val]) {
+                        filasAfectadas[val] += 1;
+                    } else {
+                        filasAfectadas[val] = 1;
+                    }
+
+                });
+
+                return $.map(filasAfectadas, function (cantidad, clave) {
+                    return {
+                        name: clave,
+                        y: cantidad
+                    };
+                });
+            }
+
+            chart.series[0].setData(chartData(table,columnIndex));
+            $('.radio-2').text(columnName); 
+            $('#columnSelectorModalRadio2').modal('hide');
+        } else {
+            alert('Por favor, selecciona una columna antes de aplicar.');
+        }
+    }
+
+
+
+    function generateGraphic3() {
+        // Obtiene la columna seleccionada
+        var selectedColumn = $('#columnSelectorFormRadio3 input:checked');
+        
+        // Verifica si se seleccionó alguna columna
+        if (selectedColumn.length > 0) {
+            // Obtiene el número y nombre de la columna
+            var columnIndex = (parseInt(selectedColumn.val()))-1;
+            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+
+            // Utiliza el número y nombre de la columna en otras partes de tu código
+            var contenedor = $('#contenedor3');
+            var chart = Highcharts.chart(contenedor[0], {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'variablepie'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Porcentaje',
+                    colorByPoint: true,
+                    data: [
+
+                        {
+                            data: chartData(table)
+                        }
+                    ]
+                }]
+            });
+
+            function chartData(table,columna) {
+                var filasAfectadas = {};
+                table.column(columna, { search: 'applied' }).data().each(function (val) {
+                    if (filasAfectadas[val]) {
+                        filasAfectadas[val] += 1;
+                    } else {
+                        filasAfectadas[val] = 1;
+                    }
+
+                });
+
+                return $.map(filasAfectadas, function (cantidad, clave) {
+                    return {
+                        name: clave,
+                        y: cantidad
+                    };
+                });
+            }
+
+            chart.series[0].setData(chartData(table,columnIndex));
+            // Cambia el texto con el nombre de la columna seleccionada
+            $('.radio-3').text(columnName);
+
+            // Cierra el diálogo modal
+            $('#columnSelectorModalRadio3').modal('hide');
+        } else {
+            // Si no se selecciona ninguna columna, muestra un mensaje o realiza otra acción
+            alert('Por favor, selecciona una columna antes de aplicar.');
+        }
+    }
+
+
+    function generateGraphic4() {
+        // Obtiene la columna seleccionada
+        var selectedColumn = $('#columnSelectorFormRadio4 input:checked');
+        
+        // Verifica si se seleccionó alguna columna
+        if (selectedColumn.length > 0) {
+            // Obtiene el número y nombre de la columna
+            var columnIndex = (parseInt(selectedColumn.val()))-1;
+            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+            var categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
+
+            // Utiliza el número y nombre de la columna en otras partes de tu código
+            var contenedor = $('#contenedor4');
+            var chart = Highcharts.chart(contenedor[0], {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Valores'
+                    }
+                },
+                xAxis: {
+                    categories: categoriest,
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: columnName,
+                    colorByPoint: true,
+                    data: [
+
+                        {
+                            data: chartData(table)
+                        }
+                    ]
+                }]
+            });
+
+            function chartData(table,columna) {
+                var filasAfectadas = {};
+                table.column(columna, { search: 'applied' }).data().each(function (val) {
+                    if (filasAfectadas[val]) {
+                        filasAfectadas[val] += 1;
+                    } else {
+                        filasAfectadas[val] = 1;
+                    }
+
+                });
+
+                return $.map(filasAfectadas, function (cantidad, clave) {
+                    return {
+                        name: clave,
+                        y: cantidad
+                    };
+                });
+            }
+
+            chart.series[0].setData(chartData(table,columnIndex));
+            // Cambia el texto con el nombre de la columna seleccionada
+            $('.radio-4').text(columnName);
+
+            // Cierra el diálogo modal
+            $('#columnSelectorModalRadio4').modal('hide');
+        } else {
+            // Si no se selecciona ninguna columna, muestra un mensaje o realiza otra acción
+            alert('Por favor, selecciona una columna antes de aplicar.');
+        }
+    }
+
+
+    function applyColumnSelection() {
+        // Aplica la selección de columnas
+        var selectedColumns = [];
+        $('#columnSelectorForm input:checked').each(function () {
+            selectedColumns.push(parseInt($(this).val()));
+        });
+
+        // Alterna la visibilidad de las columnas seleccionadas
+        table.columns().every(function (index) {
+            var column = this;
+            var columnIndex = index + 1;
+            var isVisible = selectedColumns.includes(columnIndex);
+
+            column.visible(isVisible);
+
+        });
+
+        // Cierra el diálogo modal
+        $('#columnSelectorModal').modal('hide');
+    }
+</script>
+
+
+
+
+{% endblock javascripts %}

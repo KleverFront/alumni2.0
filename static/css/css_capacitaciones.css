@@ -1,0 +1,50 @@
+body {
+  background-color:  #eee !important;
+  font-family: 'Nunito', sans-serif !important;
+}
+.title {
+ 
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+.d-block{
+  width: 30rem;
+  height: 300px;
+}
+.card-block {
+    font-size: 1em;
+    position: relative;
+    margin: 0;
+    padding: 1em;
+    border: none;
+    border-top: 1px solid rgba(34, 36, 38, .1);
+    box-shadow: none;
+     
+}
+.card {
+    font-size: 1em;
+    overflow: hidden !important;
+    padding: 5;
+    border: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    margin-top:20px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+.active::before {
+  
+  background-color: transparent !important;
+}
+.w-100{
+  height: 450px;
+} 
+
+
+.btn {
+  margin-top: auto;
+  
+}

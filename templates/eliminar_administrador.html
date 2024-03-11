@@ -1,0 +1,20 @@
+{% extends 'side_menu_admin.html' %}
+{% load static %}
+
+{% block title %}
+    Administrador 
+{% endblock title %}
+
+
+{% block contenido %}
+
+<form method="post" >
+
+    {% csrf_token %}
+    <h3>¿Desea eliminar al Administrador <strong>{{ admin.base.nombres}} {{ admin.base.apellidos}}?</strong></h3>
+    <button type="submit" class="btn btn-danger mb-3 col-12">Sí, eliminar</button>
+    <a class="btn btn-outline-primary mb-3 col-12" href=" {% url 'adminAdministradores' %}">Cancelar</a>
+   
+</form>
+
+{% endblock contenido %}

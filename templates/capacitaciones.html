@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Eventos Y Capacitaciones</title>
+    <link rel="stylesheet" href="{% static 'css/css_capacitaciones.css' %}">
+
+</head>
+
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="container py-3">
+        <div class="title h1 text-center">Capacitaciones Y Eventos</div>
+
+        {% for capacitacion in capacitaciones %}
+
+        <div class="card">
+            <div class="row">
+                <div class="col-md-7 px-3">
+                    <div class="card-block px-6">
+                        <h4 class="card-title">{{capacitacion.titulo}}</h4>
+                        <p class="card-text"><strong>Desde:</strong> {{capacitacion.fecha}} </p>
+                        <p class="card-text"><strong>Hora:</strong> {{capacitacion.hora}}</p>
+                        <p class="card-text"><strong>Descripción:</strong> {{capacitacion.descripcion_corta }}</p>
+                        <p class="card-text"><strong>Enlace:</strong> {{capacitacion.enlace}}</p>
+                        <p class="card-text"><strong>Inversión:</strong> {{capacitacion.inversión}}</p>
+                        <br>
+                        {% if capacitacion.descripcion_completa %}
+                        <a href="#" class="mt-auto btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#descripcionCompleta-{{ capacitacion.id }}">
+                            Leer Más
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Mostrar solo la imagen principal -->
+                <div class="col-md-5">
+                    {% if capacitacion.portada %}
+                    <img class="d-block w-100" src="{{ capacitacion.portada.url }}" alt="">
+                    {% else %}
+                    <!-- Puedes mostrar una imagen predeterminada o dejar en blanco -->
+                    <img class="d-block w-100" src="{% static 'images/13.jpg' %}" alt="">
+                    {% endif %}
+                </div>
+                <!-- Fin de mostrar solo la imagen principal -->
+            </div>
+        </div>
+        <div>
+            <!-- Modal -->
+            <div class="modal fade" id="descripcionCompleta-{{ capacitacion.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Vista Completa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="contenedorBlog">
+                            {{ capacitacion.descripcion_completa|safe }}
+                        </div>
+                        <div class="modal-footer" style="padding: 0;">
+                            <div class="row">
+                                <div class="col">
+                                    <div style="display: flex;"><strong
+                                            style="padding-right: 5px;">Contacto:</strong>{{capacitacion.contacto}}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div><strong>Autor:</strong> {{capacitacion.propietario}} </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+<!--  Aqui va a ir la paginación -->
+    <nav aria-label="...">
+        <ul class="pagination justify-content-end">
+
+            {% if capacitaciones.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ capacitaciones.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in capacitaciones.paginator.page_range %}
+            {% if capacitaciones.number == num %}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ num }} <span class="sr-only">(Actual)</span></span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if capacitaciones.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ capacitaciones.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ capacitaciones.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

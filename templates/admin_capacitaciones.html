@@ -1,0 +1,67 @@
+{% extends 'side_menu_admin.html' %}
+{% load static %}
+{% block title %}
+ Administrar Capacitaciones       
+{% endblock title %}
+{% block contenido %}
+
+<div class="card">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="head-table">
+                <h5><strong>Listado de Capacitaciones o Eventos</strong></h5>
+                <button class="btn btn-success" type="button" onclick="window.location.href='{% url 'regCapacitacion' %}'">Añadir Nuevo</button>
+                </div>
+                <table id="capacitaciones" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Enlace</th>
+                            <th>Inversión</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if capacitacion %}
+                        {% for capacitacion in capacitacion %}
+
+                        <tr>
+                            <td>{{ capacitacion.titulo }}</td>
+                            <td>{{ capacitacion.fecha }}</td>
+                            <td>{{ capacitacion.hora }}</td>
+                            <td>{{ capacitacion.enlace }}</td>
+                            <td>{{ capacitacion.inversión }}</td>
+
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a class="btn btn-primary" href="{% url 'editarCapacitacion' capacitacion.id %}"
+                                        role="button">Editar</a>
+                                    <a class="btn btn-danger" href="{% url 'eliminarCapacitacion' capacitacion.id %}"
+                                        role="button">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Enlace</th>
+                            <th>Inversión</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

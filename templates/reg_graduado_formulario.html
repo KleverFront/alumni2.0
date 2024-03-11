@@ -1,0 +1,840 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Registro Graduado</title>
+    <link 
+        rel='stylesheet' 
+        href="{% static 'css/bootstrap.min.css' %}"
+    />
+    <link 
+        rel="stylesheet" 
+        href="{% static 'css/css_registro_graduado2.css' %}"
+    />
+    <link 
+        rel='stylesheet' 
+        href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+</head>
+
+<body>
+    <div class="button-top"><a href="#" class="nav_link btn btn-danger" id="logout-link"> <i class='bx bx-log-in nav_icon'></i> <span class="nav_name">CERRAR SESIÓN</span> </a></div>
+    <div class="container mt-5"> 
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-8">
+                <form method="post" enctype="multipart/form-data" id="miFormulario">
+                    {% csrf_token %}
+                    <h1 id="register">Formulario Graduado</h1>
+                    <div class="all-steps" id="all-steps">
+                        <span class="step"><i class='bx bxs-user-detail'></i></span>
+                        <span class="step"><i class='bx bxs-school'></i></span>
+                        <span class="step"><i class='bx bx-briefcase-alt'></i></span>
+                        <span class="step"><i class='bx bx-save'></i></span>
+                    </div>
+                    <div class="text-center" id="txt-required">
+                        <p class="blue-text">Los campos obligatorios están marcados con <strong><span class="text-danger">*</span></strong><br> asegurese de
+                            llenarlos
+                            para guardar los datos.</p>
+                    </div>
+                    <div class="tab_">
+                        <h5>Datos personales</h5>
+                        
+                        <table class="table table-striped custom">
+                            <tr>
+                                <td style="width: 50%;">
+                                    <h6>Apellidos Completos</h6>
+                                    <p>
+                                        <input type="text" placeholder="{{ user.apellidos }}" readonly disabled>
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Nombres Completos</h6>
+                                    <p>
+                                        <input type="text" placeholder="{{ user.nombres }}" readonly disabled>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Número de Cedula</h6>
+                                    <p>
+                                        <input type="text" placeholder="{{  user.cedula }}" readonly disabled>
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Fecha de Nacimiento<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.f_nacimiento |attr:'placeholder:Fecha de Nacimiento'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Correo Personal<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.correo_personal |attr:'placeholder:Correo Personal'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Correo Institucional</h6>
+                                    <p>
+                                        <input type="text" placeholder="{{ user.email }}" readonly disabled>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Dirección de Domicilio<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.direccion |attr:'placeholder:Dirección'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Número Telefónico Fijo</h6>
+                                    <p>
+                                        {{ form.telefono_fijo |attr:'placeholder:Teléfono Fijo'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Número Celular<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.celular |attr:'placeholder:Celular'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Nacionalidad</h6>
+                                    <p>
+                                        {{ form.nacionalidad |attr:'placeholder:ejemplo "Ecuatoriniano"'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Etnia</h6>
+                                    <p> 
+                                        {{ form.etnia}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Sexo<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.sexo.field.choices %}
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="{{ form.sexo.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.sexo.id_for_label }}_{{ value }}" {% if value == form.sexo.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.sexo.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <h6>Estado Civil</h6>
+                                    <p>
+                                        {{ form.estado_civil }}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>¿Cuenta con alguna discapacidad?</h6>
+                                    {% for value, label in form.discapacidad.field.choices %}
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="{{ form.discapacidad.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.discapacidad.id_for_label }}_{{ value }}" {% if value == form.discapacidad.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.discapacidad.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+
+                                <td id="id_discapacidad">
+                                    <h6>{{ form.cual_discapacidad.label }}</h6>
+                                    <p>
+                                        {{ form.cual_discapacidad }}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Foto de Usuario</h6>
+                                    <p>
+                                        {{ form.fotografia |attr:'placeholder:Nombres'}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <div class="tab_">
+                        
+                        <h5>Información Académica</h5>
+                        
+                        <table class="table table-striped custom">
+
+                            <tr>
+                                
+                                <td style="width: 50%;">
+                                    <h6>Carrera tecnológica que obtiene su titulo</h6>    
+                                    <p>
+                                        {% for relacion in graduado_pre.relaciones_filtradas %}
+                                        <input class="mb-3" type="text" placeholder="{{ relacion.carrera.nombre }}" readonly disabled>
+                                        {% endfor %}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Perido de Ingreso<span class="text-danger">*</span></h6>
+                                    {% for relacion in graduado_pre.relaciones_filtradas %}
+                                    <input class="mb-3" type="text" name="periodo_ingreso" id="id_periodo_ingreso" placeholder="Periodo Ingreso" required>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <h6>Perido de Graduación</h6>
+                                    {% for relacion in graduado_pre.relaciones_filtradas %}
+                                    <input class="mb-3" type="text" placeholder="{{ relacion.periodo_graduado }}" readonly disabled>
+                                    
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>{{ form.titulacion.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.titulacion |attr:'required'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>{{ form.campus.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.campus |attr:'required'}}
+                                    </p>
+                                </td>
+                                <td colspan="2">
+                                    <h6>¿Le gustaría formar parte de la asociación de graduados?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.formar_parte.field.choices %}
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input type="radio" name="{{ form.formar_parte.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2" id="{{ form.formar_parte.id_for_label }}_{{ value }}" {% if value == form.formar_parte.value %} checked{% endif %} required>
+                                        <label class="form-check-label" for="{{ form.formar_parte.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>¿Cómo fue la formación académica que recibió en la carrera?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.como_fue_la_formacion.field.choices %}
+                                    <div class="form-check form-check-inline">
+
+                                        <input type="radio" name="{{ form.como_fue_la_formacion.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.como_fue_la_formacion.id_for_label }}_{{ value }}" {% if value == form.como_fue_la_formacion.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.como_fue_la_formacion.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>¿Por qué razones Sí recomendaría al instituto?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.si_recomendaria_instituto.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.si_recomendaria_instituto.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.si_recomendaria_instituto.id_for_label }}_{{ value }}" {% if value == form.si_recomendaria_instituto.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.si_recomendaria_instituto.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>¿Por qué razones No  recomendaría al instituto?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.no_recomendaria_instituto.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.no_recomendaria_instituto.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.no_recomendaria_instituto.id_for_label }}_{{ value }}" {% if value == form.no_recomendaria_instituto.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.no_recomendaria_instituto.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>{{ form.materias_reforzar.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.materias_reforzar |attr:'required'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>{{ form.materias_menos_relevancia.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.materias_menos_relevancia |attr:'required'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <table>
+                                        <h6>De acuerdo a su experiencia, ¿Cuántas horas cree que necesita semanalmente para la realización de las siguientes actividades?</h6>
+
+                                        <tr>
+                                            <td>{{ form.experiencia_cuantas_horas1.label }}</td>
+                                            <td>{{ form.experiencia_cuantas_horas1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.experiencia_cuantas_horas2.label }}</td>
+                                            <td>{{ form.experiencia_cuantas_horas2 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.experiencia_cuantas_horas3.label }}</td>
+                                            <td>{{ form.experiencia_cuantas_horas3 }}</td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <table class="table">
+                                        <h6>Elija el grado de importancia de las competencias adquiridas durante sus estudios (Esta pregunta varía de acuerdo a cada competencia según la tecnología)<span class="text-danger">*</span></h6>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias1.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias1 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias2.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias2 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias3.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias3 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias4.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias4 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias5.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias5 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias6.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias6 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias7.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias7 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias8.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias8 |attr:'required'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ form.grado_importacia_competencias9.label }}</td>
+                                            <td>{{ form.grado_importacia_competencias9 |attr:'required'}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>¿Una vez que ha culminado su carrera técnica o tecnológica, le gustaría continuar su profesionalización?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.continuar_profesionalizacion.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.continuar_profesionalizacion.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.continuar_profesionalizacion.id_for_label }}_{{ value }}" {% if value == form.continuar_profesionalizacion.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.continuar_profesionalizacion.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <h6>En una escala del 1 al 4, siendo 4 "muy bueno" y 1 "muy malo", califique los siguientes atributos del instituto.<span class="text-danger">*</span></h6>
+                                    <p>
+                                        <table class="table">
+                                            <tr>
+                                                <td>{{ form.calificar_atributos_instituto1.label }}</td>
+                                                <td>{{ form.calificar_atributos_instituto1 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.calificar_atributos_instituto2.label }}</td>
+                                                <td>{{ form.calificar_atributos_instituto2 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.calificar_atributos_instituto3.label }}</td>
+                                                <td>{{ form.calificar_atributos_instituto3 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.calificar_atributos_instituto4.label }}</td>
+                                                <td>{{ form.calificar_atributos_instituto4 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.calificar_atributos_instituto5.label }}</td>
+                                                <td>{{ form.calificar_atributos_instituto5 |attr:'required'}}</td>
+                                            </tr>
+                                        </table>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>¿En qué áreas le gustaría capacitarse para fortalecer su preparación profesional?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.areas_capacitar_fortalecer.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.areas_capacitar_fortalecer.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.areas_capacitar_fortalecer.id_for_label }}_{{ value }}" {% if value == form.areas_capacitar_fortalecer.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.areas_capacitar_fortalecer.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td colspan="2">
+                                    <h6>¿Qué modalidad considera  para cursar capacitaciones  que ofrezca el Instituto?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.modalidad_capacitaciones_instituto.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.modalidad_capacitaciones_instituto.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.modalidad_capacitaciones_instituto.id_for_label }}_{{ value }}" {% if value == form.modalidad_capacitaciones_instituto.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.modalidad_capacitaciones_instituto.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <h6>¿Cómo considera que debe realizarse  los encuentros de exalumnos?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.cada_encuentros_exalumnos.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.cada_encuentros_exalumnos.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.cada_encuentros_exalumnos.id_for_label }}_{{ value }}" {% if value == form.cada_encuentros_exalumnos.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.cada_encuentros_exalumnos.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td colspan="2">
+                                    <h6>Considera que los encuentro de exalumnos deben ser:<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.encuentros_exalumnos.field.choices %}
+                                    <div class="form-check mb-2">
+                                        <input type="radio" name="{{ form.encuentros_exalumnos.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.encuentros_exalumnos.id_for_label }}_{{ value }}" {% if value == form.encuentros_exalumnos.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.encuentros_exalumnos.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="tab_">
+                        <h5>Situación Laboral</h5>
+                        <table class="table table-striped custom">
+                            <tr>
+                                <td style="width: 50%;">
+                                    <h6>¿Se encuentra laborando actualmente?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.trabaja.field.choices %}
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input type="radio" name="{{ form.trabaja.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.trabaja.id_for_label }}_{{ value }}" {% if value == form.trabaja.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.trabaja.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <h6>Usted fue contratado o seleccionado  por empresas privadas o públicas  donde mantiene convenio el instituto<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.trabaja_en_empresa_convenio.field.choices %}
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input type="radio" name="{{ form.trabaja_en_empresa_convenio.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.trabaja_en_empresa_convenio.id_for_label }}_{{ value }}" {% if value == form.trabaja_en_empresa_convenio.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.trabaja_en_empresa_convenio.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>{{ form.zona.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.zona }}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>{{ form.cargo.label }}</h6>
+                                    <p>
+                                        {{ form.cargo }}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>{{ form.nombre_empresa.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.nombre_empresa |attr:'required'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>La empresa donde labora  es acorde a su profesión.<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.empresa_es_acorde.field.choices %}
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="{{ form.empresa_es_acorde.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.empresa_es_acorde.id_for_label }}_{{ value }}" {% if value == form.empresa_es_acorde.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.empresa_es_acorde.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>  
+                            <tr>
+                                <td>
+                                    <h6>{{ form.jornada.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.jornada |attr:'required'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>{{ form.empresa_laboral_tipo.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.empresa_laboral_tipo |attr:'required'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>{{ form.direccion_empresa.label }}</h6>
+                                    <p>
+                                        {{ form.direccion_empresa }}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>{{ form.telefono_empresa.label }}</h6>
+                                    <p>
+                                        {{ form.telefono_empresa }}
+                                    </p>
+                                </td>
+                                <td>
+                                    <h6>Le gustaría que el ISTL vincule a sus exalumnos laboralmente.<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.vincular_laboralmente.field.choices %}
+                                    <div class="form-check form-check-inline">
+            
+                                        <input type="radio" name="{{ form.vincular_laboralmente.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.vincular_laboralmente.id_for_label }}_{{ value }}" {% if value == form.vincular_laboralmente.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.vincular_laboralmente.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>En caso de haber trabajado en su especialidad, elija el grado de importancia de las funciones que desempeñó. (Esta pregunta varía de acuerdo a cada competencia según la tecnología)<span class="text-danger">*</span></h6>
+                                    <p>
+                                        <table class="table">
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad1.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad1 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad2.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad2 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad3.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad3 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad4.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad4 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad5.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad5 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad6.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad6 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad7.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad7 |attr:'required'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ form.importancia_funciones_especialidad8.label }}</td>
+                                                <td>{{ form.importancia_funciones_especialidad8 |attr:'required'}}</td>
+                                            </tr>
+                                        </table>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>{{ form.razones_no_econtrar_trabajo.label }}<span class="text-danger">*</span></h6>
+                                    <p>
+                                        {{ form.razones_no_econtrar_trabajo |attr:'required'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>¿Cómo encontró su trabajo actual?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.como_encontro_trabajo.field.choices %}
+                                    <div class="form-check mb-2">
+            
+                                        <input type="radio" name="{{ form.como_encontro_trabajo.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.como_encontro_trabajo.id_for_label }}_{{ value }}" {% if value == form.como_encontro_trabajo.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.como_encontro_trabajo.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Elija de las siguientes opciones los aspectos donde han sentido mayores dificultades en su desempeño de su trabajo.<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.aspectos_con_dificultad.field.choices %}
+                                    <div class="form-check mb-2">
+            
+                                        <input type="radio" name="{{ form.aspectos_con_dificultad.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.aspectos_con_dificultad.id_for_label }}_{{ value }}" {% if value == form.aspectos_con_dificultad.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.aspectos_con_dificultad.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>¿Los conocimientos obtenidos en las prácticas pre profesionales (cualquier modalidad de práctica realizada) puede aplicarlos en su trabajo o negocio propio?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.conocimientos_practicas.field.choices %}
+                                    <div class="form-check  mb-2">
+            
+                                        <input type="radio" name="{{ form.conocimientos_practicas.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.conocimientos_practicas.id_for_label }}_{{ value }}" {% if value == form.conocimientos_practicas.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.conocimientos_practicas.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <h6>¿Si se encuentra laborando, cual sería su rango de sueldo que gana actualmente?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.rango_sueldo.field.choices %}
+                                    <div class="form-check mb-2">
+            
+                                        <input type="radio" name="{{ form.rango_sueldo.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.rango_sueldo.id_for_label }}_{{ value }}" {% if value == form.rango_sueldo.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.rango_sueldo.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>¿Posee emprendimiento/s de impacto?<span class="text-danger">*</span></h6>
+                                    {% for value, label in form.emprendimiento_impacto.field.choices %}
+                                    <div class="form-check form-check-inline mb-2">
+            
+                                        <input type="radio" name="{{ form.emprendimiento_impacto.name }}" value="{{ value }}"
+                                            class="form-check-input mb-2"
+                                            id="{{ form.emprendimiento_impacto.id_for_label }}_{{ value }}" {% if value == form.emprendimiento_impacto.value %} checked{% endif %} required>
+                                        <label class="form-check-label"
+                                            for="{{ form.emprendimiento_impacto.id_for_label }}_{{ value }}">
+                                            {{ label }}
+                                        </label>
+            
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                                <td id="emprendimiento_impacto_cual_id">
+                                    <h6>{{ form.emprendimiento_impacto_cual.label }}</h6>
+                                    {{ form.emprendimiento_impacto_cual }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>{{ form.curriculum.label }}<span class="text-danger">*</span></h6>
+                                    {{ form.curriculum |attr:'required'}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="thanks-message text-center" id="text-message"> <img
+                            src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
+                        <h3>¡Gracias por ayudarnos a completar este formulario!</h3> 
+                        <span>Agradecemos su tiempo y colaboración. Estamos seguros de que sus respuestas nos ayudaran a tener una visión real y concreta de su situación, para de esa manera construir un mejor porvenir Institucional.</span>
+                        <div class="mt-5">
+                            <button class="btn btn-primary btn-lg mb-3" type="submit">Enviar Datos</button>
+                        </div>
+                        
+                    </div>
+                    <div style="overflow:auto;" id="nextprevious">
+                        <div style="float:right;">
+                            <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i class='bx bx-left-arrow-circle'></i></button>
+                            <button type="button" id="nextBtn" onclick="nextPrev(1)"><i class="bx bx-right-arrow-circle"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script
+        type='text/javascript' 
+        src="https://code.jquery.com/jquery-3.7.1.min.js" 
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+        crossorigin="anonymous">
+    </script>
+    <script 
+        type='text/javascript'
+        src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js'>
+    </script>
+    <script 
+        type='text/javascript' 
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
+    {% if script %}
+    <script>
+        {{ script|safe }}
+    </script>
+    {% endif %}
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro?',
+                text: '¿Quieres cerrar la sesión?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: "No, cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'logout' %}";
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('miFormulario');
+            var opcionSi_impacto = form.elements.id_emprendimiento_impacto_Si;
+            var opcionNo_impacto = form.elements.id_emprendimiento_impacto_No;
+            var opcionSi_discapacidad = form.elements.id_discapacidad_Si;
+            var opcionNo_discapacidad = form.elements.id_discapacidad_No;
+            var campo1Div = document.getElementById('emprendimiento_impacto_cual_id');
+            var campo2Div = document.getElementById('id_discapacidad');
+
+        
+            // Oculta los campos al principio
+            campo1Div.style.display = 'none';
+            campo2Div.style.display = 'none';
+
+        
+            opcionSi_impacto.addEventListener('change', function() {
+                campo1Div.style.display = 'block';
+            });
+            opcionNo_impacto.addEventListener('change', function() {
+                campo1Div.style.display = 'none';
+            });
+            opcionSi_discapacidad.addEventListener('change', function() {
+                campo2Div.style.display = 'block';
+            });
+            opcionNo_discapacidad.addEventListener('change', function() {
+                campo2Div.style.display = 'none';
+            });
+
+        });
+    </script>
+    <script 
+        type='text/javascript'    
+        src="{% static 'js/js_registro_graduado.js' %}">
+    </script>
+</body>
+
+</html>

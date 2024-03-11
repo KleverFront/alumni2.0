@@ -1,0 +1,145 @@
+body {
+    background: #eee
+}
+
+#regForm {
+    background-color: #ffffff;
+    margin: 0px auto;
+    padding: 40px;
+    border-radius: 10px
+}
+
+#register{
+
+  color: #000000;
+}
+
+#nextprevious{
+    margin-bottom: 20px;
+}
+h1 {
+    text-align: center
+}
+
+input, textarea, select {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #000000 !important;
+    border-radius: 10px;
+    -webkit-appearance: none;
+}
+
+textarea{
+    height: 60px !important;
+    resize: none !important;
+}
+
+h6{
+    color: #025392;
+}
+.tab_ input:focus, .tab_ textarea:focus{
+
+  border:1px solid #00a6ff !important;
+  outline: none;
+}
+
+.invalid {
+ 
+    border:1px solid #ff3c00 !important;
+}
+
+.tab_ {
+    display: none
+}
+.custom{
+    border: 1px solid #000000 !important;
+}
+
+.bx{
+    vertical-align: middle;
+    line-height: 2 !important;
+}
+button {
+    background-color: #6A1B9A;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 15px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer
+}
+
+button:hover {
+    opacity: 0.8
+}
+
+button:focus{
+
+  outline: none !important;
+}
+
+#prevBtn {
+    background-color: #bbbbbb;
+    font-size: 35px;
+    border-radius: 15px;
+}
+
+#nextBtn {
+    background-color: #18374f;
+    font-size: 35px;
+    border-radius: 15px;
+}
+
+.all-steps{
+      text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.step {
+    height: 50px;
+    width: 50px;
+    margin: 0 2px;
+    background-color: #18374f;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color: #999999;
+    opacity: 0.5;
+}
+
+.step.active {
+    opacity: 1
+}
+
+
+.step.finish {
+   color: #fff;
+   background: #1b9a39;
+   opacity: 1;
+
+}
+
+.active{
+    color: #ffffff !important;
+}
+
+.all-steps {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px
+}
+
+.thanks-message {
+    display: none
+}
+

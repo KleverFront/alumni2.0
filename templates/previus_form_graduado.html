@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido Alumni</title>
+    <link 
+        rel='stylesheet' 
+        href="{% static 'css/bootstrap.min.css' %}"
+    />
+</head>
+<body style="min-height: 100vh;">
+    
+    <div style="min-height: 100vh; background: linear-gradient(to right, #18374f, #5d5d5d); background-size: cover !important;" class="jumbotron text-white">
+        <div class="container py-5 text-center">
+            <h1 class="display-4 font-weight-bold">¡Bienvenido a Alumni!</h1>
+            <p class="font-italic mb-5">El formulario para "Graduados" esta disponible, para ser llenado.</p>
+            
+            <a href="{% url 'registro' %}" role="button" class="btn btn-outline-primary btn-lg px-5">Ir al Formulario</a>
+            <a href="#" id="logout-link" role="button" class="btn btn-outline-danger btn-lg px-5">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro?',
+                text: '¿Quieres cerrar la sesión?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: "No, cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'logout' %}";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

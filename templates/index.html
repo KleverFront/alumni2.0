@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ALUMNI</title>
+    <link rel="stylesheet" href="{% static 'css/estilos_index.css' %}">
+
+
+</head>
+
+<body>
+    {% include 'header.html'%}
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-caption">
+                        <!-- <h1 class="page-title">Alumni</h1> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.page-header-->
+    <!-- news -->
+    <div class="card-section">
+        <div class="container">
+            <div class="card-block bg-card mb30">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="section-title mb-0">
+                            <h2>Sobre Nosotros</h2>
+                            <p>EL SISTEMA DE SEGUIMIENTO A GRADUADOS SE HA CREADO CON EL FIN DE MANENER A LOS GRADUADOS
+                                DE NUESTRA INSTITUCIÓN VINCULADOS A NUESTRA COMUNIDAD, Y ADEMÁS CONOCER EL NIVEL DE
+                                SATISFACCIÓN OBTENIDO AL OCUPAR Y SER PARTE DE LA INSTITUCIÓN. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="bodySection">
+    <section class="fixed-background-vision img-1">
+        <div class="content">
+          <h2 class="bodySection">Misión</h2>
+          <p>Somos una institución de Educación Superior a nivel técnico y tecnológico, dedicada a
+            formar profesionales comprometidos éticamente con la sociedad, desde una
+            preparación basada en entornos de aprendizaje académicos y experienciales que
+            contribuyan al desarrollo de matriz productiva de la región.</p>
+        </div>
+      </section>
+      <section class="fixed-background-mision img-2">
+        <div class="content">
+          <h2 class="bodySection">Visión</h2>
+          <p>Para el año 2027, ser un Instituto Superior Universitario, comprometido con la
+            docencia, vinculación e investigación para el desarrollo social y productivo.</p>
+        </div>
+      </section>
+    </div>
+    <div class="demo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-5">
+                    <h1 class="text-center">Docente Encargado</h1>
+                    <div id="testimonial-slider" class="owl-carousel">
+                        <div class="testimonial">
+                            <div class="pic">
+                                <img src="{% static 'images/Auquilla.png' %}">
+                            </div>
+                            <h3 class="title">José Luis Auquilla</h3>
+                            <span class="post">exalumnos@tecnologicoloja.edu.ec</span>
+                            <p class="description">
+                                
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+
+    {% if messages %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+        {% for message in messages %}
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "Inicio De Sesión Exitoso",  
+                text: "{{ message }}",
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+        </script>
+        {% endfor %}
+    
+{% endif %}
+</body>
+
+</html>

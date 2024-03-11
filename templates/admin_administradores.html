@@ -1,0 +1,65 @@
+{% extends 'side_menu_admin.html' %}
+{% load static %}
+{% block title %}
+Administrar Administradores
+{% endblock title %}
+{% block contenido %}
+
+<div class="card">
+    <div class="container">
+        <div class="row">
+            
+                <div class="head-table">
+                    <h5><strong>Listado de administradores</strong></h5>
+                    <button class="btn btn-success" type="button"
+                        onclick="window.location.href='{% url 'regAdministrador' %}'">Añadir Nuevo</button>
+                </div>
+                
+                <table id="admin" class="display table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Cedula</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if admin %}
+                        {% for admin in admin %}
+
+                        <tr>
+                            <td>{{ admin.base.cedula }}</td>
+                            <td>{{ admin.base.nombres }}</td>
+                            <td>{{ admin.base.apellidos }}</td>
+                            <td>{{ admin.base.email }}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a class="btn btn-primary" href="{% url 'editarAdministrador' admin.id %}"
+                                        role="button">Editar</a>
+                                    <a class="btn btn-danger" href="{% url 'eliminarAdministrador' admin.id %}"
+                                        role="button">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Cedula</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        
+    </div>
+</div>
+{% endblock contenido %}
