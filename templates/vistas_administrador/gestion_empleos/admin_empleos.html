@@ -1,0 +1,61 @@
+{% extends 'vistas_administrador\side_menu_admin.html' %}
+{% load static %}
+{% block title %}
+Administrar Bolsa de Empleos
+{% endblock title %}
+{% block contenido %}
+
+<div class="card">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="head-table">
+                    <h5><strong>Listado de Empleos</strong></h5>
+                    <button class="btn btn-success" type="button"
+                        onclick="window.location.href='{% url 'regEmpleo' %}'">Añadir Nuevo</button>
+                </div>
+                <table id="empleos" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Puesto</th>
+                            <th>Descripción</th>
+                            <th>Contactos</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if empleo %}
+                        {% for empleo in empleo %}
+
+                        <tr>
+                            <td>{{ empleo.puesto }}</td>
+                            <td>{{ empleo.descripcion_corta }}</td>
+                            <td>{{ empleo.contactos }}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a class="btn btn-primary" href="{% url 'editarEmpleo' empleo.id %}"
+                                        role="button">Editar</a>
+                                    <a class="btn btn-danger" href="{% url 'eliminarEmpleo' empleo.id %}"
+                                        role="button">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Puesto</th>
+                            <th>Descripción</th>
+                            <th>Contactos</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

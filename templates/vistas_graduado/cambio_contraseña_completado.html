@@ -1,0 +1,55 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cambio de Contraseña</title>
+    <link rel="stylesheet" href="{% static 'css/css_perfil_usuario.css' %}">
+</head>
+<body>
+    {% include 'estructuras_html\header.html' %}
+    <div class="page-content page-container" id="page-content">
+        <div class="padding">
+            <div class="row container d-flex justify-content-center">
+                <div class="col-xl-12 col-md-12">
+                    <div class="card user-card-full">
+                        <div class="row m-l-0 m-r-0">
+                            <div class="col-sm-4 bg-c-lite-green user-profile">
+                                <div class="card-block text-center text-white">
+                                    <div class="m-b-25">
+                                        {% if user.graduadopre.graduado and user.graduadopre.graduado.fotografia %}
+                                                <img src="{{ user.graduadopre.graduado.fotografia.url }}" class="rounded-circle img-thumbnail"
+                                                    alt="User-Profile-Image">
+                                        {% else %}
+                                            <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
+                                                alt="User-Profile-Image">
+                                        {% endif %}
+                                    </div>
+                                    <p>Graduado</p>
+                                    <h6 class="f-w-600">{{ user.nombres }} {{ user.apellidos }}</h6>
+                                    
+                                    <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="card-block">
+                                    <h3>Contraseña cambiada correctamente</h3>
+                                    <h5>Su contraseña ha sido cambiada.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'estructuras_html\footer.html' %}
+
+    <script>
+        setTimeout(function() {
+          window.location.href = "{% url 'perfil' %}";
+        }, 3000); 
+      </script>
+</body>
+</html>

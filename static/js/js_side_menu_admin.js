@@ -1,7 +1,7 @@
 const mobileScreen = window.matchMedia("(max-width: 990px )");
 var diccTget = {
     'administradores': [1,2,3,4],
-    'graduados': [3,4,5],
+    'graduados': [5],
     'capacitaciones': [3,5],
     'empleos': [1,2,3],
     'emprendimientos': [1,3,4],

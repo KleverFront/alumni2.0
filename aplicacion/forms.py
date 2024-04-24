@@ -31,11 +31,34 @@ class GraduadoPreForm(UserCreationForm):
 
         return graduado_pre
     
-    def edit(self, commit=True):
-        usuario_base = super().save(commit=False)
+    # def edit(self, commit=True):
+    #     usuario_base = super().save(commit=False)
 
-        # Guardar la contraseña
-        usuario_base.set_password(self.cleaned_data["password1"])
+    #     # Guardar la contraseña
+    #     usuario_base.set_password(self.cleaned_data["password1"])
+
+    #     # Obtener la instancia existente de Administrador si ya existe
+    #     graduadopre, created = GraduadoPre.objects.get_or_create(base=usuario_base)
+
+
+    #     # Guardar el UsuarioBase y el Administrador
+    #     if commit:
+    #         usuario_base.save()
+    #         graduadopre.save()
+
+    #     return usuario_base
+
+
+class GraduadoPreEditForm(forms.ModelForm): 
+    class Meta:
+        model = UsuarioBase
+        exclude = ['id']
+        fields = ['nombres', 'apellidos', 'cedula', 'email']
+
+
+    
+    def save(self, commit=True):
+        usuario_base = super().save(commit=False)
 
         # Obtener la instancia existente de Administrador si ya existe
         graduadopre, created = GraduadoPre.objects.get_or_create(base=usuario_base)
@@ -123,11 +146,53 @@ class AdministradorCreationForm(UserCreationForm):
             administrador.save()
         return administrador
     
-    def edit(self, commit=True):
+    # def edit(self, commit=True):
+    #     usuario_base = super().save(commit=False)
+
+    #     # Guardar la contraseña
+    #     usuario_base.set_password(self.cleaned_data["password1"])
+
+    #     # Guardar campos específicos de Administrador
+    #     imagen = self.cleaned_data.get('imagen', None)
+
+        
+    #     # Obtener la instancia existente de Administrador si ya existe
+    #     administrador, created = Administrador.objects.get_or_create(base=usuario_base)
+
+    #     if not administrador.imagen and imagen:
+    #         administrador.imagen = imagen
+    #     elif administrador.imagen and imagen:  # Si no se proporciona una nueva imagen, conserva la imagen existente
+    #         administrador.imagen = imagen
+
+
+
+
+    #     # Actualizar campos de Administrador
+        
+
+    #     # Establecer is_staff como True
+    #     usuario_base.is_staff = True
+
+    #     # Guardar el UsuarioBase y el Administrador
+    #     if commit:
+    #         usuario_base.save()
+    #         administrador.save()  
+
+    #     return usuario_base
+        
+
+
+class AdministradorEditForm(forms.ModelForm):
+    class Meta:
+        model = UsuarioBase 
+        exclude = ['is_staff'] 
+        fields = ['cedula', 'nombres', 'apellidos', 'email']
+
+    imagen = forms.ImageField(required=False)  # Agregado campo específico de Administrador
+
+    def save(self, commit=True):
         usuario_base = super().save(commit=False)
 
-        # Guardar la contraseña
-        usuario_base.set_password(self.cleaned_data["password1"])
 
         # Guardar campos específicos de Administrador
         imagen = self.cleaned_data.get('imagen', None)
@@ -141,14 +206,7 @@ class AdministradorCreationForm(UserCreationForm):
         elif administrador.imagen and imagen:  # Si no se proporciona una nueva imagen, conserva la imagen existente
             administrador.imagen = imagen
 
-
-
-
         # Actualizar campos de Administrador
-        
-
-        # Establecer is_staff como True
-        usuario_base.is_staff = True
 
         # Guardar el UsuarioBase y el Administrador
         if commit:
@@ -156,10 +214,6 @@ class AdministradorCreationForm(UserCreationForm):
             administrador.save()
 
         return usuario_base
-        
-
-
-    
 
 
 class AuthenticationBaseForm(forms.Form):

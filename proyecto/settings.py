@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zf9893yw6_lpv^6m5^b9+-bx2p$1#iktijv*burgruui9@@2fk'
+#SECRET_KEY = 'django-insecure-zf9893yw6_lpv^6m5^b9+-bx2p$1#iktijv*burgruui9@@2fk'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,16 +86,21 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+DB_NAME = config("DB_NAME")
+DB_USER = config("DB_USER")
+DB_PASSWORD = config("DB_PASSWORD")
+DB_HOST = config("DB_HOST")
+DB_PORT = config("DB_PORT")
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'alumni', ## nombre de la base de datos
-        'USER': 'postgres', 
-        'PASSWORD': 'admin', ## Se debe ajustar aqui la base de datos 
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': 5432    ,
+        'NAME': DB_NAME, ## nombre de la base de datos
+        'USER': DB_USER, 
+        'PASSWORD': DB_PASSWORD, ## Se debe ajustar aqui la base de datos 
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT
     }
 }
 
@@ -204,11 +211,13 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', 
 ]
 
+EMAIL_USER = config("EMAIL_USER")
+EMAIL_PASS = config("EMAIL_PASS")
 # CONFIGURACION DE EMAIL
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "#" ##correo que hara de la aplicacion de alumni
-EMAIL_HOST_PASSWORD = "#" ##contraseña se recomienda revisar documentacion para esto
+EMAIL_HOST_USER = EMAIL_USER ##correo que hara de la aplicacion de alumni
+EMAIL_HOST_PASSWORD = EMAIL_PASS ##contraseña se recomienda revisar documentacion para esto
 

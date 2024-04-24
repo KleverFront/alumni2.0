@@ -37,6 +37,7 @@ body {
 
 .img-fluid{
     width: 90% !important;
+    height: 300px !important;
 }
 @media (min-width: 576px) {
     .blog-horizontal .card-img-actions {

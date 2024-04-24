@@ -1,0 +1,143 @@
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bolsa de Empleo</title>
+    <link rel="stylesheet" href="{% static 'css/css_empleos.css' %}">
+</head>
+
+<body>
+    {% include 'estructuras_html\header.html' %}
+    
+
+
+    <div class="title h1 text-center py-3">BOLSA DE EMPLEO</div>
+
+    <div class="card p-3  py-4">
+        <h5>Filtros</h5>
+        <form method="GET" action="{% url 'empleos' %}">
+            <div class="row g-3 mt-2">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="areasSelect">Áreas:</label>
+                        <select class="form-control form-select" id="areasSelect" name="areas" onchange="document.getElementById('id_areas').value=this.value; this.form.submit();">
+                            {% for key, value in filtro_form.fields.areas.choices %}
+                                <option value="{{ key }}" {% if filtro_form.areas.value == key %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="areas" id="id_areas" value="{{ filtro_form.areas.value }}">
+                    </div>                    
+                    
+                </div>
+                <div class="col-md-4">
+                    {{ filtro_form.puesto_buscar |add_class:'mt-4'|attr:'autocomplete:off'|attr:'placeholder:Buscar' }}
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-secondary btn-block mt-4">BUSCAR</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container justify-content-center mb-50">
+        <div class="row">
+            <div class="col-md-12">
+                {% if empleos %}
+                {% for empleo in empleos %}
+                <div class="card blog-horizontal mt-4">
+                    <div class="card-body">
+                        <div class="card-img-actions mr-sm-3 mb-3">
+                            <a href="#course_preview" data-toggle="modal" data-abc="true">
+                                <img src="{{empleo.portada.url}}" class="img-fluid card-img" alt="">
+
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <h5 class="d-flex justify-content-between font-weight-semibold flex-nowrap my-1">
+                                <a href="#" class="text-default" data-abc="true">{{empleo.puesto}}</a>
+                                <span class="text-danger-400"><h6>{{empleo.carrera_sugerida}}</h6></span>
+                            </h5>
+                            <ul class="list-inline list-inline-dotted text-muted mb-0">
+                                <li class="list-inline-item">Por: <a href="#" class="text-muted"
+                                        data-abc="true"><strong>{{ empleo.autor }}</strong></a></li>
+                                <li class="list-inline-item"><i class='bx bx-time mr-1'></i> <strong>Hace:</strong> {{ empleo.fecha|timesince }}</li>
+                            </ul>
+                        </div>
+                        <p><strong>Descripción:</strong> {{ empleo.descripcion_corta }}</p>
+                    </div>
+
+                    <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
+                        <ul class="list-inline list-inline-dotted mb-0">
+                            <li class="list-inline-item"><i class='bx bx-phone mr-1'></i> <strong>Contactos:</strong> {{ empleo.contactos }}</li>
+                            <li class="list-inline-item"><i class='bx bx-buildings mr-1'></i> <strong>Ciudad:</strong>
+                                {{ empleo.ciudad }}</li>
+                        </ul>
+                        {% if empleo.descripcion_completa %}
+                        <div class="mt-2 mt-sm-0">
+                            <a href="#" class="mt-auto btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#descripcionCompleta-{{ empleo.id }}"><i
+                                    class="fa fa-check font-size-base mr-1"></i> Ver
+                                Más</a>
+                        </div>
+                        {% endif%}
+                    </div>
+                </div>
+                <div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="descripcionCompleta-{{ empleo.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Vista Completa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="contenedorBlog">
+                                    {{ empleo.descripcion_completa|safe }}
+                                </div>
+                                <div class="modal-footer" style="padding: 0;">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div style="display: flex;"><strong
+                                                    style="padding-right: 5px;">Contacto:</strong>{{empleo.contactos}}
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div><strong>Autor:</strong> {{empleo.autor}} </div>
+                                        </div>
+        
+                                    </div>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No se encontraron empleos que coincidan con los criterios de búsqueda.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'estructuras_html\footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Cuando se hace clic en una opción del menú desplegable
+            $('.dropdown-menu a').on('click', function () {
+                // Actualizar el contenido del botón con la opción seleccionada
+                $('#dropdownMenuButton').html($(this).text());
+            });
+        });
+    </script>
+</body>
+
+</html>
