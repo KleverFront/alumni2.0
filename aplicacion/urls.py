@@ -15,7 +15,7 @@ urlpatterns =[
     path('registro-graduado',registro_graduado, name ='registro'),
 
     ###############  VISTAS DEL LADO DEL CLIENTE ######################
-    path('intro', intro, name='intro'),
+    path('', intro, name='intro'),
     path('alumni',index, name ='index'),
     path('perfil-usuario',perfil_graduado, name ='perfil'),
     path('ingresar',login_base, name ='ingresar'),
