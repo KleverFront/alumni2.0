@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config("DEBUG_STATUS")
 
 ALLOWED_HOSTS = ['localhost','10.200.2.138','alumni.tecnologicoloja.edu.ec']
 
@@ -201,10 +201,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-COMPRESS_ENABLED = True
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 AUTHENTICATION_BACKENDS = [
     'proyecto.custom_backend.MiAuthBackend',
