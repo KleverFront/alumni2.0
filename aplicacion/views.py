@@ -21,7 +21,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 def intro(request):
 
-    return render(request,'vistas_generales\\intro_alumni.html' )
+    return render(request,'vistas_generales/intro_alumni.html' )
 
 
 
