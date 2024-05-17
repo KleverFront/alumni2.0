@@ -30,13 +30,13 @@ def index(request):
     if user.is_authenticated:
         if user.is_graduado:
 
-            return render(request,'vistas_generales\\index.html' )
+            return render(request,'vistas_generales/index.html' )
         elif user.is_staff:
-            return render(request,'vistas_generales\\index.html' )
+            return render(request,'vistas_generales/index.html' )
         else:
             return redirect('formulario')
     else:
-        return render(request,'vistas_generales\\index.html' ) 
+        return render(request,'vistas_generales/index.html' ) 
     
 
 
@@ -53,7 +53,7 @@ def admin_capacitaciones (request):
         contexto = {
             'capacitacion': capacitacion,
         }
-        return render(request, 'vistas_administrador\\gestion_capacitaciones\\admin_capacitaciones.html',contexto)
+        return render(request, 'vistas_administrador/gestion_capacitaciones/admin_capacitaciones.html',contexto)
     else:
         return redirect('index')
 
@@ -65,7 +65,7 @@ def admin_emprendimientos (request):
         contexto = {
             'emprendimiento': emprendimiento
         }
-        return render(request, 'vistas_administrador\\gestion_emprendimientos\\admin_emprendimientos.html',contexto)
+        return render(request, 'vistas_administrador/gestion_emprendimientos/admin_emprendimientos.html',contexto)
     else:
         return redirect('index')
 
@@ -77,7 +77,7 @@ def admin_empleos (request):
         contexto = {
             'empleo': empleo,
         }
-        return render(request, 'vistas_administrador\\gestion_empleos\\admin_empleos.html',contexto) 
+        return render(request, 'vistas_administrador/gestion_empleos/admin_empleos.html',contexto) 
     else:
         return redirect('index')
 
@@ -90,7 +90,7 @@ def admin_administradores (request):
         contexto = {
             'admin':admin,
         }
-        return render(request, 'vistas_administrador\\gestion_administrador\\admin_administradores.html',contexto) 
+        return render(request, 'vistas_administrador/gestion_administrador/admin_administradores.html',contexto) 
     else:
         return redirect('index')
 
@@ -105,7 +105,7 @@ def admin_graduadospre (request):
         contexto = {
             'pregraduado': pregraduado,
         }
-        return render(request, 'vistas_administrador\\gestion_graduados\\admin_graduadospre.html',contexto)
+        return render(request, 'vistas_administrador/gestion_graduados/admin_graduadospre.html',contexto)
     else:
         return redirect('index')
 
@@ -137,10 +137,10 @@ def login_base (request):
                         return redirect('formulario')     
             else:
                 alert_message = "Cédula o contraseña incorrecta"
-                return render(request, 'vistas_generales\\login.html', {'login_form': login_form, 'alert_message': alert_message})
+                return render(request, 'vistas_generales/login.html', {'login_form': login_form, 'alert_message': alert_message})
         else:
             messages.error(request, 'Formulario no válido. Verifique los campos.')
-    return render(request, 'vistas_generales\\login.html', {'login_form': login_form})
+    return render(request, 'vistas_generales/login.html', {'login_form': login_form})
 
 
 @login_required(login_url='ingresar')
@@ -166,7 +166,7 @@ def reg_administrador(request):
                 </script>
                 """
 
-                return render(request, 'vistas_administrador\\gestion_administrador\\reg_administrador.html', {'form': form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_administrador/reg_administrador.html', {'form': form, 'script': script})
         else:
             form = AdministradorCreationForm()
 
@@ -176,7 +176,7 @@ def reg_administrador(request):
             'titulo_pagina': 'Agregar Administrador',  # Por ejemplo, puedes agregar un título personalizado
         }
 
-        return render(request, 'vistas_administrador\\gestion_administrador\\reg_administrador.html', context)
+        return render(request, 'vistas_administrador/gestion_administrador/reg_administrador.html', context)
     else:
         return redirect('index')
     
@@ -209,7 +209,7 @@ def editar_administrador (request, id):
                 </script>
                 """
 
-                return render(request, 'vistas_administrador\\gestion_administrador\\editar_administrador.html', {'form': form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_administrador/editar_administrador.html', {'form': form, 'script': script})
         else:
             form = AdministradorEditForm(instance=administrador.base)
 
@@ -218,7 +218,7 @@ def editar_administrador (request, id):
             'titulo_pagina': f'Editar Administrador',
         }
 
-        return render(request, 'vistas_administrador\\gestion_administrador\\editar_administrador.html', context)
+        return render(request, 'vistas_administrador/gestion_administrador/editar_administrador.html', context)
     else:
         return redirect('index')
     
@@ -240,7 +240,7 @@ def eliminar_administrador (request, id):
             messages.success(request, 'Administrador eliminado correctamente.')
             return redirect('adminAdministradores')  # Redirige a la página deseada después de eliminar
         # En el caso de 'GET', renderiza la plantilla con los detalles del graduado
-        return render(request, 'vistas_administrador\\gestion_administrador\\eliminar_administrador.html', {'admin': admin})  
+        return render(request, 'vistas_administrador/gestion_administrador/eliminar_administrador.html', {'admin': admin})  
     else:
         return redirect('index')
     
@@ -252,7 +252,7 @@ def eliminar_administrador (request, id):
     
 
 class CustomPasswordChangeView(PasswordChangeView):
-    template_name = 'vistas_graduado\\cambio_contraseña.html'
+    template_name = 'vistas_graduado/cambio_contraseña.html'
     form_class = PasswordChangeForm
     success_url = reverse_lazy('cambio_password_exitoso')
 
@@ -279,7 +279,7 @@ class CustomPasswordChangeView(PasswordChangeView):
 @login_required(login_url='ingresar')
 def previus_formulario(request):
 
-    return render(request,'vistas_graduado\\previus_form_graduado.html' )
+    return render(request,'vistas_graduado/previus_form_graduado.html' )
 
 
 
@@ -300,14 +300,14 @@ def perfil_graduado(request):
             'graduado': graduado
         }
 
-        return render(request, 'vistas_graduado\\perfil_usuario.html', contexto)
+        return render(request, 'vistas_graduado/perfil_usuario.html', contexto)
     else:
         pregraduado = get_object_or_404(GraduadoPre, base=user)
         contexto = {
             'user': user, 
             'pregraduado': pregraduado,
         }
-        return render(request, 'vistas_graduado\\perfilusuario.html', contexto)
+        return render(request, 'vistas_graduado/perfilusuario.html', contexto)
 
  
 
@@ -332,11 +332,11 @@ def reg_pregraduado(request):
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
                 
-                return render(request, 'vistas_administrador\\gestion_graduados\\reg_pregraduado.html', {'form': form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_graduados/reg_pregraduado.html', {'form': form, 'script': script})
         else:
             form = GraduadoPreForm()
 
-        return render(request, 'vistas_administrador\\gestion_graduados\\reg_pregraduado.html', {'form': form})   
+        return render(request, 'vistas_administrador/gestion_graduados/reg_pregraduado.html', {'form': form})   
     else:
         return redirect('index')
      
@@ -382,9 +382,9 @@ def registro_graduado(request):
             # Usa SweetAlert2 para mostrar la notificación
             script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
             
-            return render(request, 'vistas_graduado\\reg_graduado_formulario.html', {'form':form, 'script': script})  
+            return render(request, 'vistas_graduado/reg_graduado_formulario.html', {'form':form, 'script': script})  
               
-    return render(request, 'vistas_graduado\\reg_graduado_formulario.html', {'form':form,'graduado_pre':graduado_pre})
+    return render(request, 'vistas_graduado/reg_graduado_formulario.html', {'form':form,'graduado_pre':graduado_pre})
 
 
 
@@ -429,11 +429,11 @@ def editar_graduado(request):
             # Usa SweetAlert2 para mostrar la notificación
             script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
             
-            return render(request, 'vistas_graduado\\reg_graduado_formulario.html', {'form':form, 'script': script})  
+            return render(request, 'vistas_graduado/reg_graduado_formulario.html', {'form':form, 'script': script})  
     else:
         form = GraduadoForm(instance=graduado)
               
-    return render(request, 'vistas_graduado\\reg_graduado_formulario.html', {'form':form,'graduado_pre':graduado_pre})
+    return render(request, 'vistas_graduado/reg_graduado_formulario.html', {'form':form,'graduado_pre':graduado_pre})
 
 
 
@@ -464,10 +464,10 @@ def registro_carrera(request,id):
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
                 
-                return render(request, 'vistas_administrador\\gestion_graduados\\reg_carrera.html', {'form':form, 'script': script})  
+                return render(request, 'vistas_administrador/gestion_graduados/reg_carrera.html', {'form':form, 'script': script})  
         else:
             form = CarreraGraduadoForm()      
-        return render(request, 'vistas_administrador\\gestion_graduados\\reg_carrera.html', {'form':form}) 
+        return render(request, 'vistas_administrador/gestion_graduados/reg_carrera.html', {'form':form}) 
     else:
         return redirect('index')
      
@@ -499,7 +499,7 @@ def editar_carrera(request, id):
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
                 
-                return render(request, 'vistas_administrador\\gestion_graduados\\reg_carrera.html', {'form':form, 'script': script}) 
+                return render(request, 'vistas_administrador/gestion_graduados/reg_carrera.html', {'form':form, 'script': script}) 
                 
         else:
             form = CarreraGraduadoForm(instance=carrera)
@@ -508,7 +508,7 @@ def editar_carrera(request, id):
             'form': form,
             'carrera': carrera,
         }
-        return render(request, 'vistas_administrador\\gestion_graduados\\reg_carrera.html', contexto)
+        return render(request, 'vistas_administrador/gestion_graduados/reg_carrera.html', contexto)
     else:
         return redirect('index')
     
@@ -524,7 +524,7 @@ def eliminar_carrera(request, id):
             messages.success(request, 'Carrera eliminada correctamente.')
             return redirect('adminGraduadospre')
         
-        return render(request, 'vistas_administrador\\gestion_graduados\\eliminar_carrera.html', {'carrera': carrera})
+        return render(request, 'vistas_administrador/gestion_graduados/eliminar_carrera.html', {'carrera': carrera})
     else:
         return redirect('index')
     
@@ -554,8 +554,8 @@ def editar_pregraduado(request, id):
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
                 
-                return render(request, 'vistas_administrador\\gestion_graduados\\reg_carrera.html', {'form':form, 'script': script})
-        return render(request, 'vistas_administrador\\gestion_graduados\\editar_pregraduado.html', {'form': form, 'graduado_pre': graduado_pre})
+                return render(request, 'vistas_administrador/gestion_graduados/reg_carrera.html', {'form':form, 'script': script})
+        return render(request, 'vistas_administrador/gestion_graduados/editar_pregraduado.html', {'form': form, 'graduado_pre': graduado_pre})
     else:
         return redirect('index')
     
@@ -573,7 +573,7 @@ def eliminar_pregraduado (request, id):
             messages.success(request, 'Graduado eliminado correctamente.')
             return redirect('adminGraduadospre')  # Redirige a la página deseada después de eliminar
         # En el caso de 'GET', renderiza la plantilla con los detalles del graduado
-        return render(request, 'vistas_administrador\\gestion_graduados\\eliminar_pregraduado.html', {'graduado': graduado})
+        return render(request, 'vistas_administrador/gestion_graduados/eliminar_pregraduado.html', {'graduado': graduado})
     else:
         return redirect('index')
     
@@ -604,7 +604,7 @@ def emprendimientos(request):
         'emprendimientos': emprendimientos_pagina
     }
 
-    return render(request,'vistas_generales\\emprendimientos.html' , contexto)   
+    return render(request,'vistas_generales/emprendimientos.html' , contexto)   
 
 
 @csrf_exempt
@@ -646,10 +646,10 @@ def reg_emprendimiento(request):
                 
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
-                return render(request, 'vistas_administrador\\gestion_emprendimientos\\reg_emprendimiento.html', {'form':form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_emprendimientos/reg_emprendimiento.html', {'form':form, 'script': script})
         else:
             data = { 'form': EmprendimientoForm(files=request.FILES)}    
-        return render(request, 'vistas_administrador\\gestion_emprendimientos\\reg_emprendimiento.html', data)  
+        return render(request, 'vistas_administrador/gestion_emprendimientos/reg_emprendimiento.html', data)  
     else:
         return redirect('index')
     
@@ -666,7 +666,7 @@ def editar_emprendimiento (request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminEmprendimientos')
-        return render(request,'vistas_administrador\\gestion_emprendimientos\\reg_emprendimiento.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_emprendimientos/reg_emprendimiento.html', {'form':form})
     else:
         return redirect('index')
 	
@@ -678,7 +678,7 @@ def eliminar_emprendimiento (request,id):
         if request.method == 'POST':
             emprendimiento.delete()
             return redirect('adminEmprendimientos')
-        return render(request,'vistas_administrador\\gestion_emprendimientos\\eliminar_emprendimiento.html', {'emprendimiento':emprendimiento})
+        return render(request,'vistas_administrador/gestion_emprendimientos/eliminar_emprendimiento.html', {'emprendimiento':emprendimiento})
     else:
         return redirect('index')
 	
@@ -711,7 +711,7 @@ def empleos(request):
         'empleos': empleos,
         'filtro_form': filtro_form,
     }
-    return render(request, 'vistas_generales\\empleos.html', contexto)
+    return render(request, 'vistas_generales/empleos.html', contexto)
 
 
 @login_required(login_url='ingresar')
@@ -735,10 +735,10 @@ def reg_empleo(request):
                 
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
-                return render(request, 'vistas_administrador\\gestion_empleos\\reg_empleo.html', {'form':form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_empleos/reg_empleo.html', {'form':form, 'script': script})
         else:
             data = { 'form': EmpleoForm(files=request.FILES)}        
-        return render(request, 'vistas_administrador\\gestion_empleos\\reg_empleo.html', data )  
+        return render(request, 'vistas_administrador/gestion_empleos/reg_empleo.html', data )  
     else:
         return redirect('index')
     
@@ -755,7 +755,7 @@ def editar_empleo(request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminEmpleos')
-        return render(request,'vistas_administrador\\gestion_empleos\\reg_empleo.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_empleos/reg_empleo.html', {'form':form})
     else:
         return redirect('index')
 	
@@ -768,7 +768,7 @@ def eliminar_empleo(request,id):
         if request.method == 'POST':
             empleo.delete()
             return redirect('adminEmpleos')
-        return render(request,'vistas_administrador\\gestion_empleos\\eliminar_empleo.html', {'empleo':empleo})
+        return render(request,'vistas_administrador/gestion_empleos/eliminar_empleo.html', {'empleo':empleo})
     else:
         return redirect('index')
 	
@@ -797,7 +797,7 @@ def capacitaciones(request):
         'capacitaciones': capacitaciones_pagina
     }
 
-    return render(request, 'vistas_generales\\capacitaciones.html', contexto)
+    return render(request, 'vistas_generales/capacitaciones.html', contexto)
 
 
 
@@ -821,10 +821,10 @@ def reg_capacitacion(request):
                 error_message = '<br>'.join(error_messages)
                 # Usa SweetAlert2 para mostrar la notificación
                 script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
-                return render(request, 'vistas_administrador\\gestion_capacitaciones\\reg_capacitacion.html', {'form':form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_capacitaciones/reg_capacitacion.html', {'form':form, 'script': script})
         else:
             data = { 'form': CapacitacionForm(files=request.FILES)}     
-        return render(request, 'vistas_administrador\\gestion_capacitaciones\\reg_capacitacion.html', data)
+        return render(request, 'vistas_administrador/gestion_capacitaciones/reg_capacitacion.html', data)
     else:
         return redirect('index')
     
@@ -841,7 +841,7 @@ def editar_capacitacion(request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminCapacitaciones')
-        return render(request,'vistas_administrador\\gestion_capacitaciones\\reg_capacitacion.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_capacitaciones/reg_capacitacion.html', {'form':form})
     else:
         return redirect('index')
 	
@@ -854,7 +854,7 @@ def eliminar_capacitacion (request,id):
         if request.method == 'POST':
             capacitacion.delete()
             return redirect('adminCapacitaciones')
-        return render(request,'vistas_administrador\\gestion_capacitaciones\\eliminar_capacitacion.html', {'capacitacion':capacitacion})
+        return render(request,'vistas_administrador/gestion_capacitaciones/eliminar_capacitacion.html', {'capacitacion':capacitacion})
     else:
         return redirect('index')
 
@@ -865,7 +865,6 @@ def eliminar_capacitacion (request,id):
 
 
 
-
 @login_required(login_url='ingresar')
 def estadistica(request):
     if request.user.is_staff:
@@ -873,7 +872,7 @@ def estadistica(request):
         contexto = {
             'objeto': objeto,
         }
-        return render(request, 'vistas_administrador\\estadistica.html', contexto)
+        return render(request, 'vistas_administrador/estadistica.html', contexto)
     else:
         return redirect('index')
 

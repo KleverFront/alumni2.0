@@ -28,7 +28,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG_STATUS")
 
-ALLOWED_HOSTS = ['alumni.tecnologicoloja.edu.ec','10.200.2.138']
+ALLOWED_HOSTS = ['alumni.tecnologicoloja.edu.ec','10.200.2.138','localhost']
 
 
 # Application definition
