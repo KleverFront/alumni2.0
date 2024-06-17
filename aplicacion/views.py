@@ -182,6 +182,32 @@ def reg_administrador(request):
     
     
 
+@login_required(login_url='ingresar')
+def cambiar_password_administrador(request,id):
+    adminisrador = Administrador.objects.get(id=id)
+    if request.method == 'POST':
+        form = ChangePassword(request.POST,instance=adminisrador.base)
+        if form.is_valid():
+            save = form.save()
+            # Guarda el objeto del modelo con el campo base configurado
+            return redirect('adminAdministradores')
+        else:
+            # Si el formulario no es válido, muestra una notificación de error
+            error_messages = []
+            for field, errors in form.errors.items():
+                for error in errors:
+                    error_messages.append(f"{form.fields[field].label}: {error}")
+            
+            error_message = '<br>'.join(error_messages)
+            
+            # Usa SweetAlert2 para mostrar la notificación
+            script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
+            
+            return render(request, 'vistas_administrador/gestion_administrador/cambiar_password_admin.html', {'form':form, 'script': script})  
+    else:
+        form = ChangePassword()
+              
+    return render(request, 'vistas_administrador/gestion_administrador/cambiar_password_admin.html', {'form':form})
 
 
 
@@ -216,6 +242,7 @@ def editar_administrador (request, id):
         context = {
             'form': form,
             'titulo_pagina': f'Editar Administrador',
+            'administrador': administrador,
         }
 
         return render(request, 'vistas_administrador/gestion_administrador/editar_administrador.html', context)
@@ -435,6 +462,33 @@ def editar_graduado(request):
               
     return render(request, 'vistas_graduado/reg_graduado_formulario.html', {'form':form,'graduado_pre':graduado_pre})
 
+
+@login_required(login_url='ingresar')
+def cambiar_password_graduado(request,id):
+    graduado_pre = GraduadoPre.objects.get(id=id)
+    if request.method == 'POST':
+        form = ChangePassword(request.POST,instance=graduado_pre.base)
+        if form.is_valid():
+            save = form.save()
+            # Guarda el objeto del modelo con el campo base configurado
+            return redirect('adminGraduadospre')
+        else:
+            # Si el formulario no es válido, muestra una notificación de error
+            error_messages = []
+            for field, errors in form.errors.items():
+                for error in errors:
+                    error_messages.append(f"{form.fields[field].label}: {error}")
+            
+            error_message = '<br>'.join(error_messages)
+            
+            # Usa SweetAlert2 para mostrar la notificación
+            script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
+            
+            return render(request, 'vistas_administrador/gestion_graduados/cambiar_password.html', {'form':form, 'script': script})  
+    else:
+        form = ChangePassword()
+              
+    return render(request, 'vistas_administrador/gestion_graduados/cambiar_password.html', {'form':form})
 
 
 @login_required(login_url='ingresar')

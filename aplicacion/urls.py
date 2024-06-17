@@ -42,6 +42,8 @@ urlpatterns =[
     path('registro-empleo',reg_empleo, name = 'regEmpleo'),
     path('registro-emprendimiento',reg_emprendimiento, name = 'regEmprendimiento'),
     path('admin-graduadospre/registro-carrera/<int:id>/',registro_carrera, name = 'regCarrera'),
+    path('admin-graduadospre/change-password-graduado/<int:id>/',cambiar_password_graduado, name = 'change_pass_graduado'),
+    path('admin-graduadospre/change-password-admin/<int:id>/',cambiar_password_administrador, name = 'change_pass_admin'),
     
  
     ############   EDITAR ######################

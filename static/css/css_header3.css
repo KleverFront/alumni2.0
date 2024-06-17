@@ -3,7 +3,7 @@
 :root {
     --header-height: 3rem;
     --nav-width: 72px;
-    --first-color: #18374f;
+    --first-color: #062c51;
     --first-color-light: #a5d9af;
     --white-color: #F7F6FB;
     --body-font: 'Nunito', sans-serif;
@@ -40,13 +40,13 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: #c4c4c4;
+    background-color: var(--first-color);
     z-index: var(--z-fixed);
-    transition: .5s
+    transition: .4s
 }
 
 .header_toggle {
-    color: var(--first-color);
+    color: var(--white-color);
     font-size: 1.5rem;
     cursor: pointer;
     margin-left: 25px;
@@ -72,7 +72,7 @@ a {
     height: 100vh;
     background-color: var(--first-color);
     padding: .5rem 1rem 0 0;
-    transition: .5s;
+    transition: .4s;
     z-index: var(--z-fixed)
 }
 

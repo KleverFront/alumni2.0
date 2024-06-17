@@ -15,6 +15,8 @@
         rel='stylesheet' 
         href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
     />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/icon.png' %}">
+
 </head>
 <body id="body-pd">
     <header class="header" id="header">
@@ -25,7 +27,7 @@
         <nav class="nave">
             <div> 
                
-                <div class="nav_list"> 
+                <div class="nav_list" id="id_nav_list"> 
                     <a href="{% url 'index' %}" class="nav_link {% if request.path == '/alumni' %}active{% endif %}"> <i class='bx bx-home nav_icon'></i> <span class="nav_name">INICIO</span> </a>
                     {% if user.is_authenticated %} 
                     <a href="{% url 'perfil' %}" class="nav_link {% if request.path == '/perfil-usuario' %}active{% endif %}"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">MI PERFIL</span> </a>

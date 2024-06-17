@@ -49,6 +49,29 @@ class GraduadoPreForm(UserCreationForm):
     #     return usuario_base
 
 
+class ChangePassword(UserCreationForm):
+    class Meta:
+        model = UsuarioBase
+        fields = ['password1', 'password2']   
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'})
+        self.fields['password2'].widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
+
+    def save(self, commit=True):
+        usuario_base = super().save(commit=True)
+
+        graduadopre, created = GraduadoPre.objects.get_or_create(base=usuario_base)
+        if commit:
+            usuario_base.save()
+            graduadopre.base = usuario_base
+            graduadopre.save()
+
+        return usuario_base
+
+
+
 class GraduadoPreEditForm(forms.ModelForm): 
     class Meta:
         model = UsuarioBase

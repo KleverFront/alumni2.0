@@ -1,4 +1,4 @@
-{% extends 'vistas_administrador\side_menu_admin.html' %}
+{% extends 'vistas_administrador/side_menu_admin.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -22,7 +22,10 @@
                     para guardar los datos.</p>
             </div>
             <div class="card">
-                <h5 class="text-center mb-4">Administrador</h5>
+                <div class="d-flex">
+                    <h5 class="text-center mb-4" style="margin: auto;">Administrador</h5>
+                    <a href="{% url 'change_pass_admin' administrador.id %}" class="btn btn-primary" style="margin-left: auto; height: fit-content;">Cambiar contraseña</a>
+                </div>
                 <form method="post" enctype="multipart/form-data" class="form-card">
                     {% csrf_token %}
                     
