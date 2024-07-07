@@ -1,22 +1,19 @@
+{% extends "vistas_generales/index.html" %}
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Bolsa de Empleo</title>
-    <link rel="stylesheet" href="{% static 'css/css_empleos.css' %}">
-</head>
+{% block title %}
+<title>Bolsa de Empleo</title>
+{% endblock %}
 
-<body>
-    {% include 'estructuras_html/header.html' %}
-    
+{% block style_css %}
+<link rel="stylesheet" href="{% static 'css/css_empleos.css' %}">
+{% endblock %}
 
-
-    <div class="title h1 text-center py-3">BOLSA DE EMPLEO</div>
-
+{% block contenido %}
+<section class="container py-5">
+    <div class="title h1 text-center py-5">BOLSA DE EMPLEO</div>
     <div class="card p-3  py-4">
         <h5>Filtros</h5>
         <form method="GET" action="{% url 'empleos' %}">
@@ -24,14 +21,16 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="areasSelect">Áreas:</label>
-                        <select class="form-control form-select" id="areasSelect" name="areas" onchange="document.getElementById('id_areas').value=this.value; this.form.submit();">
+                        <select class="form-control form-select" id="areasSelect" name="areas"
+                            onchange="document.getElementById('id_areas').value=this.value; this.form.submit();">
                             {% for key, value in filtro_form.fields.areas.choices %}
-                                <option value="{{ key }}" {% if filtro_form.areas.value == key %}selected{% endif %}>{{ value }}</option>
+                            <option value="{{ key }}" {% if filtro_form.areas.value == key %}selected{% endif %}>{{ value }}
+                            </option>
                             {% endfor %}
                         </select>
                         <input type="hidden" name="areas" id="id_areas" value="{{ filtro_form.areas.value }}">
-                    </div>                    
-                    
+                    </div>
+
                 </div>
                 <div class="col-md-4">
                     {{ filtro_form.puesto_buscar |add_class:'mt-4'|attr:'autocomplete:off'|attr:'placeholder:Buscar' }}
@@ -59,11 +58,14 @@
                         <div class="mb-3">
                             <h5 class="d-flex justify-content-between font-weight-semibold flex-nowrap my-1">
                                 <a href="#" class="text-default" data-abc="true">{{empleo.puesto}}</a>
-                                <span class="text-danger-400"><h6>{{empleo.carrera_sugerida}}</h6></span>
+                                <span class="text-danger-400">
+                                    <h6>{{empleo.carrera_sugerida}}</h6>
+                                </span>
                             </h5>
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
                                 <li class="list-inline-item">Por: <a href="#" class="text-muted"
-                                        data-abc="true"><strong>{{ empleo.autor }}</strong></a></li>
+                                        data-abc="true"><strong>{{
+                                            empleo.autor }}</strong></a></li>
                                 <li class="list-inline-item"><i class='bx bx-time mr-1'></i> <strong>Hace:</strong> {{ empleo.fecha|timesince }}</li>
                             </ul>
                         </div>
@@ -79,7 +81,7 @@
                         {% if empleo.descripcion_completa %}
                         <div class="mt-2 mt-sm-0">
                             <a href="#" class="mt-auto btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#descripcionCompleta-{{ empleo.id }}"><i
+                                data-bs-target="#descripcionCompleta-{{ empleo.id }}"><i
                                     class="fa fa-check font-size-base mr-1"></i> Ver
                                 Más</a>
                         </div>
@@ -94,7 +96,8 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Vista Completa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" id="contenedorBlog">
                                     {{ empleo.descripcion_completa|safe }}
@@ -109,9 +112,9 @@
                                         <div class="col">
                                             <div><strong>Autor:</strong> {{empleo.autor}} </div>
                                         </div>
-        
+
                                     </div>
-        
+
                                 </div>
                             </div>
                         </div>
@@ -119,25 +122,24 @@
                 </div>
                 {% endfor %}
                 {% else %}
-                <p>No se encontraron empleos que coincidan con los criterios de búsqueda.</p>
+                <p class="text-center" style="margin-top: 20vh;">No se encontraron empleos que coincidan con los
+                    criterios
+                    de búsqueda.</p>
                 {% endif %}
             </div>
         </div>
     </div>
+</section>
+{% endblock %}
 
-    {% include 'estructuras_html/footer.html' %}
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Cuando se hace clic en una opción del menú desplegable
-            $('.dropdown-menu a').on('click', function () {
-                // Actualizar el contenido del botón con la opción seleccionada
-                $('#dropdownMenuButton').html($(this).text());
-            });
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        // Cuando se hace clic en una opción del menú desplegable
+        $('.dropdown-menu a').on('click', function () {
+            // Actualizar el contenido del botón con la opción seleccionada
+            $('#dropdownMenuButton').html($(this).text());
         });
-    </script>
-</body>
-
-</html>
+    });
+</script>
+{% endblock %}

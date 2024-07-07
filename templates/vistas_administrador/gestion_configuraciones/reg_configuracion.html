@@ -1,0 +1,190 @@
+{% extends 'vistas_administrador/side_menu_admin.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+<!doctype html>
+<html>
+
+<head>
+    {% block title %}
+    Administrador Configuraciones
+    {% endblock title %}
+
+</head>
+{% block contenido %}
+<div class="container-fluid px-1 py-5 mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-9 col-lg-10 col-md-9 col-11">
+            <div class="text-center">
+                <h3>Registrar</h3>
+                <p class="blue-text">Los campos obligatorios están marcados con <strong><span class="text-danger">*</span></strong><br> asegurese de
+                    llenarlos
+                    para guardar los datos.</p>
+            </div>
+            <div class="card">
+                <h5 class="text-center mb-4">Configuración General</h5>
+                <form method="post" enctype="multipart/form-data" class="form-card">
+                    {% csrf_token %}
+                    
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.name.label_tag }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.name |add_class:'form-control' }}
+                        </div>
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                Estado de la Configuración
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.status |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.favicon.label_tag }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.favicon }}
+                        </div>
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.image_nav.label_tag }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.image_nav }}
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.image_home.label_tag }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.image_home |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.about.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.about |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.image_mision.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.image_mision |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.mision.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.mision |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.image_vision.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.image_vision |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.vision.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.vision |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.teacher_in_charge_image.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.teacher_in_charge_image |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.teacher_in_charge_name.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.teacher_in_charge_name |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.teacher_in_charge_detail.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.teacher_in_charge_detail |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.color_primary.label_tag }}
+                            </label>
+                            {{ form.color_primary }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                {{ form.color_secundary.label_tag }}
+                            </label>
+                            {{ form.color_secundary }}
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="form-group col-sm-6">
+                            <button class="btn btn-danger col-12" type="button" onclick="window.location.href='{% url 'adminConfig' %}'">Cancelar</button>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <button class="btn btn-success col-12" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{% if script %}
+<script>
+    {{ script|safe }}
+</script>
+
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        console.log("dsad");
+        $('.colorfield_field').colorpicker(); ;  // Inicializa el color picker para todos los elementos con la clase 'colorpicker'
+    });
+</script>
+{% endblock contenido %}
+
+</body>
+
+</html>

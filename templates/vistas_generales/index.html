@@ -4,14 +4,72 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ALUMNI</title>
-    <link rel="stylesheet" href="{% static 'css/estilos_index.css' %}">
+    {% block title %}
+        <title>ALUMNI</title>
+    {% endblock %}
 
+    <link
+            rel="stylesheet" 
+            href="{% static 'css/estilos_index.css' %}"
+    />
+    <link
+            rel='stylesheet'
+            href="{% static 'css/css_header3.css' %}"
+    />
+    <link
+            rel='stylesheet'
+            href="{% static 'css/bootstrap.min.css' %}"
+    />
+    <link
+            rel='stylesheet'
+            href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link
+            rel="icon" type="image/png" sizes="32x32" href="{{ config.favicon.url }}"
+    />
 
+    <!--METADATOS-->
+    <meta name="description"
+          content="description">
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+    <!--revisar lo de indexacion? -->
+    <link rel="canonical" href="">
+    <meta name="keywords" content="keywords">
+    <meta property="og:locale" content="es_EC">
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="ALUMNI ISTLOJA">
+    <meta property="og:description"
+          content="description">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="ALUMNI ISTLOJA">
+    <meta property="article:section" content="HTML">
+    <meta property="og:image" content="">
+    <meta property="og:image:width" content="260">
+    <meta property="og:image:height" content="55">
+    <meta property="og:image:alt" content="metadatos html">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ALUMNI ISTLOJA">
+    <meta name="twitter:description"
+          content="description">
+    <meta name="twitter:image" content="">
+
+    {% block style_css %}
+    {% endblock %}
+    <style>
+        :root {
+            --first-color: {{ config.color_primary }};
+            --first-color-light: {{ config.color_secundary }};
+            --image-test: {{ config.image_home.url }}
+        }
+    </style>
 </head>
 
-<body>
-    {% include 'estructuras_html/header.html'%}
+<body id="body-pd">
+{% with image_nav=config.image_nav.url %}
+    {% include 'estructuras_html/header.html' %}
+{% endwith %}
+{% block contenido %}
     <div class="page-header">
         <div class="container">
             <div class="row">
@@ -23,8 +81,6 @@
             </div>
         </div>
     </div>
-    <!-- /.page-header-->
-    <!-- news -->
     <div class="card-section">
         <div class="container">
             <div class="card-block bg-card mb30">
@@ -32,9 +88,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="section-title mb-0">
                             <h2>Sobre Nosotros</h2>
-                            <p>EL SISTEMA DE SEGUIMIENTO A GRADUADOS SE HA CREADO CON EL FIN DE MANENER A LOS GRADUADOS
-                                DE NUESTRA INSTITUCIÓN VINCULADOS A NUESTRA COMUNIDAD, Y ADEMÁS CONOCER EL NIVEL DE
-                                SATISFACCIÓN OBTENIDO AL OCUPAR Y SER PARTE DE LA INSTITUCIÓN. </p>
+                            <p>{{ config.about }} </p>
                         </div>
                     </div>
                 </div>
@@ -43,22 +97,18 @@
     </div>
     </div>
     <div class="bodySection">
-    <section class="fixed-background-vision img-1">
-        <div class="content">
-          <h2 class="bodySection">Misión</h2>
-          <p>Somos una institución de Educación Superior a nivel técnico y tecnológico, dedicada a
-            formar profesionales comprometidos éticamente con la sociedad, desde una
-            preparación basada en entornos de aprendizaje académicos y experienciales que
-            contribuyan al desarrollo de matriz productiva de la región.</p>
-        </div>
-      </section>
-      <section class="fixed-background-mision img-2">
-        <div class="content">
-          <h2 class="bodySection">Visión</h2>
-          <p>Para el año 2027, ser un Instituto Superior Universitario, comprometido con la
-            docencia, vinculación e investigación para el desarrollo social y productivo.</p>
-        </div>
-      </section>
+        <section class="fixed-background-vision img-1">
+            <div class="content">
+                <h2 class="bodySection">Misión</h2>
+                <p>{{ config.mision }} </p>
+            </div>
+        </section>
+        <section class="fixed-background-mision img-2">
+            <div class="content">
+                <h2 class="bodySection">Visión</h2>
+                <p>{{ config.vision }} </p>
+            </div>
+        </section>
     </div>
     <div class="demo">
         <div class="container">
@@ -68,12 +118,13 @@
                     <div id="testimonial-slider" class="owl-carousel">
                         <div class="testimonial">
                             <div class="pic">
-                                <img src="{% static 'images/Mayra.jpg' %}">
+                                <img src="{{ config.teacher_in_charge_image.url }}">
                             </div>
-                            <h3 class="title">Ing. Mayra Calva</h3>
-                            <span class="post">exalumnos@tecnologicoloja.edu.ec</span>
+                            <h3 class="title">
+                                <p>{{ config.teacher_in_charge_name }} </p>
+                            </h3>
+                            <span class="post">{{ config.teacher_in_charge_detail }}</span>
                             <p class="description">
-                                
                             </p>
                         </div>
                     </div>
@@ -81,24 +132,29 @@
             </div>
         </div>
     </div>
-    {% include 'estructuras_html/footer.html' %}
+{% endblock %}
+{% include 'estructuras_html/footer.html' %}
 
-    {% if messages %}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-        {% for message in messages %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/js_header.js' %}"></script>
+{% block scripts %}
+{% endblock %}
+{% if messages %}
+
+    {% for message in messages %}
         <script>
             Swal.fire({
                 icon: "success",
-                title: "Inicio De Sesión Exitoso",  
+                title: "Inicio De Sesión Exitoso",
                 text: "{{ message }}",
                 showConfirmButton: false,
                 timer: 3000
             });
 
         </script>
-        {% endfor %}
-    
+    {% endfor %}
 {% endif %}
 </body>
 

@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 bodypd.classList.add('body-pd');
                 // Añade o quita padding al encabezado
                 headerpd.classList.add('body-pd');
-                console.log("add");
             }
             else if(nav.classList.contains("show") && action=="remove"){
                 nav.classList.remove('show');
@@ -27,34 +26,46 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 bodypd.classList.remove('body-pd');
                 // Añade o quita padding al encabezado
                 headerpd.classList.remove('body-pd');
-                console.log("remove");
             }
         }
-            
+
     }
 
 
     const toggleNavbar = (action) => {
         setTimeout(() => {
             showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header',action);
-          }, 400);
-        
+        }, 200);
+
     };
 
     // Event listener para el contenedor padre de los elementos que pueden abrir el menú
-    const container = document.getElementById("id_nav_list");
-    container.addEventListener('click', function (event) {
-        // Verifica si el elemento clickeado es el botón o el menú
-        if (event.target.id === 'header-toggle' || event.target.id === 'nav-bar' || event.target.id === 'id_nav_list') {
-            toggleNavbar();
+    const container = document.getElementById("nav-bar");
+    let menuOpen = false;
+    document.getElementById("header-toggle").addEventListener('click', function (event) {
+        if(document.getElementById("nav-bar").classList.contains("show")){
+            toggleNavbar("remove");
+            menuOpen=false;
+        }else{
+            toggleNavbar("add");
+            menuOpen=true;
+        }
+
+    });
+
+
+    // Event listener para mouseover en el contenedor padre
+    container.addEventListener('mouseenter', function() {
+        if(!menuOpen){
+            toggleNavbar("add");
         }
     });
 
-    // Event listener para mouseover en el contenedor padre
-    container.addEventListener('mouseover', function (event) {
-        // Verifica si el mouse está sobre el contenedor padre
-        
-        
+    container.addEventListener('mouseleave', function() {
+        if(!menuOpen){
+            toggleNavbar("remove");
+        }
+
     });
 
 
@@ -62,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     /*===== LINK ACTIVE =====*/
     const linkColor = document.querySelectorAll('.nav_link')
+    linkColor.forEach(l => l.addEventListener('click', colorLink))
 
     function colorLink() {
         if (linkColor) {
@@ -69,6 +81,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
             this.classList.add('active')
         }
     }
-    linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+    if(document.getElementById('logout-link')){
+        document.getElementById('logout-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            const url = this.getAttribute('data-url');
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro?',
+                text: '¿Quieres cerrar la sesión?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: "No, cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url
+                }
+            });
+        });
+    }
 
 });

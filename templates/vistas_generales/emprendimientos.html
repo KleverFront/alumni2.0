@@ -1,133 +1,132 @@
+{% extends "vistas_generales/index.html" %}
 {% load static %}
 {% load compress %}
 {% load i18n %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/estiloEmprendimientos.css' %}">
+{% block title %}
+<title>Emprendimientos De Nuestros Alumnos</title>
+{% endblock %}
 
-
-    <title>Emprendimientos De Nuestros Alumnos</title>
-</head>
-
-<body>
-    {% include 'estructuras_html/header.html' %}
-    <section class="light">
-        <div class="container py-3">
-            <div class="h1 text-center text-dark" id="pageHeaderTitle">Emprendimientos De Nuestros Alumnos</div>
-            {% for emprendimiento in emprendimientos %}
-            <article class="postcard light blue">
-                <a class="postcard__img_link" href="#">
-                    <img class="postcard__img" src="{{emprendimiento.portada.url}}" alt="{{emprendimiento.titulo}}" />
-                </a>
-                <div class="postcard__text t-dark">
-                    <h1 class="postcard__title blue"><a href="#" data-bs-toggle="modal" data-bs-target="#descripcionCompleta-{{ emprendimiento.id }}">{{emprendimiento.titulo}}</a></h1>
-                    <div class="postcard__subtitle small">
-                        <time datetime="2020-05-25 12:00:00">
-                            <i class="fas fa-calendar-alt mr-2"></i> {{emprendimiento.fecha}}
-                        </time>
-                    </div>
-                    <div class="postcard__bar"></div>
-                    <div class="postcard__preview-txt">{{emprendimiento.descripcion_corta}}</div>
-                    <ul class="postcard__tagbox">
-                        <li class="tag__item"><i class='bx bx-user'></i> <strong>Autor:</strong>
-                            {{emprendimiento.propietario}}</li>
-                        <li class="tag__item">
-                            <i class='bx bx-phone'></i> <strong>Contacto:</strong> {{emprendimiento.contacto}}
-                        </li>
-                        {% if emprendimiento.descripcion_completa %}
-                        <li class="tag__item">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#descripcionCompleta-{{ emprendimiento.id }}">
-                                <i class="bx bx-show mr-2"></i> <strong>Ver Más</strong>
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
+{% block contenido %}
+<section class="light">
+    <div class="container py-3">
+        <div class="title h1 text-center" id="pageHeaderTitle">EMPRENDIMIENTOS DE NUESTROS ALUMNOS</div>
+        {% if emprendimientos %}
+        {% for emprendimiento in emprendimientos %}
+        <article class="postcard light blue">
+            <a class="postcard__img_link" href="#">
+                <img class="postcard__img" src="{{emprendimiento.portada.url}}" alt="{{emprendimiento.titulo}}" />
+            </a>
+            <div class="postcard__text t-dark">
+                <h1 class="postcard__title blue"><a href="#" data-bs-toggle="modal"
+                        data-bs-target="#descripcionCompleta-{{ emprendimiento.id }}">{{emprendimiento.titulo}}</a>
+                </h1>
+                <div class="postcard__subtitle small">
+                    <time datetime="2020-05-25 12:00:00">
+                        <i class="fas fa-calendar-alt mr-2"></i> {{emprendimiento.fecha}}
+                    </time>
                 </div>
-            </article>
-            <div>
-                <!-- Modal -->
-                <div class="modal fade" id="descripcionCompleta-{{ emprendimiento.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Vista Completa</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" id="contenedorBlog">
-                                {{ emprendimiento.descripcion_completa|safe }}
-                            </div>
-                            <div class="modal-footer" style="padding: 0;">
-                                <div class="row">
-                                    <div class="col">
-                                        <div style="display: flex;"><strong style="padding-right: 5px;">Contacto:</strong>{{emprendimiento.contacto}}</div>
-                                    </div> 
-                                    <div class="col">
-                                        <div><strong>Autor:</strong> {{emprendimiento.propietario}} </div>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">{{emprendimiento.descripcion_corta}}</div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item"><i class='bx bx-user'></i> <strong>Autor:</strong>
+                        {{emprendimiento.propietario}}</li>
+                    <li class="tag__item">
+                        <i class='bx bx-phone'></i> <strong>Contacto:</strong> {{emprendimiento.contacto}}
+                    </li>
+                    {% if emprendimiento.descripcion_completa %}
+                    <li class="tag__item">
+                        <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#descripcionCompleta-{{ emprendimiento.id }}">
+                            <i class="bx bx-show mr-2"></i> <strong>Ver Más</strong>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </article>
+        <div>
+            <!-- Modal -->
+            <div class="modal fade" id="descripcionCompleta-{{ emprendimiento.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Vista Completa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="contenedorBlog">
+                            {{ emprendimiento.descripcion_completa|safe }}
+                        </div>
+                        <div class="modal-footer" style="padding: 0;">
+                            <div class="row">
+                                <div class="col">
+                                    <div style="display: flex;"><strong
+                                            style="padding-right: 5px;">Contacto:</strong>{{emprendimiento.contacto}}
                                     </div>
-                                
                                 </div>
-                                
+                                <div class="col">
+                                    <div><strong>Autor:</strong> {{emprendimiento.propietario}} </div>
+                                </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </section>
-
-    <!-- Paginación con Bootstrap -->
+        {% endfor %}
+        {% endif %}
+        <div style="height: 50vh;">
+            <h2 class="text-center" style="margin: 20vh;">No hay Emprendimientos que mostrar</h2>
+        </div>
+    </div>
+</section>
+{% if emprendimientos %}
+<!-- Paginación con Bootstrap -->
 <nav aria-label="...">
     <ul class="pagination justify-content-end">
-    
+
         {% if emprendimientos.has_previous %}
-            <li class="page-item">
+        <li class="page-item">
             <a class="page-link" href="?page=1" aria-label="First">
                 <span aria-hidden="true">&laquo;&laquo;</span>
             </a>
-            </li>
-            <li class="page-item">
+        </li>
+        <li class="page-item">
             <a class="page-link" href="?page={{ emprendimientos.previous_page_number }}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
-            </li>
+        </li>
         {% endif %}
-  
+
         {% for num in emprendimientos.paginator.page_range %}
-            {% if emprendimientos.number == num %}
-            <li class="page-item active" aria-current="page">
-                <span class="page-link">{{ num }} <span class="sr-only">(Actual)</span></span>
-            </li>
-            {% else %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endif %}
+        {% if emprendimientos.number == num %}
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ num }} <span class="sr-only">(Actual)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endif %}
         {% endfor %}
-  
+
         {% if emprendimientos.has_next %}
-            <li class="page-item">
+        <li class="page-item">
             <a class="page-link" href="?page={{ emprendimientos.next_page_number }}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
-            </li>
-            <li class="page-item">
+        </li>
+        <li class="page-item">
             <a class="page-link" href="?page={{ emprendimientos.paginator.num_pages }}" aria-label="Last">
                 <span aria-hidden="true">&raquo;&raquo;</span>
             </a>
-            </li>
+        </li>
         {% endif %}
-  
+
     </ul>
 </nav>
-    {% include 'estructuras_html/footer.html' %}
-
-</script>
-</body>
-
-</html>
+{% endif %}
+{% endblock %}

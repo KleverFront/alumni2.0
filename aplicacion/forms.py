@@ -1,10 +1,12 @@
+from ckeditor.widgets import CKEditorWidget
+from colorfield.widgets import ColorWidget
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+
 from .models import *
 
 
-
-class GraduadoPreForm(UserCreationForm): 
+class GraduadoPreForm(UserCreationForm):
     class Meta:
         model = UsuarioBase
         exclude = ['id']
@@ -31,22 +33,6 @@ class GraduadoPreForm(UserCreationForm):
 
         return graduado_pre
     
-    # def edit(self, commit=True):
-    #     usuario_base = super().save(commit=False)
-
-    #     # Guardar la contraseña
-    #     usuario_base.set_password(self.cleaned_data["password1"])
-
-    #     # Obtener la instancia existente de Administrador si ya existe
-    #     graduadopre, created = GraduadoPre.objects.get_or_create(base=usuario_base)
-
-
-    #     # Guardar el UsuarioBase y el Administrador
-    #     if commit:
-    #         usuario_base.save()
-    #         graduadopre.save()
-
-    #     return usuario_base
 
 
 class ChangePassword(UserCreationForm):
@@ -168,40 +154,6 @@ class AdministradorCreationForm(UserCreationForm):
             administrador.base = usuario_base
             administrador.save()
         return administrador
-    
-    # def edit(self, commit=True):
-    #     usuario_base = super().save(commit=False)
-
-    #     # Guardar la contraseña
-    #     usuario_base.set_password(self.cleaned_data["password1"])
-
-    #     # Guardar campos específicos de Administrador
-    #     imagen = self.cleaned_data.get('imagen', None)
-
-        
-    #     # Obtener la instancia existente de Administrador si ya existe
-    #     administrador, created = Administrador.objects.get_or_create(base=usuario_base)
-
-    #     if not administrador.imagen and imagen:
-    #         administrador.imagen = imagen
-    #     elif administrador.imagen and imagen:  # Si no se proporciona una nueva imagen, conserva la imagen existente
-    #         administrador.imagen = imagen
-
-
-
-
-    #     # Actualizar campos de Administrador
-        
-
-    #     # Establecer is_staff como True
-    #     usuario_base.is_staff = True
-
-    #     # Guardar el UsuarioBase y el Administrador
-    #     if commit:
-    #         usuario_base.save()
-    #         administrador.save()  
-
-    #     return usuario_base
         
 
 
@@ -287,7 +239,7 @@ class CapacitacionForm(forms.ModelForm):
             'descripcion_corta': forms.Textarea(attrs={'class':'form-control mb-2','id':'descripcion_corta' ,'style':'height:65px;'}),
             'enlace': forms.TextInput(attrs={'class': 'form-control mb-2'}),
             'inversión': forms.TextInput(attrs={'class': 'form-control mb-2'}),
-            'descripcion_completa':forms.Textarea(attrs={'class':'form-control mb-2','id':'descripcion_completa'}),
+            'descripcion_completa': forms.CharField(widget=CKEditorWidget())
         }
         
 
@@ -363,7 +315,7 @@ class EmpleoForm(forms.ModelForm):
             'ciudad': forms.TextInput(attrs={'class':'form-control mb-4'}),
             'autor': forms.TextInput(attrs={'class':'form-control mb-4'}),
             'carrera_sugerida': forms.Select(),
-            'descripcion_completa':forms.Textarea(attrs={'class':'form-control mb-2','id':'descripcion_completa'}),
+            'descripcion_completa':forms.CharField(widget=CKEditorWidget())
           
         }
 
@@ -393,7 +345,7 @@ class EmprendimientoForm(forms.ModelForm):
             'descripcion_corta': forms.Textarea(attrs={'class':'form-control mb-2','id':'descripcion_corta' ,'style':'height:65px;'}),
             'propietario': forms.TextInput(attrs={'class':'form-control mb-2'}),
             'contacto': forms.TextInput(attrs={'class':'form-control mb-2'}),
-            'descripcion_completa':forms.Textarea(attrs={'class':'form-control mb-2','id':'descripcion_completa'}),
+            'descripcion_completa':forms.CharField(widget=CKEditorWidget())
         }
 
 
@@ -762,3 +714,75 @@ class GraduadoForm(forms.ModelForm):
 
 
 
+class ConfiguracionesForm(forms.ModelForm):
+    status_opciones = [
+        ('', 'Elija un estado'),
+        ('False', 'Inactiva'),
+        ('True', 'Activa'),
+    ]
+
+    class Meta:
+        model = Configuraciones
+        fields = [
+            'name',
+            'image_home',
+            'about',
+            'image_mision',
+            'mision',
+            'image_vision',
+            'vision',
+            'teacher_in_charge_image',
+            'teacher_in_charge_name',
+            'teacher_in_charge_detail',
+            'color_primary',
+            'color_secundary',
+            'favicon',
+            'image_nav',
+
+        ]  
+        labels = {
+            'name':'Nombre de la Configuracion',
+            'status': 'Estado de la Configuración',
+            'image_home':'Imagen de Portada Alumni en Home',
+            'about':'Sobre Nosotros',
+            'image_mision':'Imagen de Misión',
+            'mision':'Misión',
+            'image_vision':'Imagen de Visión',
+            'vision': 'Visión',
+            'teacher_in_charge_image':'Imagen de Docente Encargado',
+            'teacher_in_charge_name':'Nombre de Docente Encargado',
+            'teacher_in_charge_detail':'Detalles de Docente Engargado',
+            'color_primary':'Color Primario de Alumni',
+            'color_secundary':'Color Secundario de Alumni',
+            'favicon':'Favicon de Alumni',
+            'image_nav':'Imagen de Nav (Menu de Navegación)',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control mb-2 '}),
+            'image_home': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'about': forms.Textarea(attrs={'class':'form-control mb-2','style':'height:65px;'}),
+            'image_mision': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'mision': forms.Textarea(attrs={'class':'form-control mb-2','style':'height:65px;'}),
+            'image_vision': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'vision': forms.Textarea(attrs={'class':'form-control mb-2','style':'height:65px;'}),
+            'teacher_in_charge_image': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'teacher_in_charge_name': forms.TextInput(attrs={'class':'form-control mb-2 '}),
+            'teacher_in_charge_detail': forms.Textarea(attrs={'class':'form-control mb-2','style':'height:65px;'}),
+            'color_primary': ColorWidget(attrs={'class': 'colorpicker'}),
+            'color_secundary':ColorWidget(attrs={'class': 'colorpicker'}),
+            'favicon': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'image_nav': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+        }
+
+    status = forms.ChoiceField(choices=status_opciones)
+
+    def save(self, commit=True):
+        conf = super().save(commit=False)
+
+
+        # Guardar campos específicos de Administrador
+        status = self.cleaned_data.get('status', None)
+        config, created = Configuraciones.objects.get_or_create(pk=conf.pk)
+        config.status=status
+        config.save()
+        conf.save()

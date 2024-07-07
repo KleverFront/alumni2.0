@@ -1,77 +1,37 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link 
-        rel='stylesheet' 
-        href="{% static 'css/css_header3.css' %}"
-    />
-    <link 
-        rel='stylesheet' 
-        href="{% static 'css/bootstrap.min.css' %}"
-    />
-    <link 
-        rel='stylesheet' 
-        href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/icon.png' %}">
+<header class="header" id="header">
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    <div class="header_img"> <img src="{{ image_nav }}" alt=""> </div>
+</header>
+<div class="l-navbar" id="nav-bar">
+    <nav class="nave">
+        <div>
 
-</head>
-<body id="body-pd">
-    <header class="header" id="header">
-        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-        <div class="header_img"> <img src="{% static 'images/logo_graduados.png' %}" alt=""> </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
-        <nav class="nave">
-            <div> 
-               
-                <div class="nav_list" id="id_nav_list"> 
-                    <a href="{% url 'index' %}" class="nav_link {% if request.path == '/alumni' %}active{% endif %}"> <i class='bx bx-home nav_icon'></i> <span class="nav_name">INICIO</span> </a>
-                    {% if user.is_authenticated %} 
-                    <a href="{% url 'perfil' %}" class="nav_link {% if request.path == '/perfil-usuario' %}active{% endif %}"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">MI PERFIL</span> </a>
-                    {% endif %} 
-                    <a href="{% url 'emprendimientos' %}" class="nav_link {% if request.path == '/emprendimientos' %}active{% endif %}"> <i class='bx bx-network-chart nav_icon'></i> <span class="nav_name">EMPRENDIMIENTOS</span> </a> 
-                    <a href="{% url 'capacitaciones' %}" class="nav_link {% if request.path == '/capacitaciones' %}active{% endif %}"> <i class='bx bx-intersect nav_icon'></i> <span class="nav_name">CAPACITACIONES</span> </a> 
-                    <a href="{% url 'empleos' %}" class="nav_link {% if request.path == '/empleos' %}active{% endif %}"> <i class='bx bx-briefcase nav_icon'></i> <span class="nav_name">EMPLEOS</span> </a> 
-                </div>
-            </div> 
-            {% if user.is_authenticated %}
-            <a href="#" class="nav_link" id="logout-link"> <i class='bx bx-log-in nav_icon'></i> <span class="nav_name">CERRAR SESIÓN</span> </a>
-            {% else %}
-            <a href="{% url 'ingresar' %}" class="nav_link {% if request.path == '/ingresar' %}active{% endif %}"> <i class='bx bx-log-in nav_icon'></i> <span class="nav_name">INICIAR SESIÓN</span> </a>
-            {% endif %}
-        
-        </nav>
-    </div>
+            <div class="nav_list" id="id_nav_list">
+                <a href="{% url 'index' %}" class="nav_link {% if request.path == '/alumni' %}active{% endif %}"> <i
+                        class='bx bx-home nav_icon'></i> <span class="nav_name">INICIO</span> </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'perfil' %}"
+                    class="nav_link {% if request.path == '/perfil-usuario' %}active{% endif %}"> <i
+                        class='bx bx-user nav_icon'></i> <span class="nav_name">MI PERFIL</span> </a>
+                {% endif %}
+                <a href="{% url 'emprendimientos' %}"
+                    class="nav_link {% if request.path == '/emprendimientos' %}active{% endif %}"> <i
+                        class='bx bx-network-chart nav_icon'></i> <span class="nav_name">EMPRENDIMIENTOS</span> </a>
+                <a href="{% url 'capacitaciones' %}"
+                    class="nav_link {% if request.path == '/capacitaciones' %}active{% endif %}"> <i
+                        class='bx bx-intersect nav_icon'></i> <span class="nav_name">CAPACITACIONES</span> </a>
+                <a href="{% url 'empleos' %}" class="nav_link {% if request.path == '/empleos' %}active{% endif %}"> <i
+                        class='bx bx-briefcase nav_icon'></i> <span class="nav_name">EMPLEOS</span> </a>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <a href="#" class="nav_link" id="logout-link" data-url="{% url 'logout' %}"> <i
+                class='bx bx-log-in nav_icon'></i> <span class="nav_name">CERRAR SESIÓN</span> </a>
+        {% else %}
+        <a href="{% url 'ingresar' %}" class="nav_link {% if request.path == '/ingresar' %}active{% endif %}"> <i
+                class='bx bx-log-in nav_icon'></i> <span class="nav_name">INICIAR SESIÓN</span> </a>
+        {% endif %}
 
-    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> 
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}">
-    </script>
-    <script src="{% static 'js/js_header.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault();
-        Swal.fire({
-            icon: 'warning',
-            title: '¿Estás seguro?',
-            text: '¿Quieres cerrar la sesión?',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, cerrar sesión',
-            cancelButtonText: "No, cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "{% url 'logout' %}";
-            }
-        });
-    });
-</script>
-</body>
-</html>    
-
-    
-   
+    </nav>
+</div>

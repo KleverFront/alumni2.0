@@ -145,15 +145,15 @@ body {
 }
 
 .nav-toggle > figure:nth-child(2) {
-	background: rgb(208, 255, 0);
+	background: rgb(2, 56, 95);
 }
 
 .nav-toggle > figure:nth-child(3) {
-	background: rgb(13, 0, 255);
+	background: rgb(255, 255, 255);
 }
 
 .nav-toggle > figure:nth-child(4) {
-	background: rgb(250, 0, 0);
+	background: rgb(70, 162, 159);
 }
 
 .nav-toggle > label,
@@ -350,12 +350,12 @@ nav > ul > li::after {
 	width: 100%;
 	z-index: -1;
 	content: "";
-	background: yellow;
+	background: rgb(2, 56, 95);
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 
 nav > ul > li::after {
-	background: black;
+	background: rgb(54, 54, 54);
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 
@@ -368,7 +368,7 @@ nav > ul > li:hover::after {
 }
 
 nav > ul > li > a:hover {
-	color: black;
+	color: rgb(255, 255, 255);
 	transition: all 0.3s ease-in-out;
 }
 
@@ -376,35 +376,35 @@ nav > ul > li:nth-child(1) {
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s !important;
 	transition-delay: 4s !important;
 	left: 0;
-	background: #ff00009a;
+	background: #02385f;
 }
 
 nav > ul > li:nth-child(2) {
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s !important;
 	transition-delay: 4.3s !important;
 	left: 20%;
-	background: #1039cb85;
+	background: #fff;
 }
 
 nav > ul > li:nth-child(3) {
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s !important;
 	transition-delay: 4.6s !important;
 	left: 40%;
-	background: #ebcb149a;
+	background: #46a29f;
 }
 
 nav > ul > li:nth-child(4) {
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s !important;
 	transition-delay: 4.9s !important;
 	left: 60%;
-	background: #1039cb85;
+	background: #fff;
 }
 
 nav > ul > li:nth-child(5) {
 	transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0s !important;
 	transition-delay: 5.2s !important;
 	left: 80%;
-	background: #ff00009a;
+	background: #02385f; 
 }
 
 /* --- Responsivity --- */

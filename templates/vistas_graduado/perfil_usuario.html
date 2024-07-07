@@ -1,78 +1,77 @@
+{% extends "vistas_generales/index.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
+{% block title %}
+<title>Mi perfil</title>
+{% endblock %}
+{% block style_css %}
+<link rel="stylesheet" href="{% static 'css/css_perfil_usuario.css' %}">
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Mi perfil</title>
-    <link rel="stylesheet" href="{% static 'css/css_perfil_usuario.css' %}">
-</head>
-
-<body>
-    {% include 'estructuras_html/header.html' %}
-
-    <div class="page-content page-container" id="page-content">
-        <div class="padding">
-            <div class="row container d-flex justify-content-center">
-                <div class="col-xl-12 col-md-12">
-                    <div class="card user-card-full">
-                        <div class="row m-l-0 m-r-0">
-                            <div class="col-sm-4 bg-c-lite-green user-profile">
-                                <div class="card-block text-center text-white">
-                                    <div class="m-b-25">
-                                        {% if graduado and graduado.fotografia %}
-                                                <img src="{{ graduado.fotografia.url }}" class="rounded-circle img-thumbnail"
-                                                    alt="User-Profile-Image">
-                                        {% else %}
-                                            <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
-                                                alt="User-Profile-Image">
-                                        {% endif %}
-                                    </div>
-                                    <p>Graduado</p>
-                                    <h6 class="f-w-600">{{ user.nombres }} {{ user.apellidos }}</h6>
-                                    
-                                    <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+{% block contenido %}
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-xl-12 col-md-12">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25">
+                                    {% if graduado and graduado.fotografia %}
+                                    <img src="{{ graduado.fotografia.url }}" class="rounded-circle img-thumbnail"
+                                        alt="User-Profile-Image">
+                                    {% else %}
+                                    <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
+                                        alt="User-Profile-Image">
+                                    {% endif %}
                                 </div>
+                                <p>Graduado</p>
+                                <h6 class="f-w-600 text-al">{{ user.nombres }} {{ user.apellidos }}</h6>
+
+                                <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                             </div>
-                            <div class="col-sm-8">
-                                <div class="card-block">
-                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Mis Datos</h6>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Correo Institucional</p>
-                                            <h6 class="text-muted f-w-400">{{ user.email }}</h6>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Celular</p>
-                                            <h6 class="text-muted f-w-400">{{ user.graduadopre.graduado.celular }}</h6>
-                                        </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Mis Datos</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Correo Institucional</p>
+                                        <h6 class="text-muted f-w-400">{{ user.email }}</h6>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Cedula</p>
-                                            <h6 class="text-muted f-w-400">{{ user.cedula }}</h6>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Contraseña</p>
-                                            <a href="{% url 'profile_password_change' %}" class="nav_link btn btn-warning">Cambiar Contraseña</a>
-                                        </div>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Celular</p>
+                                        <h6 class="text-muted f-w-400">{{ user.graduadopre.graduado.celular }}</h6>
                                     </div>
-                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Estado</h6>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Encuesta</p>
-                                            <h6 class="text-muted f-w-400">
-                                                {% if user.is_graduado %}
-                                                <h6 class="text-muted f-w-400">Encuesta Completada</h6>
-                                                {% else %}
-                                                <h6 class="text-muted f-w-400">Encuesta Pendiente</h6>
-                                                {% endif %}
-                                            </h6>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <p class="m-b-10 f-w-600">Revisar</p>
-                                            <a href="{% url 'editarEncuesta' %}" class="nav_link btn btn-success" id="logout-link"> <i class='bx bxs-file-doc'></i> <span class="nav_name">Ver Encuesta</span> </a>
-                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Cedula</p>
+                                        <h6 class="text-muted f-w-400">{{ user.cedula }}</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Contraseña</p>
+                                        <a href="{% url 'profile_password_change' %}"
+                                            class="nav_link btn btn-warning">Cambiar Contraseña</a>
+                                    </div>
+                                </div>
+                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Estado</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Encuesta</p>
+                                        <h6 class="text-muted f-w-400">
+                                            {% if user.is_graduado %}
+                                            <h6 class="text-muted f-w-400">Encuesta Completada</h6>
+                                            {% else %}
+                                            <h6 class="text-muted f-w-400">Encuesta Pendiente</h6>
+                                            {% endif %}
+                                        </h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Revisar</p>
+                                        <a href="{% url 'editarEncuesta' %}" class="nav_link btn btn-success"
+                                            id="logout-link"> <i class='bx bxs-file-doc'></i> <span class="nav_name">Ver
+                                                Encuesta</span> </a>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +81,5 @@
             </div>
         </div>
     </div>
-    {% include 'estructuras_html/footer.html' %}
-</body>
-
-</html>
+</div>
+{% endblock %}

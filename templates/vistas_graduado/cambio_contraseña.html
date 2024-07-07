@@ -1,86 +1,84 @@
+{% extends "vistas_generales/index.html" %}
 {% load static %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cambio de Contraseña</title>
-    <link rel="stylesheet" href="{% static 'css/css_perfil_usuario.css' %}">
-</head>
-<body>
-    {% include 'estructuras_html/header.html' %}
-    <div class="page-content page-container" id="page-content">
-        <div class="padding">
-            <div class="row container d-flex justify-content-center">
-                <div class="col-xl-12 col-md-12">
-                    <div class="card user-card-full">
-                        <div class="row m-l-0 m-r-0">
-                            <div class="col-sm-4 bg-c-lite-green user-profile">
-                                <div class="card-block text-center text-white">
-                                    <div class="m-b-25">
-                                        {% if user.graduadopre.graduado and user.graduadopre.graduado.fotografia %}
-                                                <img src="{{ user.graduadopre.graduado.fotografia.url }}" class="rounded-circle img-thumbnail"
-                                                    alt="User-Profile-Image">
-                                        {% else %}
-                                            <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
-                                                alt="User-Profile-Image">
-                                        {% endif %}
-                                    </div>
-                                    <p>Graduado</p>
-                                    <h6 class="f-w-600">{{ user.nombres }} {{ user.apellidos }}</h6>
-                                    
-                                    <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+{% block title %}
+<title>Cambio de Contraseña</title>
+{% endblock %}
+{% block style_css %}
+<link rel="stylesheet" href="{% static 'css/css_perfil_usuario.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-xl-12 col-md-12">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25">
+                                    {% if user.graduadopre.graduado and user.graduadopre.graduado.fotografia %}
+                                    <img src="{{ user.graduadopre.graduado.fotografia.url }}"
+                                        class="rounded-circle img-thumbnail" alt="User-Profile-Image">
+                                    {% else %}
+                                    <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
+                                        alt="User-Profile-Image">
+                                    {% endif %}
                                 </div>
+                                <p>Graduado</p>
+                                <h6 class="f-w-600 text-al">{{ user.nombres }} {{ user.apellidos }}</h6>
+
+                                <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                             </div>
-                            <div class="col-sm-8">
-                                <div class="card-block">
-                                    <form method="POST" id="id_form" action="{% url 'profile_password_change' %}">
-                                        {% csrf_token %}
-                                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Cambio de Contraseña</h6>
-                                        <div class="row">
-                                            <div class="col-sm-6 mb-3">
-                                                <p class="m-b-10 f-w-600">Contraseña antigua:</p>
-                                                {{form.old_password|add_class:'form-control mb-2'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Antigua' }}
-                                            </div>
-                                            
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <form method="POST" id="id_form" action="{% url 'profile_password_change' %}">
+                                    {% csrf_token %}
+                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Cambio de Contraseña</h6>
+                                    <div class="row">
+                                        <div class="col-sm-6 mb-3">
+                                            <p class="m-b-10 f-w-600">Contraseña antigua:</p>
+                                            {{form.old_password|add_class:'form-control mb-2'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Antigua' }}
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-6 mb-3">
-                                                <p class="m-b-10 f-w-600">Contraseña nueva:</p>
-                                                {{form.new_password1|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Nueva' }}
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="m-b-10 f-w-600">Contraseña nueva (confirmación):</p>
-                                                {{form.new_password2|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Confirmación' }}
-                                            </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 mb-3">
+                                            <p class="m-b-10 f-w-600">Contraseña nueva:</p>
+                                            {{form.new_password1|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Nueva' }}
                                         </div>
-                                        <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Nota:</h6>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h6 class="text-muted f-w-400">
-                                                    <span class="helptext">
-                                                        <ul>
-                                                            <li>Su contraseña debe contener al menos 8 caracteres.</li>
-                                                            <li>Su contraseña no puede ser una clave utilizada comúnmente.</li>
-                                                        </ul>
-                                                    </span>
-                                                </h6>
-                                            </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Contraseña nueva (confirmación):</p>
+                                            {{form.new_password2|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Contraseña Confirmación' }}
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <input class="btn btn-primary mt-3 col-sm-10" type="submit" value="Realizar Cambio">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <button class="btn btn-danger mt-3 col-sm-10" type="button"
-                                                    onclick="window.location.href='{% url 'perfil' %}'">Cancelar</button>
-                                            </div>
-                                            
-                                            
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Nota:</h6>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h6 class="text-muted f-w-400">
+                                                <span class="helptext">
+                                                    <ul>
+                                                        <li>Su contraseña debe contener al menos 8 caracteres.</li>
+                                                        <li>Su contraseña no puede ser una clave utilizada comúnmente.
+                                                        </li>
+                                                    </ul>
+                                                </span>
+                                            </h6>
                                         </div>
-                                        
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <input class="btn btn-primary mt-3 col-sm-10" type="submit"
+                                                value="Realizar Cambio">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-danger mt-3 col-sm-10" type="button"
+                                                onclick="window.location.href='{% url 'perfil' %}'">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -88,15 +86,14 @@
             </div>
         </div>
     </div>
-    {% include 'estructuras_html/footer.html' %}
+</div>
+{% endblock %}
 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {% if script %}
-    <script>
-        {{ script|safe }}
-    </script>
-    {% endif %}
-    
-</body>
-</html>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if script %}
+<script>
+    { { script | safe } }
+</script>
+{% endif %}
+{% endblock %}

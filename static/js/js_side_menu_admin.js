@@ -2,6 +2,7 @@ const mobileScreen = window.matchMedia("(max-width: 990px )");
 var diccTget = {
     'administradores': [1,2,3,4],
     'graduados': [5],
+    'config':[1,2],
     'capacitaciones': [3,5],
     'empleos': [1,2,3],
     'emprendimientos': [1,3,4],
@@ -71,6 +72,9 @@ $(document).ready(function () {
     });
     $(document).ready(function () {
         $('#graduadopre').DataTable(ajustes_de_tablas(diccTget['graduados'],true,5));
+    });
+    $(document).ready(function () {
+        $('#config').DataTable(ajustes_de_tablas(diccTget['config'],true,2));
     });
  
 });

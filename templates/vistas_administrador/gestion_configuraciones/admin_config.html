@@ -1,0 +1,59 @@
+{% extends 'vistas_administrador/side_menu_admin.html' %}
+{% load static %}
+{% block title %}
+Administrar Configuraciones
+{% endblock title %}
+{% block contenido %}
+
+<div class="card">
+    <div class="container">
+        <div class="row">
+            
+                <div class="head-table">
+                    <h5><strong>Listado de Configuraciones</strong></h5>
+                    <button class="btn btn-success" type="button"
+                        onclick="window.location.href='{% url 'regConfiguracion' %}'">Añadir Nuevo</button>
+                </div>
+                
+                <table id="config" class="display table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if config %}
+                        {% for config in config %}
+
+                        <tr>
+                            <td>{{ config.name }}</td>
+                            <td>{{ config.status }}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a class="btn btn-primary" href="{% url 'editarConfiguracion' config.id %}"
+                                        role="button">Editar</a>
+                                    <a class="btn btn-danger" href="{% url 'eliminarConfiguracion' config.id %}"
+                                        role="button">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        
+    </div>
+</div>
+{% endblock contenido %}

@@ -127,7 +127,7 @@ a:hover {
     padding: 35px 50px;
     margin: 0 20px 30px;
     border-radius: 0 70px 0 70px;
-    border: 5px solid #2196F3;
+    border: 5px solid #02385f;
     border-left: none;
     border-right: none;
     text-align: center;
@@ -152,7 +152,7 @@ a:hover {
     margin: 0 0 7px 0;
     font-size: 20px;
     font-weight: 600;
-    color: #2196F3;
+    color: #02385f;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -203,7 +203,7 @@ a:hover {
     justify-content: center;
     line-height: 1.7;
     padding: 2vw 3vw 2vw 5vw;
-    background: rgba(30, 140, 195, 0.6);
+    background: rgba(2, 56, 95, 0.6);
     border-radius: 8px;
     -webkit-backdrop-filter: blur(5px) sepia(0.9) hue-rotate(145deg) drop-shadow(5px 9px 24px lime);
     backdrop-filter: blur(5px) sepia(0.9) hue-rotate(145deg) drop-shadow(5px 9px 24px lime);

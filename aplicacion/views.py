@@ -1,42 +1,42 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordChangeView
-from django.shortcuts import render,redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
-from .models import *
-from .forms import *
-import time
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
-from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.translation import gettext as _
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 
-
+from .forms import *
 
 
 #################### INDEX ##############################
 
 
 def intro(request):
-
-    return render(request,'vistas_generales/intro_alumni.html' )
+    return render(request,'vistas_generales/intro_alumni.html')
 
 
 
 def index(request):
     user = request.user
+    config = Configuraciones.objects.filter(status=True).first()
+    contexto = {
+            'config': config,
+        }
     if user.is_authenticated:
         if user.is_graduado:
-
-            return render(request,'vistas_generales/index.html' )
+            
+            return render(request,'vistas_generales/index.html',contexto )
         elif user.is_staff:
-            return render(request,'vistas_generales/index.html' )
+            return render(request,'vistas_generales/index.html', contexto)
         else:
             return redirect('formulario')
     else:
-        return render(request,'vistas_generales/index.html' ) 
+        return render(request,'vistas_generales/index.html',contexto ) 
     
 
 
@@ -63,7 +63,7 @@ def admin_emprendimientos (request):
     if request.user.is_staff:
         emprendimiento = Emprendimiento.objects.all()
         contexto = {
-            'emprendimiento': emprendimiento
+            'emprendimiento': emprendimiento,
         }
         return render(request, 'vistas_administrador/gestion_emprendimientos/admin_emprendimientos.html',contexto)
     else:
@@ -99,7 +99,7 @@ def admin_administradores (request):
 @login_required(login_url='ingresar')
 def admin_graduadospre (request):
     if request.user.is_staff:
-        pregraduado = GraduadoPre.objects.all()
+        pregraduado = GraduadoPre.objects.all().order_by("-date_joined")
         for graduado_pre in pregraduado:
             graduado_pre.relaciones_filtradas = CarreraGraduado.objects.filter(graduado=graduado_pre)
         contexto = {
@@ -115,6 +115,7 @@ def admin_graduadospre (request):
 ## dato: la palabra "login" ya esta reservada
 def login_base (request):
     login_form = AuthenticationBaseForm(request.POST or None)
+    config = Configuraciones.objects.filter(status=True).first()
 
     if request.method == 'POST' and 'login_admin' in request.POST:
         if login_form.is_valid():
@@ -137,10 +138,10 @@ def login_base (request):
                         return redirect('formulario')     
             else:
                 alert_message = "Cédula o contraseña incorrecta"
-                return render(request, 'vistas_generales/login.html', {'login_form': login_form, 'alert_message': alert_message})
+                return render(request, 'vistas_generales/login.html', {'login_form': login_form, 'alert_message': alert_message,'config': config})
         else:
             messages.error(request, 'Formulario no válido. Verifique los campos.')
-    return render(request, 'vistas_generales/login.html', {'login_form': login_form})
+    return render(request, 'vistas_generales/login.html', {'login_form': login_form,'config': config})
 
 
 @login_required(login_url='ingresar')
@@ -276,32 +277,45 @@ def eliminar_administrador (request, id):
 
 
 #################### GRADUADO ##############################
-    
 
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'vistas_graduado/cambio_contraseña.html'
     form_class = PasswordChangeForm
     success_url = reverse_lazy('cambio_password_exitoso')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['config'] = Configuraciones.objects.filter(status=True).first()
+        return context
 
     def form_invalid(self, form):
         error_messages = []
         for field, errors in form.errors.items():
             for error in errors:
                 error_messages.append(f"{form.fields[field].label}: {error}")
-        
+
         error_message = '<br>'.join(error_messages)
-        
+
         # Usa SweetAlert2 para mostrar la notificación
         script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
-        
+
         return render(
             self.request,
             self.template_name,
             {'form': form, 'script': script}
         )
 
-        
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'vistas_graduado/cambio_contraseña_completado.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['config'] = Configuraciones.objects.filter(status=True).first()
+        return context
+
+    
+
 
 @login_required(login_url='ingresar')
 def previus_formulario(request):
@@ -313,6 +327,7 @@ def previus_formulario(request):
 @login_required(login_url='ingresar')
 def perfil_graduado(request):
     user = request.user
+    config = Configuraciones.objects.filter(status=True).first()
     if user.is_staff:
         return redirect('adminAdministradores')
     elif user.is_graduado:
@@ -322,9 +337,10 @@ def perfil_graduado(request):
 
         # Crea un contexto con la información del usuario y del graduado
         contexto = {
-            'user': user, 
+            'user': user,
             'pregraduado': pregraduado,
-            'graduado': graduado
+            'graduado': graduado,
+            'config': config
         }
 
         return render(request, 'vistas_graduado/perfil_usuario.html', contexto)
@@ -333,6 +349,7 @@ def perfil_graduado(request):
         contexto = {
             'user': user, 
             'pregraduado': pregraduado,
+            'config':config
         }
         return render(request, 'vistas_graduado/perfilusuario.html', contexto)
 
@@ -640,7 +657,7 @@ def eliminar_pregraduado (request, id):
  
 def emprendimientos(request):
     emprendimientos = Emprendimiento.objects.all().order_by('-fecha')  # Consulta inicial
-
+    config = Configuraciones.objects.filter(status=True).first()
     # Configura la paginación
     paginator = Paginator(emprendimientos, 4)  # 4 emprendimientos por página
     page = request.GET.get('page')
@@ -653,9 +670,10 @@ def emprendimientos(request):
     except EmptyPage:
         # Si la página está fuera del rango, muestra la última página
         emprendimientos_pagina = paginator.page(paginator.num_pages)
-
+    
     contexto = {
-        'emprendimientos': emprendimientos_pagina
+        'emprendimientos': emprendimientos_pagina,
+        'config': config
     }
 
     return render(request,'vistas_generales/emprendimientos.html' , contexto)   
@@ -746,6 +764,7 @@ def eliminar_emprendimiento (request,id):
 def empleos(request):
     # Obtener todos los empleos sin filtros
     empleos = Empleo.objects.all()
+    config = Configuraciones.objects.filter(status=True).first()
 
     # Procesar el formulario de filtros
     filtro_form = FiltroEmpleoForm(request.GET)
@@ -764,6 +783,7 @@ def empleos(request):
     contexto = {
         'empleos': empleos,
         'filtro_form': filtro_form,
+        'config':config
     }
     return render(request, 'vistas_generales/empleos.html', contexto)
 
@@ -833,7 +853,7 @@ def eliminar_empleo(request,id):
 @login_required(login_url='ingresar')
 def capacitaciones(request):
     capacitaciones = Capacitacion.objects.all().order_by('-fecha')
-
+    config = Configuraciones.objects.filter(status=True).first()
     # Configura la paginación
     paginator = Paginator(capacitaciones, 3)
     page = request.GET.get('page')
@@ -848,7 +868,8 @@ def capacitaciones(request):
         capacitaciones_pagina = paginator.page(paginator.num_pages)
 
     contexto = {
-        'capacitaciones': capacitaciones_pagina
+        'capacitaciones': capacitaciones_pagina,
+        'config':config
     }
 
     return render(request, 'vistas_generales/capacitaciones.html', contexto)
@@ -931,4 +952,128 @@ def estadistica(request):
         return redirect('index')
 
 
+#################### CONFIGURACIONES ##############################
 
+
+@login_required(login_url='ingresar')
+def config(request):
+    if request.user.is_staff:
+        objeto = Configuraciones.objects.all()
+        contexto = {
+            'config': objeto,
+        }
+        return render(request, 'vistas_administrador/gestion_configuraciones/admin_config.html', contexto)
+    else:
+        return redirect('index')
+
+
+@login_required(login_url='ingresar')
+def reg_config(request):
+    if request.user.is_staff:
+        data = { 'form': ConfiguracionesForm()}
+
+        if request.method == 'POST':
+            form = ConfiguracionesForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                name = form.cleaned_data['name']
+                messages.success(request,f'Configuración {name} creada exitosamente')            
+                return redirect ('adminConfig')  
+            else: 
+                # Si el formulario no es válido, muestra una notificación de error
+                error_messages = []
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        error_messages.append(f"{form.fields[field].label}: {error}")
+                
+                error_message = '<br>'.join(error_messages)
+                
+                # Usa SweetAlert2 para mostrar la notificación
+                script = f"Swal.fire({{ icon: 'error', title: 'Error en el formulario', html: '{error_message}' }});"
+                return render(request, 'vistas_administrador/gestion_configuraciones/reg_configuracion.html', {'form':form, 'script': script})
+        else:
+            data = { 'form': ConfiguracionesForm(files=request.FILES)}    
+        return render(request, 'vistas_administrador/gestion_configuraciones/reg_configuracion.html', data)  
+    else:
+        return redirect('index')
+ 
+
+
+@login_required(login_url='ingresar')
+def editar_config(request,id):
+    if request.user.is_staff:
+        config= Configuraciones.objects.get(id=id)
+        if request.method == 'GET':
+            form = ConfiguracionesForm(instance=config)	
+        else:
+            form = ConfiguracionesForm(request.POST,instance=config)
+            if form.is_valid():
+                form.save()
+            return redirect('adminConfig')
+        return render(request,'vistas_administrador/gestion_configuraciones/reg_configuracion.html', {'form':form})
+    else:
+        return redirect('index')
+    
+@login_required(login_url='ingresar')
+def eliminar_config (request,id):
+    if request.user.is_staff:
+        config= Configuraciones.objects.get(id=id)
+        if request.method == 'POST':
+            config.delete()
+            return redirect('adminConfig')
+        return render(request,'vistas_administrador/gestion_configuraciones/eliminar_configuracion.html', {'config':config})
+    else:
+        return redirect('index')
+    
+
+
+class CustomPasswordResetView(auth_views.PasswordResetView):
+    template_name = 'vistas_olvide_mi_password/password-reset.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        config = Configuraciones.objects.filter(status=True).first()
+        context['config'] = config
+        return context
+
+
+class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'vistas_olvide_mi_password/password_reset_done.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        config = Configuraciones.objects.filter(status=True).first()
+        context['config'] = config
+        return context
+    
+
+class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'vistas_olvide_mi_password/password-confirm.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        config = Configuraciones.objects.filter(status=True).first()
+        context['config'] = config
+        return context
+    
+
+class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'vistas_olvide_mi_password/password_reset_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        config = Configuraciones.objects.filter(status=True).first()
+        context['config'] = config
+        return context
+    
+
+
+
+class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'vistas_olvide_mi_password/password_reset_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        config = Configuraciones.objects.filter(status=True).first()
+        context['config'] = config
+        return context

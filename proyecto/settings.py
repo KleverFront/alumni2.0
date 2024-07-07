@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
 from django.urls import reverse_lazy
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +30,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG_STATUS")
 
-ALLOWED_HOSTS = ['alumni.tecnologicoloja.edu.ec','10.200.2.138','localhost']
+ALLOWED_HOSTS = ['alumni.tecnologicoloja.edu.ec','10.200.2.138','localhost','127.0.0.1']
 
 
 # Application definition
@@ -46,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'compressor',
     'rest_framework.authtoken',
-    'tinymce',
+    'ckeditor',
+    'colorfield',
        
 ]
 
@@ -97,8 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': DB_NAME, ## nombre de la base de datos
         'USER': DB_USER, 
-        'PASSWORD': DB_PASSWORD, ## Se debe ajustar aqui la base de datos 
-        'PASSWORD': DB_PASSWORD,
+        'PASSWORD': DB_PASSWORD, ## Se debe ajustar aqui la base de datos
         'HOST': DB_HOST,
         'PORT': DB_PORT
     }
@@ -119,41 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ]
 
-TINYMCE_DEFAULT_CONFIG = {
-    'theme': 'silver',
-    'height': 360,
-    'width': 1120,
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 20,
-    'selector': 'textarea',
-    'plugins': '''
-                textcolor save link image media preview codesample contextmenu
-                table code lists fullscreen insertdatetime media pagebreak
-                nonbreaking anchor toc bullist numlist outdent indent
-                filemanager
-                ''',
-    'toolbar1': '''
-                bold italic underline strikethrough |
-                alignleft aligncenter alignright alignjustify |
-                bullist numlist outdent indent |
-                link image media |
-                codesample |
-                fullscreen preview
-                ''',
-    'toolbar2': '''
-                forecolor backcolor |
-                removeformat |
-                subscript superscript |
-                fontselect fontsizeselect |
-                table |
-                ''',
-    'menubar': True,
-    'statusbar': True,
-}
-
-
-TINYMCE_COMPRESSOR = True
-TINYMCE_FILE_picker_callback = 'filemanager'
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 
 # Internationalization
@@ -215,5 +183,5 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = EMAIL_USER ##correo que hara de la aplicacion de alumni
-EMAIL_HOST_PASSWORD = EMAIL_PASS ##contraseña se recomienda revisar documentacion para esto
+EMAIL_HOST_PASSWORD = EMAIL_PASS ##contraseña se recomienda contrseña de aplicion
 

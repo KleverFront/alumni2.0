@@ -1,14 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
-from django.utils import timezone
-from datetime import datetime
-from django.core.validators import EmailValidator
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
 import os
+from datetime import datetime
 
-
+from ckeditor.fields import RichTextField
+from colorfield.fields import ColorField
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import User
+from django.core.validators import EmailValidator
+from django.db import models
+from django.utils import timezone
 
 
 class Carrera(models.Model):
@@ -367,7 +366,7 @@ class Capacitacion(models.Model):
     descripcion_corta = models.CharField(max_length=350)  # Nuevo campo de descripción
     enlace = models.URLField()  
     inversión = models.CharField(max_length=30)
-    descripcion_completa = models.TextField(null=True, blank=True,default="")
+    descripcion_completa = RichTextField(null=True, blank=True)
 
     def delete(self, using=None, keep_parents=False):
         if os.path.isfile(self.portada.path):
@@ -387,7 +386,7 @@ class Empleo (models.Model):
     fecha = models.DateTimeField(default=timezone.now)
     autor = models.CharField( max_length=50, default="Anónimo")
     carrera_sugerida = models.CharField (max_length=70, default="")
-    descripcion_completa = models.TextField(null=True, blank=True,default="")
+    descripcion_completa = RichTextField(null=True, blank=True)
 
     def delete(self, using=None, keep_parents=False):
         if os.path.isfile(self.portada.path):
@@ -405,7 +404,7 @@ class Emprendimiento (models.Model):
     propietario = models.CharField(max_length=100, default="ISTL") 
     contacto = models.CharField(max_length=100) 
     fecha = models.DateTimeField(default=timezone.now)
-    descripcion_completa = models.TextField(null=True, blank=True,default="")
+    descripcion_completa = RichTextField(null=True, blank=True)
     
     def delete(self, using=None, keep_parents=False):
         if os.path.isfile(self.portada.path):
@@ -416,3 +415,34 @@ class Emprendimiento (models.Model):
         return f'{self.titulo}' 
 
 
+class Configuraciones (models.Model):   
+    name = models.CharField(max_length=100)
+    status = models.BooleanField(default=False)
+    image_home = models.ImageField(upload_to = "settings", null = True)
+    about = models.CharField(max_length=900)
+    image_mision = models.ImageField(upload_to = "settings", null = True)
+    mision = models.CharField(max_length=900) 
+    image_vision = models.ImageField(upload_to = "settings", null = True)
+    vision = models.CharField(max_length=900) 
+    teacher_in_charge_image = models.ImageField(upload_to = "settings", null = True) 
+    teacher_in_charge_name = models.CharField(max_length=100) 
+    teacher_in_charge_detail = models.CharField(max_length=500) 
+    color_primary = ColorField(max_length=25)
+    color_secundary = ColorField(max_length=25)
+    favicon = models.ImageField(upload_to = "settings", null = True)
+    image_nav = models.ImageField(upload_to = "settings", null = True)
+    def delete(self, using=None, keep_parents=False):
+        if self.image_home and hasattr(self.image_home, 'path') and os.path.isfile(self.image_home.path):
+            os.remove(self.image_home.path)
+        if self.image_mision and hasattr(self.image_mision, 'path') and os.path.isfile(self.image_mision.path):
+            os.remove(self.image_mision.path)
+        if self.image_vision and hasattr(self.image_vision, 'path') and os.path.isfile(self.image_vision.path):
+            os.remove(self.image_vision.path)
+        if self.teacher_in_charge_image and hasattr(self.teacher_in_charge_image, 'path') and os.path.isfile(self.teacher_in_charge_image.path):
+            os.remove(self.teacher_in_charge_image.path)
+        if self.favicon and hasattr(self.favicon, 'path') and os.path.isfile(self.favicon.path):
+            os.remove(self.favicon.path)
+        if self.image_nav and hasattr(self.image_nav, 'path') and os.path.isfile(self.image_nav.path):
+            os.remove(self.image_nav.path)
+        return super().delete(using=using, keep_parents=keep_parents)
+    

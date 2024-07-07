@@ -91,6 +91,7 @@
                         <a href="{% url 'adminEmprendimientos' %}" class="dashboard-nav-dropdown-item {% if request.path == '/admin_emprendimientos' %}active_item{% endif %}">Emprendimientos</a>
                 </div>
                 <a href="{% url 'estadistica' %}" class="dashboard-nav-item {% if request.path == '/estadistica' %}active_item{% endif %}"><i class='bx bx-line-chart'></i> ESTADÍSTICA </a>
+                <a href="{% url 'adminConfig' %}" class="dashboard-nav-item {% if request.path == '/administrador/configuraciones' %}active_item{% endif %}"><i class='bx bxs-cog'></i> CONFIGURACIONES </a>
 
                 <a href="#" data-logout-url="{% url 'logout' %}" class="btn btn-danger button-margin mb-2" id="logout-link"><i class='bx bx-log-in nav_icon'></i> CERRAR SESIÓN </a>
             </nav>
