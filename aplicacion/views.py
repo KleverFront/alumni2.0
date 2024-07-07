@@ -1002,7 +1002,7 @@ def reg_config(request):
 @login_required(login_url='ingresar')
 def editar_config(request,id):
     if request.user.is_staff:
-        config= Configuraciones.objects.get(id=id)
+        config = Configuraciones.objects.get(id=id)
         if request.method == 'GET':
             form = ConfiguracionesForm(instance=config)	
         else:

@@ -779,10 +779,10 @@ class ConfiguracionesForm(forms.ModelForm):
     def save(self, commit=True):
         conf = super().save(commit=False)
 
-
-        # Guardar campos específicos de Administrador
         status = self.cleaned_data.get('status', None)
-        config, created = Configuraciones.objects.get_or_create(pk=conf.pk)
-        config.status=status
-        config.save()
-        conf.save()
+        conf.status = status
+
+        if commit:
+            conf.save()
+
+        return conf
