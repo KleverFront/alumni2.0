@@ -46,6 +46,21 @@ Administrador usuarios
                             {{ form.portada |add_class:'form-control' }}
                         </div>
                     </div>
+
+                    {% if capacitacion.portada %}
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-6 flex-column d-flex ml-auto">
+                                <label class="form-control-label px-3">
+                                    Imagen Actual:
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div style="background-color: #136955; width: fit-content">
+                                    <img src="{{ capacitacion.portada.url }}" alt="imagen" width="100px" height="100px">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex">
                             <label class="form-control-label px-3">

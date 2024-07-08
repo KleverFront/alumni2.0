@@ -916,7 +916,12 @@ def editar_capacitacion(request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminCapacitaciones')
-        return render(request,'vistas_administrador/gestion_capacitaciones/reg_capacitacion.html', {'form':form})
+
+        context = {
+            'form': form,
+            'capacitacion': capacitacion,
+        }
+        return render(request,'vistas_administrador/gestion_capacitaciones/reg_capacitacion.html', context)
     else:
         return redirect('index')
 	

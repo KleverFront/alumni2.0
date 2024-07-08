@@ -64,11 +64,28 @@
                         </div>
                     </div>
                     <div class="row justify-content-between text-left">
-                        <div class="form-group col-sm-12 flex-column d-flex">
+                        {% if not administrador.imagen %}
+                            <div class="form-group col-sm-12 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.imagen.label_tag }}
+                                </label>
+                                {{ form.imagen  |add_class:'form-control' }}
+                            </div>
+                        {% else %}
+                            <div class="form-group col-sm-6 flex-column d-flex">
+                                <label class="form-control-label px-3">
+                                    {{ form.imagen.label_tag }}
+                                </label>
+                                {{ form.imagen  |add_class:'form-control' }}
+                            </div>
+                            <div class="form-group col-sm-6 flex-column d-flex">
                             <label class="form-control-label px-3">
-                                {{ form.imagen.label_tag }}
+                                Imagen Actual:
                             </label>
-                            {{ form.imagen  |add_class:'form-control' }}
+                            <div style="background-color: #136955; width: fit-content">
+                                <img src="{{ administrador.imagen.url }}" alt="imagen" width="100px" height="100px">
+                            </div>
+                        {% endif %}
                         </div>
                     </div>
                     <div class="row justify-content-end">
