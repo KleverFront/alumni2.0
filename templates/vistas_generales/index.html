@@ -14,7 +14,7 @@
     />
     <link
             rel='stylesheet'
-            href="{% static 'css/css_header3.css' %}"
+            href="{% static 'css/css_header.css' %}"
     />
     <link
             rel='stylesheet'
@@ -60,7 +60,9 @@
         :root {
             --first-color: {{ config.color_primary }};
             --first-color-light: {{ config.color_secundary }};
-            --image-test: {{ config.image_home.url }}
+            --image-test: {{ config.image_home.url }};
+            --image-mision: {{ config.image_mision.url }};
+            --image-vision: {{ config.image_vision.url }};
         }
     </style>
 </head>
