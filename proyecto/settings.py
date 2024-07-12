@@ -96,6 +96,10 @@ CORS_ALLOWED_ORIGINS = ['http://10.200.2.138:5000', 'http://localhost:5000']
 
 CSRF_COOKIE_DOMAIN = None
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 20
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 20
+
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
