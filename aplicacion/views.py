@@ -236,7 +236,7 @@ def editar_administrador (request, id):
                 </script>
                 """
 
-                return render(request, 'vistas_administrador/gestion_administrador/editar_administrador.html', {'form': form, 'script': script})
+                return render(request, 'vistas_administrador/gestion_administrador/editar_administrador.html', {'form': form, 'script': script, 'administrador':administrador})
         else:
             form = AdministradorEditForm(instance=administrador.base)
 
@@ -730,7 +730,7 @@ def reg_emprendimiento(request):
 @login_required(login_url='ingresar')
 def editar_emprendimiento (request,id):
     if request.user.is_staff:
-        emprendimiento= Emprendimiento.objects.get(id=id)
+        emprendimiento = Emprendimiento.objects.get(id=id)
         if request.method == 'GET':
             form = EmprendimientoForm(instance=emprendimiento)	
         else:
@@ -738,7 +738,7 @@ def editar_emprendimiento (request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminEmprendimientos')
-        return render(request,'vistas_administrador/gestion_emprendimientos/reg_emprendimiento.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_emprendimientos/reg_emprendimiento.html', {'form':form, 'emprendimiento':emprendimiento})
     else:
         return redirect('index')
 	
@@ -821,7 +821,7 @@ def reg_empleo(request):
 @login_required(login_url='ingresar')
 def editar_empleo(request,id):
     if request.user.is_staff:
-        empleo= Empleo.objects.get(id=id)
+        empleo = Empleo.objects.get(id=id)
         if request.method == 'GET':
             form = EmpleoForm(instance=empleo)	
         else:
@@ -829,7 +829,7 @@ def editar_empleo(request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminEmpleos')
-        return render(request,'vistas_administrador/gestion_empleos/reg_empleo.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_empleos/reg_empleo.html', {'form':form, 'empleo': empleo})
     else:
         return redirect('index')
 	
@@ -1015,7 +1015,7 @@ def editar_config(request,id):
             if form.is_valid():
                 form.save()
             return redirect('adminConfig')
-        return render(request,'vistas_administrador/gestion_configuraciones/reg_configuracion.html', {'form':form})
+        return render(request,'vistas_administrador/gestion_configuraciones/reg_configuracion.html', {'form':form,'config':config})
     else:
         return redirect('index')
     

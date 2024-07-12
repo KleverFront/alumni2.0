@@ -236,11 +236,11 @@ a:hover {
 .img-1 {
     --start-color: #f5f5f5;
     --stop-color: #ababab;
-    --bg-image: url("../images/12.png");
+    --bg-image: var(--image-mision);
 }
 
 .img-2 {
     --start-color: #111340;
     --stop-color: #a5a5a5;
-    --bg-image: url("../images/13.jpg");
+    --bg-image: var(--image-vision);
 }

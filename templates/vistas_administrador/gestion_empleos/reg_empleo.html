@@ -37,6 +37,19 @@ Administrar Empleos
                             {{ form.contactos |add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:0999999999' }}
                         </div>
                     </div>
+                    {% if empleo.portada %}
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                Portada Actual:
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div style="background-color: #136955; width: fit-content">
+                                    <img src="{{ empleo.portada.url }}" alt="imagen" width="200px" height="180px">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex">
                             <label class="form-control-label px-3">

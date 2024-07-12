@@ -1,6 +1,9 @@
 {% load static %}
 <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'estadistica' %}" class="btn btn-outline-primary">Ir a sitio Administrador</a>
+    {% endif %}
     <div class="header_img"> <img src="{{ image_nav }}" alt=""> </div>
 </header>
 <div class="l-navbar" id="nav-bar">
