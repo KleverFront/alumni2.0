@@ -88,6 +88,10 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = ['http://10.200.2.138:5000']
 
+CSRF_TRUSTED_ORIGINS += [
+    'http://localhost:5000/alumni',
+]
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
