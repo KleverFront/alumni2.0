@@ -4,17 +4,6 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-family: 'Nunito', sans-serif;
-    letter-spacing: 0px;
-    font-size: 17px !important;
-    color: #8d8f90;
-    font-weight: 400;
-    line-height: 32px;
-    background-color: #edefef !important;
-}
 
 h1,
 h2,
@@ -87,7 +76,7 @@ a:hover {
 }
 
 .page-header {
-    background-image: url("../images/ALUMNI ISTL.png"); 
+    background-image: var(--image-home); 
     background-color: #ffff;
     position: relative;
     background-size: cover;

@@ -7,9 +7,13 @@
 <title>Emprendimientos De Nuestros Alumnos</title>
 {% endblock %}
 
+{% block style_css %}
+<link rel="stylesheet" href="{% static 'css/css_emprendimientos.css' %}">
+{% endblock %}
+
 {% block contenido %}
 <section class="light">
-    <div class="container py-3">
+    <div class="container py-5 mb-3" style="height: max-content">
         <div class="title h1 text-center" id="pageHeaderTitle">EMPRENDIMIENTOS DE NUESTROS ALUMNOS</div>
         {% if emprendimientos %}
         {% for emprendimiento in emprendimientos %}
@@ -77,10 +81,11 @@
             </div>
         </div>
         {% endfor %}
-        {% endif %}
+        {% else %}
         <div style="height: 50vh;">
             <h2 class="text-center" style="margin: 20vh;">No hay Emprendimientos que mostrar</h2>
         </div>
+        {% endif %}
     </div>
 </section>
 {% if emprendimientos %}

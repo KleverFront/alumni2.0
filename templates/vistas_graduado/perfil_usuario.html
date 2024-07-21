@@ -19,7 +19,7 @@
                                 <div class="m-b-25">
                                     {% if graduado and graduado.fotografia %}
                                     <img src="{{ graduado.fotografia.url }}" class="rounded-circle img-thumbnail"
-                                        alt="User-Profile-Image">
+                                        alt="User-Profile-Image" style="aspect-ratio: 2 / 2;">
                                     {% else %}
                                     <img src="{% static 'images/graduado.png' %}" class="rounded-circle img-thumbnail"
                                         alt="User-Profile-Image">

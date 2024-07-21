@@ -7,6 +7,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 
@@ -431,18 +433,7 @@ class Configuraciones (models.Model):
     color_secundary = ColorField(max_length=25)
     favicon = models.ImageField(upload_to = "settings", null = True)
     image_nav = models.ImageField(upload_to = "settings", null = True)
-    def delete(self, using=None, keep_parents=False):
-        if self.image_home and hasattr(self.image_home, 'path') and os.path.isfile(self.image_home.path):
-            os.remove(self.image_home.path)
-        if self.image_mision and hasattr(self.image_mision, 'path') and os.path.isfile(self.image_mision.path):
-            os.remove(self.image_mision.path)
-        if self.image_vision and hasattr(self.image_vision, 'path') and os.path.isfile(self.image_vision.path):
-            os.remove(self.image_vision.path)
-        if self.teacher_in_charge_image and hasattr(self.teacher_in_charge_image, 'path') and os.path.isfile(self.teacher_in_charge_image.path):
-            os.remove(self.teacher_in_charge_image.path)
-        if self.favicon and hasattr(self.favicon, 'path') and os.path.isfile(self.favicon.path):
-            os.remove(self.favicon.path)
-        if self.image_nav and hasattr(self.image_nav, 'path') and os.path.isfile(self.image_nav.path):
-            os.remove(self.image_nav.path)
-        return super().delete(using=using, keep_parents=keep_parents)
+    image_login = models.ImageField(upload_to = "settings", null = True)
+
+
     

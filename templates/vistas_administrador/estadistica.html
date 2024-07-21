@@ -51,6 +51,7 @@ Administrador alumni
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    <input class="form-control" id="selector-columnas" placeholder="Buscar">
                                     <form id="columnSelectorForm">
                                         <div class="container" id="columnSelectorOptions">
                                             <!-- Aquí se agregarán los checkboxes -->
@@ -332,6 +333,7 @@ Administrador alumni
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input class="form-control" id="selector-graphic-1" placeholder="Buscar">
                             <form id="columnSelectorFormRadio">
                                 <table class="container table-striped table  table-bordered" id="columnSelectorOptionsRadio" style="width:90%">
                                     <!-- <tr>
@@ -379,6 +381,7 @@ Administrador alumni
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input class="form-control" id="selector-graphic-2" placeholder="Buscar">
                             <form id="columnSelectorFormRadio2">
                                 <div class="container" id="columnSelectorOptionsRadio2">
                                     <!-- Aquí se agregarán los checkboxes -->
@@ -426,6 +429,7 @@ Administrador alumni
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input class="form-control" id="selector-graphic-3" placeholder="Buscar">
                             <form id="columnSelectorFormRadio3">
                                 <div class="container" id="columnSelectorOptionsRadio3">
                                     <!-- Aquí se agregarán los checkboxes -->
@@ -470,6 +474,7 @@ Administrador alumni
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input class="form-control" id="selector-graphic-4" placeholder="Buscar">
                             <form id="columnSelectorFormRadio4">
                                 <div class="container" id="columnSelectorOptionsRadio4">
                                     
@@ -534,11 +539,16 @@ $(document).ready(function() {
     $.getJSON(rutaJsonEspanol, function(data) {
         espanol = data;
         
-
     }).fail(function(jqxhr, textStatus, error) {
         console.error("Error al cargar el JSON:", textStatus, error);
     });
     $(document).ready(function () {
+        search_fields("selector-columnas",".visible-columns")
+        search_fields("selector-graphic-1",".graphic-1")
+        search_fields("selector-graphic-2",".graphic-2")
+        search_fields("selector-graphic-3",".graphic-3")
+        search_fields("selector-graphic-4",".graphic-4")
+
         table = $('#personales').DataTable({
             scrollX: true,
             scrollY: false,
@@ -590,24 +600,24 @@ $(document).ready(function() {
         // Muestra el diálogo modal al hacer clic en el botón
         $('#columnSelectorModal').on('show.bs.modal', function () {
             // Construye la lista de checkboxes basada en las columnas
-            var columnSelectorOptions = $('#columnSelectorOptions');
+            const columnSelectorOptions = $('#columnSelectorOptions');
             columnSelectorOptions.empty();
 
-            var checkboxesPerColumn = 15;  // Ajusta según la cantidad deseada por columna
-            var columnSet = 0;
+            let checkboxesPerColumn = 4; 
+            let columnSet = 0;
 
             table.columns().every(function (index) {
-                var column = this;
+                let column = this;
 
                 // Comienza un nuevo conjunto de columnas cada checkboxesPerColumn
                 if (index % checkboxesPerColumn === 0) {
                     columnSet++;
-                    var checkboxSet = $('<div class="row" id="checkboxSet' + columnSet + '"></div>');
+                    let checkboxSet = $('<div class="row" id="checkboxSet' + columnSet + '"></div>');
                     columnSelectorOptions.append(checkboxSet);
                 }
 
                 // Agrega un checkbox por cada columna
-                var checkbox = $('<div class="col-md-4 form-check mb-2">' +
+                let checkbox = $('<div class="col-md-4 form-check visible-columns mb-2">' +
                     '<input type="checkbox" class="form-check-input" id="columnCheckbox' + (index + 1) + '" value="' + (index + 1) + '">' +
                     '<label class="form-check-label" for="columnCheckbox' + (index + 1) + '">' + column.header().textContent + '</label>' +
                     '</div>');
@@ -624,23 +634,23 @@ $(document).ready(function() {
         // Muestra el diálogo modal al hacer clic en el botón
         $('#columnSelectorModalRadio').on('show.bs.modal', function () {
             // Construye la lista de radios basada en las columnas
-            var columnSelectorOptions = $('#columnSelectorOptionsRadio');
+            let columnSelectorOptions = $('#columnSelectorOptionsRadio');
             columnSelectorOptions.empty();
             
-            var radiosPerColumn = 3;
-            var columnSet = 0; 
+            let radiosPerColumn = 3;
+            let columnSet = 0; 
             table.columns().every(function (index) {
-                var column = this;
+                let column = this;
 
                 // Comienza un nuevo conjunto de columnas
                 if (index % radiosPerColumn === 0) {
                     columnSet++;
-                    var radioSet = $('<tr class="row" id="radioSet' + columnSet + '"></tr>');
+                    let radioSet = $('<tr class="row" id="radioSet' + columnSet + '"></tr>');
                     columnSelectorOptions.append(radioSet);
                 }
 
                 // Agrega un radio por cada columna
-                var radio = $('<td class="col-md-4 form-check mb-2">' +
+                let radio = $('<td class="col-md-4 form-check graphic-1 mb-2">' +
                     '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio' + (index + 1) + '" value="' + (index + 1) + '">' +
                     '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
                     '</td>');
@@ -653,22 +663,22 @@ $(document).ready(function() {
         // Muestra el diálogo modal al hacer clic en el botón
         $('#columnSelectorModalRadio2').on('show.bs.modal', function () {
             // Construye la lista de radios basada en las columnas
-            var columnSelectorOptions = $('#columnSelectorOptionsRadio2');
+            const columnSelectorOptions = $('#columnSelectorOptionsRadio2');
             columnSelectorOptions.empty();
 
-            var radiosPerColumn = 15;
-            var columnSet = 0; 
+            let radiosPerColumn = 3;
+            let columnSet = 0; 
             table.columns().every(function (index) {
-                var column = this;
+                let column = this;
 
                 // Comienza un nuevo conjunto de columnas
                 if (index % radiosPerColumn === 0) {
                     columnSet++;
-                    var radioSet = $('<div class="row" id="radioSet2' + columnSet + '"></div>');
+                    let radioSet = $('<div class="row" id="radioSet2' + columnSet + '"></div>');
                     columnSelectorOptions.append(radioSet);
                 }
                 // Agrega un radio por cada columna
-                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                let radio = $('<div class="col-md-4 form-check graphic-2 mb-2">' +
                     '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio2' + (index + 1) + '" value="' + (index + 1) + '">' +
                     '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
                     '</div>');
@@ -679,23 +689,23 @@ $(document).ready(function() {
 
         $('#columnSelectorModalRadio3').on('show.bs.modal', function () {
             // Construye la lista de radios basada en las columnas
-            var columnSelectorOptions = $('#columnSelectorOptionsRadio3');
+            const columnSelectorOptions = $('#columnSelectorOptionsRadio3');
             columnSelectorOptions.empty();
 
-            var radiosPerColumn = 15;
-            var columnSet = 0; 
+            let radiosPerColumn = 15;
+            let columnSet = 0; 
             table.columns().every(function (index) {
-                var column = this;
+                let column = this;
 
                 // Comienza un nuevo conjunto de columnas
                 if (index % radiosPerColumn === 0) {
                     columnSet++;
-                    var radioSet = $('<div class="row" id="radioSet3' + columnSet + '"></div>');
+                    let radioSet = $('<div class="row" id="radioSet3' + columnSet + '"></div>');
                     columnSelectorOptions.append(radioSet);
                 }
 
                 // Agrega un radio por cada columna
-                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                let radio = $('<div class="col-md-4 form-check graphic-3 mb-2">' +
                     '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio3' + (index + 1) + '" value="' + (index + 1) + '">' +
                     '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
                     '</div>');
@@ -706,23 +716,23 @@ $(document).ready(function() {
         
         $('#columnSelectorModalRadio4').on('show.bs.modal', function () {
             // Construye la lista de radios basada en las columnas
-            var columnSelectorOptions = $('#columnSelectorOptionsRadio4');
+            const columnSelectorOptions = $('#columnSelectorOptionsRadio4');
             columnSelectorOptions.empty();
 
-            var radiosPerColumn = 15;
-            var columnSet = 0; 
+            let radiosPerColumn = 15;
+            let columnSet = 0; 
             table.columns().every(function (index) {
-                var column = this;
+                let column = this;
 
                 // Comienza un nuevo conjunto de columnas
                 if (index % radiosPerColumn === 0) {
                     columnSet++;
-                    var radioSet = $('<div class="row" id="radioSet4' + columnSet + '"></div>');
+                    let radioSet = $('<div class="row" id="radioSet4' + columnSet + '"></div>');
                     columnSelectorOptions.append(radioSet);
                 }
 
                 // Agrega un radio por cada columna
-                var radio = $('<div class="col-md-4 form-check mb-2">' +
+                let radio = $('<div class="col-md-4 form-check graphic-4 mb-2">' +
                     '<input type="radio" class="form-check-input" name="columnSelectorRadio" id="columnRadio4' + (index + 1) + '" value="' + (index + 1) + '">' +
                     '<label class="form-check-label" for="columnRadio' + (index + 1) + '">' + column.header().textContent + '</label>' +
                     '</div>'
@@ -795,19 +805,36 @@ $(document).ready(function() {
             }
         }
     });
+
+    function search_fields(searchInput,name_clase) {
+        document.getElementById(searchInput).addEventListener('input', function() {
+        let searchTerm = this.value.toLowerCase();
+        const checkboxes = document.querySelectorAll(name_clase);
+
+        checkboxes.forEach(function(checkbox) {
+            const label = checkbox.querySelector('.form-check-label').textContent.toLowerCase();
+            if (label.includes(searchTerm)) {
+                checkbox.style.display = '';
+            } else {
+                checkbox.style.display = 'none';
+            }
+        });
+    });
+    }
+
     function generateGraphic() {
         // Obtiene la columna seleccionada
-        var selectedColumn = $('#columnSelectorFormRadio input:checked');
+        const selectedColumn = $('#columnSelectorFormRadio input:checked');
         
         // Verifica si se seleccionó alguna columna
         if (selectedColumn.length > 0) {
             // Obtiene el número y nombre de la columna
-            var columnIndex = (parseInt(selectedColumn.val()))-1;
-            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+            let columnIndex = (parseInt(selectedColumn.val()))-1;
+            let columnName = selectedColumn.closest('.form-check').find('label').text().trim();
 
             // Utiliza el número y nombre de la columna en otras partes de tu código
-            var contenedor = $('#contenedor1');
-            var chart = Highcharts.chart(contenedor[0], {
+            let contenedor = $('#contenedor1');
+            let chart = Highcharts.chart(contenedor[0], {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -848,7 +875,7 @@ $(document).ready(function() {
             });
 
             function chartData(table,columna) {
-                var filasAfectadas = {};
+                let filasAfectadas = {};
                 table.column(columna, { search: 'applied' }).data().each(function (val) {
                     if (filasAfectadas[val]) {
                         filasAfectadas[val] += 1;
@@ -882,21 +909,21 @@ $(document).ready(function() {
     function generateGraphic2() {
 
         // Obtener la columna seleccionada
-        var selectedColumn = $('#columnSelectorFormRadio2 input:checked');
+        const selectedColumn = $('#columnSelectorFormRadio2 input:checked');
 
         // Verifica si se seleccionó alguna columna
         if (selectedColumn.length > 0) {
             // Obtiene el número y nombre de la columna
-            var columnIndex = (parseInt(selectedColumn.val()))-1;
-            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+            let columnIndex = (parseInt(selectedColumn.val()))-1;
+            let columnName = selectedColumn.closest('.form-check').find('label').text().trim();
 
             // Utiliza el número y nombre de la columna en otras partes de tu código
-            var contenedor = $('#contenedor2');
-            var categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
+            const contenedor = $('#contenedor2');
+            let categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
 
 
 
-            var chart = Highcharts.chart(contenedor[0], {
+            let chart = Highcharts.chart(contenedor[0], {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -945,7 +972,7 @@ $(document).ready(function() {
             });
 
             function chartData(table,columna) {
-                var filasAfectadas = {};
+                let filasAfectadas = {};
                 table.column(columna, { search: 'applied' }).data().each(function (val) {
                     if (filasAfectadas[val]) {
                         filasAfectadas[val] += 1;
@@ -975,17 +1002,17 @@ $(document).ready(function() {
 
     function generateGraphic3() {
         // Obtiene la columna seleccionada
-        var selectedColumn = $('#columnSelectorFormRadio3 input:checked');
+        const selectedColumn = $('#columnSelectorFormRadio3 input:checked');
         
         // Verifica si se seleccionó alguna columna
         if (selectedColumn.length > 0) {
             // Obtiene el número y nombre de la columna
-            var columnIndex = (parseInt(selectedColumn.val()))-1;
-            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+            let columnIndex = (parseInt(selectedColumn.val()))-1;
+            let columnName = selectedColumn.closest('.form-check').find('label').text().trim();
 
             // Utiliza el número y nombre de la columna en otras partes de tu código
-            var contenedor = $('#contenedor3');
-            var chart = Highcharts.chart(contenedor[0], {
+            const contenedor = $('#contenedor3');
+            let chart = Highcharts.chart(contenedor[0], {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -1026,7 +1053,7 @@ $(document).ready(function() {
             });
 
             function chartData(table,columna) {
-                var filasAfectadas = {};
+                let filasAfectadas = {};
                 table.column(columna, { search: 'applied' }).data().each(function (val) {
                     if (filasAfectadas[val]) {
                         filasAfectadas[val] += 1;
@@ -1059,18 +1086,18 @@ $(document).ready(function() {
 
     function generateGraphic4() {
         // Obtiene la columna seleccionada
-        var selectedColumn = $('#columnSelectorFormRadio4 input:checked');
+        let selectedColumn = $('#columnSelectorFormRadio4 input:checked');
         
         // Verifica si se seleccionó alguna columna
         if (selectedColumn.length > 0) {
             // Obtiene el número y nombre de la columna
-            var columnIndex = (parseInt(selectedColumn.val()))-1;
-            var columnName = selectedColumn.closest('.form-check').find('label').text().trim();
-            var categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
+            let columnIndex = (parseInt(selectedColumn.val()))-1;
+            let columnName = selectedColumn.closest('.form-check').find('label').text().trim();
+            let categoriest = table.column(columnIndex, { search: 'applied' }).data().toArray();
 
             // Utiliza el número y nombre de la columna en otras partes de tu código
-            var contenedor = $('#contenedor4');
-            var chart = Highcharts.chart(contenedor[0], {
+            let contenedor = $('#contenedor4');
+            let chart = Highcharts.chart(contenedor[0], {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -1116,7 +1143,7 @@ $(document).ready(function() {
             });
 
             function chartData(table,columna) {
-                var filasAfectadas = {};
+                let filasAfectadas = {};
                 table.column(columna, { search: 'applied' }).data().each(function (val) {
                     if (filasAfectadas[val]) {
                         filasAfectadas[val] += 1;
@@ -1149,16 +1176,16 @@ $(document).ready(function() {
 
     function applyColumnSelection() {
         // Aplica la selección de columnas
-        var selectedColumns = [];
+        let selectedColumns = [];
         $('#columnSelectorForm input:checked').each(function () {
             selectedColumns.push(parseInt($(this).val()));
         });
 
         // Alterna la visibilidad de las columnas seleccionadas
         table.columns().every(function (index) {
-            var column = this;
-            var columnIndex = index + 1;
-            var isVisible = selectedColumns.includes(columnIndex);
+            let column = this;
+            let columnIndex = index + 1;
+            let isVisible = selectedColumns.includes(columnIndex);
 
             column.visible(isVisible);
 

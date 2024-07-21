@@ -46,12 +46,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if(document.getElementById("nav-bar").classList.contains("show")){
             toggleNavbar("remove");
             menuOpen=false;
+            localStorage.setItem('menuOpen', false);
         }else{
             toggleNavbar("add");
             menuOpen=true;
+            localStorage.setItem('menuOpen', true);
         }
 
     });
+
+    if(localStorage.getItem('menuOpen')==='true'){
+        toggleNavbar("add");
+        menuOpen=true;
+    }
 
 
     // Event listener para mouseover en el contenedor padre

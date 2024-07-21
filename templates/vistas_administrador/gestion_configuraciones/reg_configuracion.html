@@ -222,6 +222,29 @@
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-12 flex-column d-flex">
                             <label class="form-control-label px-3">
+                                {{ form.image_login.label }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            {{ form.image_login |add_class:'form-control' }}
+                        </div>
+                    </div>
+                    {% if config.image_login %}
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
+                                Imagen de Pantalla de Login Actual:
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div style="background-color: #136955; width: fit-content">
+                                    <img src="{{ config.image_login.url }}" alt="imagen" width="200px" height="180px">
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3">
                                 {{ form.color_primary.label_tag }}
                             </label>
                             {{ form.color_primary }}

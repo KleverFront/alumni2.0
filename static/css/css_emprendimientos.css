@@ -1,11 +1,4 @@
-/* This pen */
-body {
-  font-family: 'Nunito', sans-serif !important;
-  font-size: 16px !important;
-  color: #fff;
-  text-rendering: optimizeLegibility;
-  font-weight: initial;
-}
+
 .light {
   background: #f3f5f7;
 }

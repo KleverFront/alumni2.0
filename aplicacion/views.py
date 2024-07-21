@@ -351,7 +351,7 @@ def perfil_graduado(request):
             'pregraduado': pregraduado,
             'config':config
         }
-        return render(request, 'vistas_graduado/perfilusuario.html', contexto)
+        return render(request, 'vistas_graduado/perfil_usuario.html', contexto)
 
  
 
@@ -734,7 +734,7 @@ def editar_emprendimiento (request,id):
         if request.method == 'GET':
             form = EmprendimientoForm(instance=emprendimiento)	
         else:
-            form = EmprendimientoForm(request.POST,instance=emprendimiento)
+            form = EmprendimientoForm(request.POST,request.FILES,instance=emprendimiento)
             if form.is_valid():
                 form.save()
             return redirect('adminEmprendimientos')
@@ -768,17 +768,19 @@ def empleos(request):
 
     # Procesar el formulario de filtros
     filtro_form = FiltroEmpleoForm(request.GET)
-    if filtro_form.is_valid():
+    if filtro_form:
         # Obtener los valores de los campos del formulario
-        puesto_buscar = filtro_form.cleaned_data.get('puesto_buscar')
-        areas = filtro_form.cleaned_data.get('areas')
-
-        # Aplicar los filtros según los valores proporcionados
+        puesto_buscar = request.GET.get('puesto_buscar')
+        areas = request.GET.get('areas')
         if puesto_buscar:
             empleos = empleos.filter(puesto__icontains=puesto_buscar)
+            if areas == "None":
+                areas=""
         if areas:
+            if areas == "None":
+                areas=""
             empleos = empleos.filter(carrera_sugerida=areas)
-        # Puedes agregar más campos de filtro según tus necesidades
+
 
     contexto = {
         'empleos': empleos,
@@ -825,7 +827,7 @@ def editar_empleo(request,id):
         if request.method == 'GET':
             form = EmpleoForm(instance=empleo)	
         else:
-            form = EmpleoForm(request.POST,instance=empleo)
+            form = EmpleoForm(request.POST,request.FILES,instance=empleo)
             if form.is_valid():
                 form.save()
             return redirect('adminEmpleos')
@@ -912,7 +914,7 @@ def editar_capacitacion(request,id):
         if request.method == 'GET':
             form = CapacitacionForm(instance=capacitacion)	
         else:
-            form = CapacitacionForm(request.POST,instance=capacitacion)
+            form = CapacitacionForm(request.POST,request.FILES,instance=capacitacion)
             if form.is_valid():
                 form.save()
             return redirect('adminCapacitaciones')
@@ -1011,7 +1013,7 @@ def editar_config(request,id):
         if request.method == 'GET':
             form = ConfiguracionesForm(instance=config)	
         else:
-            form = ConfiguracionesForm(request.POST,instance=config)
+            form = ConfiguracionesForm(request.POST,request.FILES,instance=config)
             if form.is_valid():
                 form.save()
             return redirect('adminConfig')

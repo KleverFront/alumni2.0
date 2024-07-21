@@ -16,12 +16,18 @@
 }
 
 body {
-    position: relative;
+    color:  var(--white);
+    text-rendering: optimizeLegibility;
+    font-weight: initial;
     margin: var(--header-height) 0 0 0;
-    padding: 0 ;
+    padding: 0;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
-    transition: .5s
+    transition: .5s;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0px;
+    line-height: 32px;
+    background-color: #edefef !important;
 }
 
 a {

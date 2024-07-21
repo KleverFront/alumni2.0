@@ -665,7 +665,7 @@ class GraduadoForm(forms.ModelForm):
 
             ##-------- Tercera Parte ------------ ##
             'trabaja_en_empresa_convenio':forms.RadioSelect(attrs={'class': 'form-check-input','type': 'radio',}),
-            'zona':forms.Select(attrs={'class':'form-select mb-2'}),
+            'zona':forms.Select(attrs={'class':'form-select mb-2','required':True}),
             'cargo':forms.TextInput(attrs={'class':'mb-2'}),
             'nombre_empresa':forms.TextInput(attrs={'class':'mb-2'}),
             'empresa_laboral_tipo':forms.Select(attrs={'class':'form-select mb-2'}),
@@ -738,6 +738,7 @@ class ConfiguracionesForm(forms.ModelForm):
             'color_secundary',
             'favicon',
             'image_nav',
+            'image_login',
 
         ]  
         labels = {
@@ -756,6 +757,7 @@ class ConfiguracionesForm(forms.ModelForm):
             'color_secundary':'Color Secundario de Alumni',
             'favicon':'Favicon de Alumni',
             'image_nav':'Imagen de Nav (Menu de Navegación)',
+            'image_login': 'Imagen de la pantalla de Login',
         }
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control mb-2 '}),
@@ -772,13 +774,20 @@ class ConfiguracionesForm(forms.ModelForm):
             'color_secundary':ColorWidget(attrs={'class': 'colorpicker'}),
             'favicon': forms.FileInput(attrs={'class':'form-control mb-3 '}),
             'image_nav': forms.FileInput(attrs={'class':'form-control mb-3 '}),
+            'image_login': forms.FileInput(attrs={'class':'form-control mb-3 '}),
         }
 
     status = forms.ChoiceField(choices=status_opciones)
 
+    def clean_status(self):
+        status = self.cleaned_data.get('status')
+        if status and Configuraciones.objects.filter(status=True).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('Only one instance can be active.')
+        return status
+    
     def save(self, commit=True):
         conf = super().save(commit=False)
-
+        self.clean_status()
         status = self.cleaned_data.get('status', None)
         conf.status = status
 
