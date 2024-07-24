@@ -86,13 +86,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'proyecto.wsgi.application'
 
 
-CSRF_TRUSTED_ORIGINS = ['http://10.200.2.138:5000','http://localhost:5000']
+CSRF_TRUSTED_ORIGINS = ['http://10.200.2.138:5000','http://localhost:5000','https://alumni.tecnologicoloja.edu.ec']
 
-CSRF_ALLOWED_ORIGINS = ['http://10.200.2.138:5000', 'http://localhost:5000']
+CSRF_ALLOWED_ORIGINS = ['http://10.200.2.138:5000', 'http://localhost:5000','https://alumni.tecnologicoloja.edu.ec']
 
-CORS_ORIGINS_WHITELIST = ['http://10.200.2.138:5000','http://localhost:5000']
+CORS_ORIGINS_WHITELIST = ['http://10.200.2.138:5000','http://localhost:5000','https://alumni.tecnologicoloja.edu.ec']
 
-CORS_ALLOWED_ORIGINS = ['http://10.200.2.138:5000', 'http://localhost:5000']
+CORS_ALLOWED_ORIGINS = ['http://10.200.2.138:5000', 'http://localhost:5000','https://alumni.tecnologicoloja.edu.ec']
 
 CSRF_COOKIE_DOMAIN = None
 
