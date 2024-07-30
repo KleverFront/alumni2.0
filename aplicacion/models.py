@@ -124,13 +124,13 @@ class CarreraGraduado(models.Model):
         null=True
     )
     periodo_graduado = models.CharField(
-        max_length = 8,
+        max_length = 15,
         null = True,
         blank = True
     )
     periodo_ingreso = models.CharField(
         'Periodo de Ingreso',
-        max_length = 8,
+        max_length = 15,
         null = True, 
         blank = True, 
         default=''
